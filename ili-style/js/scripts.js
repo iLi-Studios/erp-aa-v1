@@ -2016,7 +2016,7 @@ var App = function () {
                 var total = navigation.find('li').length;
                 var current = index + 1;
                 // set wizard title
-                $('.step-title', $('#form_wizard_1')).text('Step ' + (index + 1) + ' of ' + total);
+                $('.step-title', $('#form_wizard_1')).text('Etape ' + (index + 1) +'/'+ total);
                 // set done steps
                 jQuery('li', $('#form_wizard_1')).removeClass("done");
                 var li_list = navigation.find('li');
@@ -2026,8 +2026,10 @@ var App = function () {
 
                 if (current == 1) {
                     $('#form_wizard_1').find('.button-previous').hide();
+					$('#form_wizard_1').find('.button-submit').hide();
                 } else {
                     $('#form_wizard_1').find('.button-previous').show();
+					$('#form_wizard_1').find('.button-submit').hide();
                 }
 
                 if (current >= total) {
@@ -2053,8 +2055,10 @@ var App = function () {
 
                 if (current == 1) {
                     $('#form_wizard_1').find('.button-previous').hide();
+					$('#form_wizard_1').find('.button-submit').hide();
                 } else {
                     $('#form_wizard_1').find('.button-previous').show();
+					$('#form_wizard_1').find('.button-submit').hide();
                 }
 
                 if (current >= total) {
@@ -2073,6 +2077,22 @@ var App = function () {
                 $('#form_wizard_1').find('.bar').css({
                     width: $percent + '%'
                 });
+				if (current == 1) {
+                    $('#form_wizard_1').find('.button-previous').hide();
+					$('#form_wizard_1').find('.button-submit').hide();
+                } else {
+                    $('#form_wizard_1').find('.button-previous').show();
+					$('#form_wizard_1').find('.button-submit').hide();
+                }
+
+                if (current >= total) {
+                    $('#form_wizard_1').find('.button-next').hide();
+                    $('#form_wizard_1').find('.button-submit').show();
+                } else {
+                    $('#form_wizard_1').find('.button-next').show();
+                    $('#form_wizard_1').find('.button-submit').hide();
+                }
+                App.scrollTo($('.page-title'));
             }
         });
 

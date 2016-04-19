@@ -2000,7 +2000,7 @@ rangy.createModule("DomUtil", function(api, module) {
                 store the characters moved when moving both the start and end of the range to the start of the document
                 body and subtracting the start offset from the end offset (the "move-negative-gazillion" method).
                 However, this is extremely slow when the document is large and the range is near the end of it. Clearly
-                doing the mirror image (i.e. moving the range boundaries to the end of the document) has the same
+                doing the mirror image(i.e. moving the range boundaries to the end of the document) has the same
                 problem.
 
                 Another approach that works is to use moveStart() to move the start boundary of the range up to the end

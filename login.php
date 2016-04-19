@@ -1,11 +1,6 @@
 <?php include"ili-functions/functions.php"; ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -16,8 +11,9 @@ Site : http://www.ili-studios.com/
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<meta content="" name="description" />
-<meta content="" name="author" />
+<meta content="iLi-ERP" name="description" />
+<meta content="SAKLY AYOUB" name="author" />
+<link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="ili-style/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href="ili-style/css/style.css" rel="stylesheet" />
@@ -25,33 +21,10 @@ Site : http://www.ili-studios.com/
 <link href="ili-style/css/style_default.css" rel="stylesheet" id="style_color" />
 </head>
 <!-- END HEAD -->
-<?php
-function connexion($email, $mdp){
-	if($_SESSION['tentative']<=3){
-		$query="SELECT * FROM users, users_rank WHERE users.email='$email' AND users.mdp='$mdp' AND users.id_rank=users_rank.id_rank";
-		if( ($o=query_execute("mysqli_fetch_object", $query)) == true){
-			if($o->id_rank=='1'){redirect("login?message=3");}
-			else{
-				$_SESSION['user_id']=$o->id_user;
-				$_SESSION['user_nom']=$o->nom;
-				$_SESSION['user_prenom']=$o->prenom; 
-				$_SESSION['user_nom_prenom']=$_SESSION['user_nom'] . $_SESSION['user_prenom'];
-				$_SESSION['user_id_rank']=$o->id_rank;
-				$_SESSION['user_rank']=$o->rank;
-				$_SESSION['user_img']=$o->img_link;
-				write_log("Connexion");
-				redirect("index");
-			}
-		}
-		else{
-			$_SESSION['tentative']=$_SESSION['tentative']+1;
-			redirect("login?message=2");
-			}
-	}
-	else{redirect("login?message=13");}
+<?php 
+if( (isset($_POST['email'])) && (isset($_POST['Password'])) ){
+	LogIn($_POST['email'], md5($_POST['Password']));
 }
-// forum login
-if( (isset($_POST['email'])) && (isset($_POST['mdp'])) ){connexion($_POST['email'], md5($_POST['mdp']));}
 ?>
 <!-- BEGIN BODY -->
 <body id="login-body">
@@ -80,7 +53,7 @@ if( (isset($_POST['email'])) && (isset($_POST['mdp'])) ){connexion($_POST['email
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-prepend"> <span class="add-on"><i class="icon-key"></i></span>
-						<input id="input-password" name="mdp" type="password" placeholder="Mot de passe" required />
+						<input id="input-password" name="Password" type="password" placeholder="Mot de passe" required />
 					</div>
 					<!--<div class="mtop10">
 						<div class="block-hint pull-left small">
@@ -88,7 +61,7 @@ if( (isset($_POST['email'])) && (isset($_POST['mdp'])) ){connexion($_POST['email
 							Remember Me </div>
 						<div class="block-hint pull-right"> <a href="javascript:;" class="" id="forget-password">Forgot Password?</a> </div>
 					</div>-->
-					<?php get_message('message'); ?>
+					<?php ErrorGet('message'); ?>
 					<div class="clearfix space5"></div>
 				</div>
 			</div>

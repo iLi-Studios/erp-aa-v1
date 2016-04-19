@@ -1,46 +1,21 @@
 <!-- BEGIN NOTIFICATION DROPDOWN -->
 <?php
-//$link=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-$id_user=$_SESSION['user_id'];
-function num_notif(){
-	$id_user=$_SESSION['user_id'];
-	$query="SELECT * FROM `system_notif` WHERE `id_user`='$id_user' AND `vu`='0'";
-	$o=query_execute("mysqli_num_rows", $query);
-	if($o=='0'){echo '';}
-	else{echo '<span class="badge badge-warning">'.$o.'</span>';}
-}
-function vu_notif($id){
-	$query="UPDATE `system_notif` SET `vu` = '1' WHERE `id` ='$id';";
-	query_execute_insert($query);
-}
-if(isset($_POST['vu'])){
-	$id=$_POST['vu'];
-	vu_notif($id);
-}
-function vu_tous_notif($id){
-	$query="UPDATE `system_notif` SET `vu` = '1' WHERE `id_user` ='$id';";
-	query_execute_insert($query);
-}
-if(isset($_POST['vu_tous'])){
-	$id=$_POST['vu_tous'];
-	vu_tous_notif($id);
-}
-function get_all_notification_non_vu(){
-	$id_user=$_SESSION['user_id'];
-	$query="SELECT * FROM `system_notif` WHERE `id_user`='$id_user' AND `vu`='0' ORDER BY id DESC LIMIT 3 ";
-	$result=query_excute_while($query);
+function NotifGetAllNonSeen(){
+	$idUser=$_SESSION['user_id'];
+	$query="SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser' AND `Seen`='0' ORDER BY `idNotification` DESC LIMIT 3 ";
+	$result=QueryExcuteWhile($query);
 	if(mysqli_num_rows($result)>'0'){
 		echo'<ul class="dropdown-menu extended notification">';
 	}
 	while ($o=mysqli_fetch_object($result)){
 		echo'
 			<li> 
-				'.$o->notification.' 
-					<span class="small italic" style="margin-left:4%"><br>'?><?php diff_date($o->date_notif); echo'
+				'.$o->Description.' 
+					<span class="small italic" style="margin-left:4%"><br>'?><?php DateDifference($o->Timestamp); echo'
 						<br>
-						<form action="" method="post" style="margin-bottom: -3%;margin-top: -10%;">
-							<input type="submit" value="Vu?" style="text-decoration:none;margin-left:80%;line-height: 100%;border: 0;background: none;text-decoration: underline;" class="small italic"/>
-							<input type="hidden" name="vu" value="'.$o->id.'">
+						<form action="" method="post" style="margin-bottom:-3%;margin-top:-10%;">
+							<input type="submit" value="Vu?" style="text-decoration:none;border:0;background:none;float:right; margin-left:10px;color:#22878E;line-height: 100%;font-size:12px;margin-top:5px;"/>
+							<input type="hidden" name="vu" value="'.$o->idNotification.'">
 						</form>
 					</span>
 				</a>
@@ -50,23 +25,45 @@ function get_all_notification_non_vu(){
 	if(mysqli_num_rows($result)>'0'){
 		echo'
 			<li>
-				<a href="#">
-					<form action="" method="post" style="margin-bottom: 2%;">
-						<input type="submit" value="Marquer tous comme Vus?" style="margin-left:10%;line-height: 100%;border: 0;background: none;text-decoration: underline;" class="small italic"/>
-						<input type="hidden" name="vu_tous" value="'.$id_user.'">
+					<form action="" method="post">
+						<input type="hidden" name="vu_tous" value="'.$idUser.'">
+						<center><input type="submit" value="Marquer tous comme Vus?" style="border:none;background: none;line-height: 100%;color:#22878E;font-size:12px;margin-bottom:0px;margin-top:15px;"></center>
 					</form>
-				</a>
-			</li>';
+			</li>
+			';
 		echo'</ul>';
 	}
 }
+function NotifMakeSeeAll($idUser){
+	$query="UPDATE `notificationsystem` SET `Seen` = '1' WHERE `idUser` ='$idUser';";
+	QueryExcute('', $query);
+}
+function NotifMakeSee($idNotification){
+	$query="UPDATE `notificationsystem` SET `Seen` = '1' WHERE `idNotification` ='$idNotification';";
+	QueryExcute('', $query);
+}
+if(isset($_POST['vu'])){
+	$id=$_POST['vu'];
+	NotifMakeSee($id);
+}
+if(isset($_POST['vu_tous'])){
+	$id=$_POST['vu_tous'];
+	NotifMakeSeeAll($id);
+}
 ?>
+
+<script type="text/javascript"> 
+	var auto_refresh = setInterval(function(){$('#NotifGetSumNonSeen').load('<?php echo $URL;?>/ili-functions/AJAX/NotifGetSumNonSeen.php').fadeIn("slow");}, 500); 
+</script>
+<script type="text/javascript"> 
+	var auto_refresh = setInterval(function(){$('#NotifGetAllNonSeen').load('<?php echo $URL;?>/ili-functions/AJAX/NotifGetAllNonSeen.php').fadeIn("slow");}, 500); 
+</script>
 <li class="dropdown" id="header_notification_bar">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<i class="icon-bell-alt"></i>
-		<?php num_notif();?>
+		<i class="icon-bell-alt" ></i>
+		<span class="badge badge-warning" id="NotifGetSumNonSeen"></span>
 	</a>
-		<?php get_all_notification_non_vu();?>
+	<?php NotifGetAllNonSeen();?>
 </li>
 <!-- END NOTIFICATION DROPDOWN -->
 

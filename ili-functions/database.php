@@ -1,6 +1,6 @@
 <?php
 //database manipulation
-function query_execute($mysqli_result_type, $query){
+function QueryExcute($mysqli_result_type, $query){
 	$link=mysqli_connect(MYSQL_SERVEUR, MYSQL_UTILISATEUR, MYSQL_MOTDEPASSE, MYSQL_BASE);
 	//Vérification de la connexion
 	if (mysqli_connect_errno()) {
@@ -20,12 +20,15 @@ function query_execute($mysqli_result_type, $query){
 				//mysqli_free_result($result);
 			}
 		}
+		else{
+			return $result='ERREUR : %s\n, '.mysqli_error();
+			mysqli_close($link);
+		}
 		mysqli_close($link);
 	}
 }
-
 //while ($sortie=mysqli_fetch_object($result)){}
-function query_excute_while($query){
+function QueryExcuteWhile($query){
 	$link=mysqli_connect(MYSQL_SERVEUR, MYSQL_UTILISATEUR, MYSQL_MOTDEPASSE, MYSQL_BASE);
 	//Vérification de la connexion
 	if (mysqli_connect_errno()) {
@@ -37,22 +40,4 @@ function query_excute_while($query){
 		if($result=mysqli_query($link, $query)){return $result;}
 	}
 }
-
-function query_execute_insert($query){
-	$link=mysqli_connect(MYSQL_SERVEUR, MYSQL_UTILISATEUR, MYSQL_MOTDEPASSE, MYSQL_BASE);
-	//Vérification de la connexion
-	if (mysqli_connect_errno()) {
-    $result='Échec de la connexion : %s\n, '.mysqli_connect_error();
-    exit();
-	}
-	else{
-		//correction de problémes des accents
-		mysqli_query($link, "SET NAMES UTF8");
-		if(!($result=mysqli_query($link, $query))){
-			return $result='ERREUR : %s\n, '.mysqli_error();
-			mysqli_close($link);
-		}
-	}
-}
-
 ?>

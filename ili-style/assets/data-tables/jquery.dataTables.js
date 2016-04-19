@@ -8796,7 +8796,7 @@
 		/**
 		 * Load the table state. With this function you can define from where, and how, the
 		 * state of a table is loaded. By default DataTables will load from its state saving
-		 * cookie, but you might wish to use local storage (HTML5) or a server-side database.
+		 * cookie, but you might wish to use local storage(HTML5) or a server-side database.
 		 *  @type function
 		 *  @member
 		 *  @param {object} oSettings DataTables settings object
@@ -8902,7 +8902,7 @@
 		/**
 		 * Save the table state. This function allows you to define where and how the state
 		 * information for the table is stored - by default it will use a cookie, but you
-		 * might want to use local storage (HTML5) or a server-side database.
+		 * might want to use local storage(HTML5) or a server-side database.
 		 *  @type function
 		 *  @member
 		 *  @param {object} oSettings DataTables settings object
@@ -8981,7 +8981,7 @@
 	
 		/**
 		 * When enabled DataTables will not make a request to the server for the first
-		 * page draw - rather it will use the data already on the page (no sorting etc
+		 * page draw - rather it will use the data already on the page(no sorting etc
 		 * will be applied to it), thus saving on an XHR at load time. iDeferLoading
 		 * is used to indicate that deferred loading is required, but it is also used
 		 * to tell DataTables how many records there are in the full table (allowing

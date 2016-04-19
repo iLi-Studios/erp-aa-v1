@@ -1,14 +1,9 @@
 <?php 
 include"ili-functions/functions.php";
-autorisation('2');
+Authorization('2');
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -49,8 +44,8 @@ Site : http://www.ili-studios.com/
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title"> Dashboard <small> Informations Générales </small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site ; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
-						<li><a href="<?php echo $site ; ?>">Dashboard</a><span class="divider-last">&nbsp;</span></li>
+						<li> <a href="<?php echo $URL ; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li><a href="<?php echo $URL ; ?>">Dashboard</a><span class="divider-last">&nbsp;</span></li>
 						<li class="pull-right search-wrap">
 							<form class="hidden-phone">
 								<div class="search-input-area">

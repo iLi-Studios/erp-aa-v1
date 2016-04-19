@@ -1,29 +1,9 @@
 <?php 
-include"ili-functions/functions.php";
-autorisation('3');
-function log_read(){
-	$query="SELECT * FROM `system_log` ORDER BY id DESC";
-	$result=query_excute_while($query);
-	while ($o=mysqli_fetch_object($result)){
-		echo'
-			<tr class="odd gradeX">
-				<th><input type="checkbox" class="group-checkable"/></th>
-				<th>'.$o->id.'</th>
-				<th><a href="ili-users/user_profil?id='.$o->id_user.'">'.$o->id_user.'</a></th>
-				<th class="hidden-phone">'.$o->operation.'</th>
-				<th class="center hidden-phone">'.$o->date_operation.'</th>
-			</tr>
-			';
-	}
-}
+	include"ili-functions/functions.php";
+	Authorization('3');
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -34,8 +14,9 @@ Site : http://www.ili-studios.com/
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<meta content="" name="description" />
-<meta content="" name="author" />
+<meta content="iLi-ERP" name="description" />
+<meta content="SAKLY AYOUB" name="author" />
+<link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <link href="ili-style/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -63,7 +44,7 @@ Site : http://www.ili-studios.com/
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title"> Utilisateurs <small> Profil</small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site;?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li> <a href="<?php echo $URL;?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
 						<li> <a href="">Journal du système</a><span class="divider-last">&nbsp;</span></li>
 						<li class="pull-right search-wrap">
 							<form class="hidden-phone">
@@ -106,7 +87,7 @@ Site : http://www.ili-studios.com/
 								   $.ajaxSetup({ cache: false });
 								});
 								</script>-->
-								<tbody><?php log_read();?></tbody>
+								<tbody><?php LogRead();?></tbody>
 							</table>
 						</div>
 					</div>

@@ -1,15 +1,11 @@
 <?php 
 include"../ili-functions/functions.php";
-autorisation('3'); 
-function deban($id){
-	$query="UPDATE users SET id_rank='2' WHERE id_user='$id' ;";
-	query_execute_insert($query);
-}
-$id_user=$_GET['id'];
-$user=get_user_info($id_user);
-if($user==''){redirect('index?message=14');}
-deban($id_user);
-notif_all('', '', '<a href="'.$site.'ili-users/user_profil?id='.$id_user.'">'.$user->nom.' '.$user->prenom.', a été débanni');
-write_log("Utilisateur : <a href=\"ili-users/user_profil?id=".$id_user."\">".$id_user."</a> a été <strong>débanni</strong>");
-redirect('ili-users/users');
+Authorization('2'); 
+$idUser=$_GET['id'];
+$user=UserGetInfo($idUser);
+if($user==''){Redirect('index?message=14');}
+UserDeban($idUser);
+NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', a été débanni');
+LogWrite("Utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a> a été <strong>débanni</strong>");
+Refresh();
 ?>

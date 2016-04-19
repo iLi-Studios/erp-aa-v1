@@ -1,46 +1,10 @@
 <?php 
 include"../../ili-functions/functions.php";
-autorisation('2');
-autorisation_double_check_privilege('CLIENTS', 'C');
-if(isset($_POST['ENTREPRISE'])){redirect('ili-modules/client/add_pro');}
-function client_add($cin, $nom, $prenom, $naissance, $adresse, $fix, $fax, $portable, $email){
-	$id_user=$_SESSION['user_id'];
-	$user_nom=$_SESSION['user_nom'];
-	$user_prenom=$_SESSION['user_prenom'];
-	$q_test="SELECT * FROM client WHERE id_clt='$cin'";
-	$o_test=query_execute("mysqli_fetch_row", $q_test);
-	if($o_test==0){
-		$now = date("d-m-Y"); 
-		$q="INSERT INTO client VALUES 
-		('$cin', '$nom', '$prenom', '$naissance', '$adresse', '$fix', '$fax', '$portable', '$email', 
-		'', '', '', '', '', '', '', '', '$id_user', '$now', '0', NULL, '');";
-		query_execute_insert($q);
-		notif_all('', '', '<a href="'.$site.'ili-modules/client/client?id='.$cin.'">'.$user_nom.' '.$user_prenom.' a creé un nouveau client particulier, '.$nom.' '.$prenom);
-		write_log("Création de client : <a href=\"ili-modules/client/client?id=".$cin."\">".$cin."</a>");
-		redirect('ili-modules/client/liste');
-	}
-	else{redirect('index?message=16');}
-}
-if( (isset($_POST['cin'])) && (isset($_POST['nom'])) && (isset($_POST['prenom'])) && (isset($_POST['adresse'])) ){
-										$cin			=addslashes($_POST['cin']);
-										$nom			=addslashes($_POST['nom']);
-										$prenom			=addslashes($_POST['prenom']);
-	if(isset($_POST['naissance']))		{$naissance		=addslashes($_POST['naissance']);}else{$naissance='';}
-										$adresse		=addslashes($_POST['adresse']);
-	if(isset($_POST['fix']))			{$fix			=addslashes($_POST['fix']);}else{$fix='';}
-	if(isset($_POST['fax']))			{$fax			=addslashes($_POST['fax']);}else{$fax='';}
-	if(isset($_POST['portable']))		{$portable		=addslashes($_POST['portable']);}else{$portable='';}
-	if(isset($_POST['email']))			{$email			=addslashes($_POST['email']);}else{$email='';}
-	client_add($cin, $nom, $prenom, $naissance, $adresse, $fix, $fax, $portable, $email);
-}
+Authorization('2');
+AuthorizedPrivileges('CLIENTS', 'C');
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -51,8 +15,9 @@ Site : http://www.ili-studios.com/
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<meta content="" name="description" />
-<meta content="" name="author" />
+<meta content="iLi-ERP" name="description" />
+<meta content="SAKLY AYOUB" name="author" />
+<link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="../../ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-fileupload.css" rel="stylesheet" />
@@ -64,23 +29,6 @@ Site : http://www.ili-studios.com/
 <link href="../../ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
 </head>
-<script type="text/javascript">
-window.onload = function(){
-    document.getElementById('cin_').onkeyup = function(){
-        document.getElementById('cin').value = document.getElementById('cin_').value;   
-    }
-}; 
-</script>
-<script>
-var loadFile = function(event) {
-	var reader = new FileReader();
-	reader.onload = function(){
-		var output = document.getElementById('output');
-		output.src = reader.result;
-	};
-	reader.readAsDataURL(event.target.files[0]);
-};
-</script>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -101,102 +49,68 @@ var loadFile = function(event) {
 				<div class="span12">
 					<h3 class="page-title"> Client <small> Forme ajout</small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
 						<li> <a href="liste">Client</a> <span class="divider">&nbsp;</span> </li>
-						<li><a href="add">Ajout</a><span class="divider">&nbsp;</span></li>
-						<li><a href="add">Particulier</a><span class="divider-last">&nbsp;</span></li>
+						<li><a href="add">Ajout</a><span class="divider-last">&nbsp;</span></li>
 					</ul>
 				</div>
 			</div>
 			<!-- END PAGE HEADER--> 
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row-fluid">
+				<?php ErrorGet('message'); ?>
 				<div class="widget">
-						<div class="widget-title">
-							<h4><i class="icon-reorder"></i> Informations globales</h4>
-							<!--<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> <a href="javascript:;" class="icon-remove"></a> </span>--> </div>
-						<div class="widget-body form">
-							<form action="" class="form-horizontal" method="post">
-								<div class="control-group">
-									<label class="control-label">Nature Client*</label>
-									<div class="controls">
-										<label class="radio">
-											<input type="radio" name="PARTICULIER" checked onChange="this.form.submit()"/>PARTICULIER
-										</label>
-										<label class="radio">
-											<input type="radio" name="ENTREPRISE" onChange="this.form.submit()"/>ENTREPRISE
-										</label>
-									</div>
+					<div class="widget-title">
+						<h4><i class="icon-reorder"></i> Informations globales</h4>
+						<!--<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> <a href="javascript:;" class="icon-remove"></a> </span>--> </div>
+					<div class="widget-body form">
+						<br>
+						<form action="" class="form-horizontal" method="post">
+							<div class="control-group">
+								<label class="control-label">CIN / MF / RC*</label>
+								<div class="controls">
+									<input class="span8" type="text" name="idClient" required autofocus/>
+									<span class="help-inline"> N°PASPORT : Pour les étrangers</span>
 								</div>
-							</form><br>
-							<form action="#" class="form-horizontal" method="post">
-								<div class="control-group">
-									<label class="control-label">CIN*</label>
-									<div class="controls">
-										<input class="span9" type="text" name="cin" data-mask="99999999" required/>
-										<span class="help-inline"> Exp. 12345678</span>
-									</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Nom *</label>
+								<div class="controls">
+									<input type="text" name="FamilyName" class="span8" placeholder="Exemple : BEN MAHMOUD / STE : BFCO" required />
+									<span class="help-inline">Etb / Ets / Ste : Pour les professionnel</span>
 								</div>
-								<div class="control-group">
-									<label class="control-label">Nom*</label>
-									<div class="controls">
-										<input type="text" name="nom" class="span9" required />
-									</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Prenom*</label>
+								<div class="controls">
+									<input type="text" name="FirstName" class="span8" placeholder="Exemple : AMINE / SARL" required />
+									<span class="help-inline">SARL / SUARL : Pour les professionnel</span>
 								</div>
-								<div class="control-group">
-									<label class="control-label">Prénom*</label>
-									<div class="controls">
-										<input type="text" name="prenom" class="span9" required />
-									</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Téléphonne*</label>
+								<div class="controls">
+									<input class="span8" type="text" name="Phone" required/>
 								</div>
-								<div class="control-group">
-									<label class="control-label">Date de naissance</label>
-									<div class="controls">
-										<input class="span9" type="text" name="naissance" data-mask="99-99-9999"/>
-										<span class="help-inline"> Exp. 31/12/1995</span>
-									</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Adress*</label>
+								<div class="controls">
+									<textarea name="Adress" class="span8" rows="6" required ></textarea>
 								</div>
-								<div class="control-group">
-									<label class="control-label">Adresse*</label>
-									<div class="controls">
-										<textarea name="adresse" class="span9 " rows="3" required ></textarea>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label">Tel FIX</label>
-									<div class="controls">
-										<input class="span9" type="text" name="fix" data-mask="99.999.999"/>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label">Tel Fax</label>
-									<div class="controls">
-										<input class="span9" type="text" name="fax" data-mask="99.999.999"/>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label">Tel Portable</label>
-									<div class="controls">
-										<input class="span9" type="text" name="portable" data-mask="99.999.999"/>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label">Email</label>
-									<div class="controls">
-										<div class="input-icon left">
-											<i class="icon-envelope"></i>
-											<input class="span9" type="email" placeholder="Email Address" name="email" id="email" />    
-										</div>
-									</div>
-								</div>
-								<br>
-								<center>
-									<button type="reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Annuler</button>
-									<button type="submit" class="btn btn-warning"><i class="icon-plus icon-white"></i> Créer</button>
-								</center>
-							</form>
-						</div>
+							</div>
+							<br>
+							<br>
+							<center>
+								<button type="reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Annuler</button>
+								<button type="submit" class="btn btn-warning"><i class="icon-plus icon-white"></i> Créer</button>
+							</center>
+							<br>
+							<br>
+						</form>
+						<?php ClientInsert(); ?>
 					</div>
+				</div>
 			</div>
 			<!-- END PAGE CONTENT--> 
 		</div>
@@ -214,7 +128,6 @@ var loadFile = function(event) {
 <!-- Load javascripts at bottom, this will reduce page load time --> 
 <script src="../../ili-style/js/jquery-1.8.3.min.js"></script> 
 <script src="../../ili-style/assets/bootstrap/js/bootstrap.min.js"></script> 
-
 <script type="text/javascript" src="../../ili-style/assets/chosen-bootstrap/chosen/chosen.jquery.min.js"></script> 
 <script type="text/javascript" src="../../ili-style/assets/uniform/jquery.uniform.min.js"></script> 
 <script src="../../ili-style/js/scripts.js"></script> 

@@ -1,15 +1,10 @@
 <?php 
 include"../../ili-functions/functions.php";
-autorisation('3');
-$ets=get_ets_info();
+Authorization('3');
+$ets=EntrepriseGetInfo();
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -20,8 +15,9 @@ Site : http://www.ili-studios.com/
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<meta content="" name="description" />
-<meta content="" name="author" />
+<meta content="iLi-ERP" name="description" />
+<meta content="SAKLY AYOUB" name="author" />
+<link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="../../ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-fileupload.css" rel="stylesheet" />
@@ -53,7 +49,7 @@ Site : http://www.ili-studios.com/
 				<div class="span12">
 					<h3 class="page-title"> Configuration <small> Etablissement </small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
 						<li><a href="info">Configuration</a><span class="divider">&nbsp;</span></li>
 						<li><a href="info">Etablissement</a><span class="divider-last">&nbsp;</span></li>
 					</ul>
@@ -72,40 +68,40 @@ Site : http://www.ili-studios.com/
 						
 						<div class="widget-body">
                             <div class="span8">
-                                <h3><?php echo $ets->rs_ets; ?> <br/><small><?php echo $ets->activites_principale_ets; ?>, </small><small><?php echo $ets->activites_secondaire_ets; ?></small></h3>
+                                <h3><?php echo $ets->RS; ?> <br/><small><?php echo $ets->ActivityFt; ?>, </small><small><?php echo $ets->ActivityNd; ?></small></h3>
                                 <table class="table table-borderless">
                                     <tbody>
 										<tr>
 											<td>Tel1</td>
-											<td><?php echo $ets->tel1_ets; ?></td>
+											<td><?php echo $ets->Phone1; ?></td>
 										</tr>
 										<tr>
 											<td>Tel2</td>
-											<td><?php echo $ets->tel2_ets; ?></td>
+											<td><?php echo $ets->Phone2; ?></td>
 										</tr>
                                         <tr>
 											<td>Fax</td>
-											<td><?php echo $ets->fax_ets; ?></td>
+											<td><?php echo $ets->Fax; ?></td>
 										</tr>
                                     <tr>
                                         <td class="span4">RIB 1:</td>
-                                        <td><?php echo $ets->rib1_ets; ?></td>
+                                        <td><?php echo $ets->BankAccount1; ?></td>
                                     </tr>
                                     <tr>
                                         <td class="span4">RIB2 :</td>
-                                        <td><?php echo $ets->rib2_ets; ?></td>
+                                        <td><?php echo $ets->BankAccount2; ?></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <h4>Addresse</h4>
                                 <div class="well">
                                     <address>
-                                        <?php echo $ets->adresse_ets; ?><br><br>
+                                        <?php echo $ets->Adress; ?><br><br>
                                     </address>
                                     <address>
-                                    	<a href="<?php echo $ets->web_ets; ?>"><?php echo $ets->web_ets; ?></a><br>
-                                        <a href="mailto:<?php echo $ets->email1_ets; ?>"><?php echo $ets->email1_ets; ?></a><br>
-                                        <a href="mailto:<?php echo $ets->email2_ets; ?>"><?php echo $ets->email2_ets; ?></a>
+                                    	<a href="<?php echo $ets->WebSite; ?>"><?php echo $ets->WebSite; ?></a><br>
+                                        <a href="mailto:<?php echo $ets->Email1; ?>"><?php echo $ets->Email1; ?></a><br>
+                                        <a href="mailto:<?php echo $ets->Email2; ?>"><?php echo $ets->Email2; ?></a>
                                     </address>
                                 </div>
                             </div>
@@ -115,31 +111,31 @@ Site : http://www.ili-studios.com/
 										<tbody>
                                         	<tr>
                                                 <td class="span3">Matricule Fiscale :</td>
-                                                <td><?php echo $ets->mf_ets; ?></td>
+                                                <td><?php echo $ets->MF; ?></td>
                                             </tr>
                                             <tr>
                                                 <td>Registre de commerce :</td>
-                                                <td><?php echo $ets->rc_ets; ?></td>
+                                                <td><?php echo $ets->RC; ?></td>
                                             </tr>
 											<tr>
 												<td>Gérant</td>
 												<td>
 												<?php 
-												$usr=get_user_info($ets->gerant_ets);
-												echo '<a href="'.$site.'ili-users/user_profil?id='.$ets->gerant_ets.'">'.$usr->nom.' '.$usr->prenom.'</a>'; 
+												$usr=UserGetInfo($ets->CEO);
+												echo '<a href="'.$URL.'ili-users/user_profil?id='.$ets->CEO.'">'.$usr->FamilyName.' '.$usr->FirstName.'</a>'; 
 												?>
 												</td>
 											</tr>
                                             <tr>
 												<td>Vente en gros</td>
-												<td><?php if($ets->vente_en_gros){echo'OUI';} else{echo'NON';}?></td>
+												<td><?php if($ets->MassSelleing){echo'OUI';} else{echo'NON';}?></td>
 											</tr>
 										</tbody>
 									</table>
                                 </ul>
                             </div>
                             <div class="span4">
-                            	<center><img src="<?php echo $site; ?>/ili-upload/logo.png" width="300px" height="300px"/></center>
+                            	<center><img src="<?php echo $URL; ?>/ili-upload/logo.png" width="300px" height="300px"/></center>
                             </div>
                             <div class="space5"></div>
                         </div>
@@ -156,46 +152,6 @@ Site : http://www.ili-studios.com/
 </div>
 <!-- END CONTAINER --> 
 <!-- BEGIN FOOTER -->
-
-
-<!-- Modale de confirmation de suppression -->
-<div id="myModal_del" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_del" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel_del">Confirmation de suppression</h3>
-	</div>
-	<div class="modal-body">
-		<p>Vous êtes sur de vouloire supprimer le client <strong><?php echo $clt->nom_clt.' '.$clt->prenom_clt; ?></strong>? <br> Cette action est <strong>irréversible!</strong></p>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
-		<button onClick='document.location.href="remove?id=<?php echo $clt->id_clt; ?>";' data-dismiss="modal" class="btn btn-primary">Confirm</button>
-	</div>
-</div>
-<!-- Modale de confirmation de suppression -->
-
-<!-- Modale de banissement client -->
-<div id="myModal_ban" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_ban" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel_ban">Confirmation de banissement</h3>
-	</div>
-	<div class="modal-body">
-		<form action="" method="post">
-		<p>Raison de banissement:</p>
-		<textarea name="ban_raison" style="resize: vertical; width:90%; max-height:150px;" rows="4" required></textarea>
-		<input type="hidden" name="id_clt" value="<?php echo $clt->id_clt; ?>">
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
-		<input type="submit" class="btn btn-primary" value="Confirmer"/>
-		</form>
-	</div>
-</div>
-<!-- Modale de banissement client -->
-
-
-
 <div id="footer"> <?php echo $copy_right;?>
 	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up"></i></span> </div>
 </div>

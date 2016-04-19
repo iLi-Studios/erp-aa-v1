@@ -1,14 +1,18 @@
 <?php 
 include"ili-functions/functions.php";
-autorisation('2');
+Authorization('2');
+function Statistique($query, $result_type){
+	$o=QueryExcute("mysqli_fetch_array", $query);
+	if($result_type=='number'){
+		echo $o[0];
+	}
+	if($result_type=='currency'){
+		printf('%0.3f', $o[0]);
+	}
+}
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -18,19 +22,20 @@ Site : http://www.ili-studios.com/
 <head>
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta content="iLi-ERP" name="description" />
-	<meta content="SAKLY AYOUB" name="author" />
-	<link href="ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
-	<link href="ili-style/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-	<link href="ili-style/css/style.css" rel="stylesheet" />
-	<link href="ili-style/css/style_responsive.css" rel="stylesheet" />
-	<link href="ili-style/css/style_default.css" rel="stylesheet" id="style_color" />
-	<link href="ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="ili-style/assets/uniform/css/uniform.default.css" />
-	<link href="ili-style/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-	<link href="ili-style/assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta content="iLi-ERP" name="description" />
+<link rel="icon" href="ili-upload/favicon.png" type="image/x-icon" />
+<meta content="SAKLY AYOUB" name="author" />
+<link href="ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link href="ili-style/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="ili-style/css/style.css" rel="stylesheet" />
+<link href="ili-style/css/style_responsive.css" rel="stylesheet" />
+<link href="ili-style/css/style_default.css" rel="stylesheet" id="style_color" />
+<link href="ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="ili-style/assets/uniform/css/uniform.default.css" />
+<link href="ili-style/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+<link href="ili-style/assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -49,8 +54,8 @@ Site : http://www.ili-studios.com/
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title"> Dashboard <small> Informations Générales </small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site ; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
-						<li><a href="<?php echo $site ; ?>">Dashboard</a><span class="divider-last">&nbsp;</span></li>
+						<li> <a href="<?php echo $URL ; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li><a href="<?php echo $URL ; ?>">Dashboard</a><span class="divider-last">&nbsp;</span></li>
 						<li class="pull-right search-wrap">
 							<form class="hidden-phone">
 								<div class="search-input-area">
@@ -65,49 +70,55 @@ Site : http://www.ili-studios.com/
 			<!-- END PAGE HEADER--> 
 			<!-- BEGIN PAGE CONTENT-->
 			<div id="page" class="dashboard">
-				<?php get_message('message'); ?> 
+				<?php ErrorGet('message'); ?>
 				<!-- BEGIN OVERVIEW STATISTIC BARS-->
 				<div class="row-fluid circle-state-overview">
-					<div class="span2 responsive clearfix" data-tablet="span3" data-desktop="span2">
-						<a href="ili-modules/client/liste">
-							<div class="circle-wrap">
-								<div class="stats-circle turquoise-color"> <i class="icon-user"></i> </div>
-								<p> <strong><?php nbr_client(); ?></strong> Clients </p>
-							</div>
-						</a>
-					</div>
-					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
-						<a href="">
-							<div class="circle-wrap">
-								<div class="stats-circle red-color"> <i class="icon-file"></i> </div>
-								<p> <strong><?php nbr_cnt(); ?></strong> Contrat </p>
-							</div>
-						</a>
-					</div>
-					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
+					<div class="span2 responsive clearfix" data-tablet="span3" data-desktop="span2"> <a href="ili-modules/client/liste">
 						<div class="circle-wrap">
-                        	<a href="">
-                                <div class="stats-circle green-color"> <i class="icon-copy"></i> </div>
-                                <p> <strong><?php nbr_rnv(); ?></strong> Renouvellement </p>
-                            </a>
+							<div class="stats-circle turquoise-color"> <i class="icon-user"></i> </div>
+							<p> <strong>
+								<?php Statistique("SELECT COUNT('idClient') FROM `client`", "number");?>
+								</strong> Clients </p>
 						</div>
+						</a> </div>
+					<div class="span2 responsive" data-tablet="span3" data-desktop="span2"> <a href="ili-modules/contrat/liste">
+						<div class="circle-wrap">
+							<div class="stats-circle red-color"> <i class="icon-file"></i> </div>
+							<p> <strong>
+								<?php Statistique("SELECT COUNT('idContract') FROM `insurancecontract`", "number");?>
+								</strong> Contrat </p>
+						</div>
+						</a> </div>
+					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
+						<div class="circle-wrap"> <a href="">
+							<div class="stats-circle green-color"> <i class="icon-copy"></i> </div>
+							<p> <strong>
+								ND
+								</strong> Renouvellement </p>
+							</a> </div>
 					</div>
 					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
 						<div class="circle-wrap">
 							<div class="stats-circle purple-color"> <i class="icon-money"></i> </div>
-							<p> <strong><?php fond(); ?></strong> Fond </p>
+							<p> <strong>
+								<?php Statistique("SELECT SUM(`Amount`) FROM `payment`", "currency");?>
+								</strong> Fond </p>
 						</div>
 					</div>
-					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
+					<div class="span2 responsive" data-tablet="span3" data-desktop="span2"> <a href="ili-messages/inbox">
 						<div class="circle-wrap">
 							<div class="stats-circle gray-color"> <i class="icon-comments-alt"></i> </div>
-							<p> <strong><?php nbr_msg(); ?></strong> Message </p>
-						</div>
+							<p> <strong>
+								<?php StatisticMessageGetSum(); ?>
+								</strong> Message </p>
+						</a></div>
 					</div>
 					<div class="span2 responsive" data-tablet="span3" data-desktop="span2">
 						<div class="circle-wrap">
 							<div class="stats-circle blue-color"> <i class="icon-bar-chart"></i> </div>
-							<p> <strong><?php nbr_log(); ?></strong> Logs Système </p>
+							<p> <strong>
+								<?php StatisticLogGetSum(); ?>
+								</strong> Logs Système </p>
 						</div>
 					</div>
 				</div>
@@ -117,24 +128,25 @@ Site : http://www.ili-studios.com/
 						<!-- BEGIN MAILBOX PORTLET-->
 						<div class="widget">
 							<div class="widget-title">
-								<h4><i class="icon-envelope"></i> Messagerie</h4>
-								<span class="tools">
-									<a href="ili-messages/start" class="icon-plus tooltips" data-original-title="Nouveau Message"> </a>
-									<a href="javascript:;" class="icon-chevron-down"></a> 
- 								</span>
-							</div>
+								<h4><i class="icon-envelope"></i> Messagerie <small> | Les 5 derniers messages</small></h4>
+								<span class="tools"> <a href="ili-messages/start" class="icon-plus tooltips" data-original-title="Nouveau Message"> </a> <a href="javascript:;" class="icon-chevron-down"></a> </span> </div>
 							<div class="widget-body">
-								<table style="width:100%; text-align:left;" id="sample_1">
+								<table style="width:100%; text-align:left;">
 									<thead>
 										<tr>
-											<th><input type="checkbox" class="group-checkable"/></th>
+											<th></th>
 											<th> Envoyé par </th>
 											<th> Sujet </th>
 											<th> Etat </th>
 											<th> Date </th>
 										</tr>
 									</thead>
-									<tbody><?php get_all_msg(); ?></tbody>
+<script type="text/javascript"> 
+var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $URL;?>ili-functions/AJAX/MessageGetAll.php').fadeIn("slow");}, 1000); 
+// refreshing after every 15000 milliseconds 
+</script>
+									<tbody id="loadmessages">
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -162,10 +174,10 @@ Site : http://www.ili-studios.com/
 						<div class="widget">
 							<div class="widget-title">
 								<h4><i class="icon-bell"></i> Notifications</h4>
-								<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a>  </span> </div>
+								<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> </span> </div>
 							<div class="widget-body">
 								<ul class="item-list scroller padding" data-height="300" data-always-visible="1">
-									<?php get_all_notification();?>
+									<?php NotifGetAll();?>
 								</ul>
 							</div>
 						</div>
@@ -173,7 +185,7 @@ Site : http://www.ili-studios.com/
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span12"> 
+					<div class="span12">
 						<div class="widget">
 							<div class="widget-title">
 								<h4><i class="icon-umbrella"></i> Bénifices net en TND</h4>
@@ -182,8 +194,7 @@ Site : http://www.ili-studios.com/
 								<div id="load_statistics_loading"> <img src="ili-style/img/loading.gif" alt="loading" /> </div>
 								<div id="load_statistics_content" class="hide">
 									<div id="load_statistics" class="chart"></div>
-									<div class="btn-toolbar no-bottom-space clearfix">
-									</div>
+									<div class="btn-toolbar no-bottom-space clearfix"> </div>
 								</div>
 							</div>
 						</div>

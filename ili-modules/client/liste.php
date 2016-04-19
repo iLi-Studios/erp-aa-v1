@@ -1,46 +1,25 @@
 <?php 
 include"../../ili-functions/functions.php";
-autorisation('2');
-autorisation_double_check_privilege('CLIENTS', 'S');
-function get_client_list(){
+Authorization('2');
+AuthorizedPrivileges('CLIENTS', 'S');
+function ClientGetList(){
 	$q="SELECT * FROM client";
-	$r=query_excute_while($q);
+	$r=QueryExcuteWhile($q);
 	while ($o=mysqli_fetch_object($r)){
 		echo'
-		<tr class="odd gradeX">
-			<td><input type="checkbox" class="checkboxes" value="1" /></td>
-			<td><a href="client?id='.$o->id_clt.'">'.$o->id_clt.'</a></td>
-			<td class="hidden-phone"><a href="client?id='.$o->id_clt.'">'.$o->nom_clt.' '.$o->prenom_clt.'';?><?php if($o->ban=='1'){echo'  <span class="label label-important">Banni</span>';} echo'</a></td>
-			<td class="hidden-phone"><a href="mailto:'.$o->email_clt.'">'.$o->email_clt.'</a></td>
-			<td class="hidden-phone">'.$o->fix_clt.'</td>
-			<td class="hidden-phone">'.$o->portable_clt.$o->tel_con_clt.'</td>
-			<td class="hidden-phone">'.$o->created_date.'</td>
+		<tr class="odd gradeX" id="tr" onclick="document.location=\'client?id='.$o->idClient.'\'">
+			<td></td>
+			<td>'.$o->idClient.'</td>
+			<td class="hidden-phone">'.$o->FamilyName.' '.$o->FirstName.'</td>
+			<td class="hidden-phone">'.$o->Phone.'</td>
 		</tr>
 		';
 	}
 }
-function users_pannel($id){
-	global $site;
-	//ADMIN
-	if($_SESSION['user_id_rank']>=3){
-		//C
-		echo'<a href="add" class="icon-plus tooltips" data-original-title="Ajouter"></a>';
-	}
-	//USER
-	if($_SESSION['user_id_rank']==2){
-		$up=user_privileges("CLIENTS", $_SESSION['user_id']);$c=$up->c;
-		//C
-		if($c){echo'<a href="add" class="icon-plus tooltips" data-original-title="Ajouter"></a>';}
-	}
-}
+
 ?>
 <!DOCTYPE html>
-<!--
-iLi-ERP
-Développer par : SAKLY AYOUB
-Société	: iLi-Studios SARL
-Site : http://www.ili-studios.com/
--->
+<?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -63,6 +42,13 @@ Site : http://www.ili-studios.com/
 	<link href="../../ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
 </head>
+<style>
+	#tr{cursor:pointer;}
+	#tr:hover{
+		text-decoration:underline;
+		font-weight: bold;
+		color: #3399ff;}
+</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -83,7 +69,7 @@ Site : http://www.ili-studios.com/
 				<div class="span12">
 					<h3 class="page-title"> Clients <small> Liste</small> </h3>
 					<ul class="breadcrumb">
-						<li> <a href="<?php echo $site; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
 						<li><a href="liste">Clients</a><span class="divider-last">&nbsp;</span></li>
 					</ul>
 				</div>
@@ -96,22 +82,19 @@ Site : http://www.ili-studios.com/
                     <div class="widget">
                         <div class="widget-title">
                             <h4><i class="icon-reorder"></i>Liste des clients</h4>
-                            <span class="tools"><?php users_pannel($_SESSION['user_id']);?></span>
+                            <span class="tools"><?php GetUserPanel('CLIENT_LIST', '', '');?></span>
                         </div>
                         <div class="widget-body">
                             <table class="table table-striped table-bordered" id="sample_1">
 								<thead>
 									<tr>
 										<th width="1%"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-										<th width="15%">Code</th>
-										<th class="hidden-phone" width="30%">Client</th>
-										<th class="hidden-phone" width="24%">Email</th>
-										<th class="hidden-phone" width="10%">Tel. PRO</th>
-										<th class="hidden-phone" width="10%">Tel. PESRO</th>
-										<th class="hidden-phone" width="10%">Création</th>
+										<th width="20%">Code</th>
+										<th class="hidden-phone" width="59%">Client</th>
+										<th class="hidden-phone" width="20%">TEL</th>
 									</tr>
 								</thead>
-								<tbody><?php get_client_list(); ?></tbody>
+								<tbody><?php ClientGetList(); ?></tbody>
                         	</table>
                         </div>
                     </div>

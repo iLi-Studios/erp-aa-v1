@@ -4,7 +4,7 @@ prerendered complex visualization.
 
 The data syntax is [[image, x1, y1, x2, y2], ...] where (x1, y1) and
 (x2, y2) are where you intend the two opposite corners of the image to
-end up in the plot. Image must be a fully loaded Javascript image (you
+end up in the plot. Image must be a fully loaded Javascript image(you
 can make one with new Image()). If the image is not complete, it's
 skipped when plotting.
 
