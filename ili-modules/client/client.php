@@ -32,6 +32,7 @@ function ListContract($id_client){
 			<td>'.$o[3].'</td>
 			<td>'.$o[5].'</td>
 			<td>'.$o[6].'</td>
+			<td>'?><?php ExpireIn($o[6]); ?><?php echo'</td>
 		  </tr>
 		';
 	}
@@ -167,11 +168,12 @@ function ListContract($id_client){
 											<table class="table table-striped table-bordered table-advance table-hover" width="100%">
 										   <thead>
 											  <tr>
-												 <th width="20%"><i class="icon-briefcase"></i> #Conrtat</th>
-												 <th width="20%"><i class="icon-retweet"></i> Nature</th>
-												 <th width="30%"><i class="icon-wrench"></i> Type</th>
+												 <th width="15%"><i class="icon-briefcase"></i> #Conrtat</th>
+												 <th width="10%"><i class="icon-retweet"></i> Nature</th>
+												 <th width="20%"><i class="icon-wrench"></i> Type</th>
 												 <th width="15%"><i class="icon-signin"></i> Date Début</th>
 												 <th width="15%"><i class="icon-signout"></i> Date Fin </th>
+												 <th width="25%"><i class="icon-exclamation-sign"></i> Etat </th>
 											  </tr>
 										   </thead>
 										   <tbody>';?><?php ListContract($id_client); ?><?php echo'</tbody>
@@ -186,11 +188,12 @@ function ListContract($id_client){
 											<table class="table table-striped table-bordered table-advance table-hover" width="100%">
 										   <thead>
 											  <tr>
-												 <th width="20%"><i class="icon-briefcase"></i> #Conrtat</th>
-												 <th width="20%"><i class="icon-retweet"></i> Nature</th>
-												 <th width="30%"><i class="icon-wrench"></i> Type</th>
+												 <th width="15%"><i class="icon-briefcase"></i> #Conrtat</th>
+												 <th width="10%"><i class="icon-retweet"></i> Nature</th>
+												 <th width="20%"><i class="icon-wrench"></i> Type</th>
 												 <th width="15%"><i class="icon-signin"></i> Date Début</th>
 												 <th width="15%"><i class="icon-signout"></i> Date Fin </th>
+												 <th width="25%"><i class="icon-exclamation-sign"></i> Etat </th>
 											  </tr>
 										   </thead>
 										   <tbody>';?><?php ListContract($id_client); ?><?php echo'</tbody>

@@ -1911,6 +1911,20 @@ function ClientInsert(){
 	}
 }
 
+/*CAISSE*/
+function PaymentInfo($idPayment){
+	$sql="
+		SELECT * FROM `contractcycle`, `insurancecontract`, `payment` WHERE 
+		contractcycle.idContract=insurancecontract.idContract 
+		AND 
+		payment.idPayment=contractcycle.idPayment 
+		AND 
+		payment.idPayment='$idPayment';
+	";
+	$o=QueryExcute("mysqli_fetch_object",$sql);
+	if($o){return $o;}
+}
+
 /*STATISTIQUE*/
 function StatisticClientGetSum(){
 	$q="SELECT * FROM client";

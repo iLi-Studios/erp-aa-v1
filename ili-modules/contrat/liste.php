@@ -19,14 +19,14 @@ function ListContract(){
 	while ($o=mysqli_fetch_array($result)){
 		$idContract=$o[0];
 		echo'
-		  <tr class="odd gradeX" id="tr" onclick="document.location=\''.$URL.'ili-modules/contrat/contrat?id='.$o[0].'\'">	
-		  	<td></td>
+		  <tr class="odd gradeX" id="tr" onclick="document.location=\''.$URL.'ili-modules/contrat/contrat?id='.$o[0].'\'">
 			<td>'.$o[0].'</td>
 			<td>'.$o[2].' '.$o[1].'</td>
 			<td>'.$o[4].'</td>
 			<td>'.$o[3].'</td>
 			<td>'.$o[5].'</td>
 			<td>'.$o[6].'</td>
+			<td>'?><?php ExpireIn($o[6]); ?><?php echo'</td>
 		  </tr>
 		';
 	}
@@ -101,13 +101,13 @@ function ListContract(){
                             <table class="table table-striped table-bordered" id="sample_1">
 								<thead>
 									<tr>
-										<th width="1%"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-										<th width="12%"><i class="icon-briefcase"></i> #Conrtat</th>
-                                        <th width="31%"><i class="icon-user"></i> Client</th>	
-										<th width="13%"><i class="icon-retweet"></i> NATURE</th>
-										<th width="19%"><i class="icon-wrench"></i> TYPE</th>
-										<th width="12%"><i class="icon-signin"></i> DATE DEBUT</th>
-                                        <th width="12%"><i class="icon-signout"></i> DATE FIN</th>
+										<th><i class="icon-briefcase"></i> #Conrtat</th>
+                                        <th><i class="icon-user"></i> Client</th>	
+										<th><i class="icon-retweet"></i> NATURE</th>
+										<th><i class="icon-wrench"></i> TYPE</th>
+										<th><i class="icon-signin"></i> DATE DEBUT</th>
+                                        <th><i class="icon-signout"></i> DATE FIN</th>
+										<th><i class="icon-exclamation-sign"></i> Etat </th>
 									</tr>
 								</thead>
 								<tbody><?php ListContract(); ?></tbody>

@@ -34,17 +34,28 @@ function user_side_bar(){
 		<li class="has-sub active"> <a href="<?php echo $URL;?>" class=""> <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard </a> </li>
 		<?php user_side_bar();?>
 		<li class="has-sub">
-					<a href="javascript:;" class="">
-					    <span class="icon-box"> <i class="icon-file"></i></span> Contrat
-					    <span class="arrow"></span>
-					</a>
-					<ul class="sub">
-						<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/liste">Liste</a></li>
-						<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/add/index">Ajouter</a></li>
-                        <li><a class="" href="<?php echo $URL;?>ili-modules/contrat/renew/search">Renouveler</a></li>
-					</ul>
-				</li>
-        <li><a class="" href="<?php echo $URL;?>construction"><span class="icon-box"><i class="icon-money"></i></span> Caisse</a></li>
+			<a href="javascript:;" class="">
+				<span class="icon-box"> <i class="icon-file"></i></span> Contrat
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub">
+				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/liste">Liste</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/add/index">Ajouter</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/renew/search">Renouveler</a></li>
+			</ul>
+		</li>
+		<li class="has-sub">
+			<a href="javascript:;" class="">
+				<span class="icon-box"> <i class="icon-money"></i></span> Caisse
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub">
+				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/journal">Journal</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/echeancier">Echéancier</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/decaissement">Décaissement</a></li>
+			</ul>
+		</li>
+        
         <li><a class="" href="<?php echo $URL;?>construction"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
 		<li><a class="" href="<?php echo $URL;?>ili-functions/logout"><span class="icon-box"><i class="icon-signout"></i></span> Déconexion</a></li>
 	</ul>
