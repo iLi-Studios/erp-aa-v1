@@ -28,8 +28,18 @@ AuthorizedPrivileges('CLIENTS', 'S');
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/chosen-bootstrap/chosen/chosen.css" />
 <link href="../../ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
-   <link rel="stylesheet" type="text/css" href="../../ili-style/assets/bootstrap-datepicker/css/datepicker.css" />
 </head>
+<script type="text/javascript">
+function showRadio(){
+	 if(document.getElementById('C').checked == true){
+		 document.getElementById('CHEQUE').style.display = 'block';
+	 }
+	 else{
+		  document.getElementById('CHEQUE').style.display = 'none';
+	 }
+}
+</script>
+<style type="text/css">#CHEQUE {display: none;}</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -37,53 +47,117 @@ AuthorizedPrivileges('CLIENTS', 'S');
 <?php include"../../ili-functions/fragments/page_header.php";?>
 <!-- END HEADER --> 
 <!-- BEGIN CONTAINER -->
-<div id="container" class="row-fluid">
-<!-- BEGIN SIDEBAR -->
-<?php include"../../ili-functions/fragments/sidebar.php";?>
-<!-- END SIDEBAR --> 
-<!-- BEGIN PAGE -->
-<div id="main-content"> 
-	<!-- BEGIN PAGE CONTAINER-->
-	<div class="container-fluid"> 
-		<!-- BEGIN PAGE HEADER-->
-		<div class="row-fluid">
-			<div class="span12">
-				<h3 class="page-title"> Caisse <small> Décaissement</small> </h3>
-				<ul class="breadcrumb">
-					<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
-					<li><a href="journal">Décaissement</a><span class="divider-last">&nbsp;</span></li>
-				</ul>
-			</div>
-		</div>
-		<!-- END PAGE HEADER--> 
-		<!-- BEGIN PAGE CONTENT-->
-		<div class="row-fluid">
-			<div class="span12"> 
-				<!-- BEGIN EXAMPLE TABLE widget-->
-				<div class="widget">
-					<div class="widget-title">
-						<h4><i class="icon-reorder"></i> Enregistrer une dépense </h4>
-						<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> </span>
-					</div>
-					<div class="widget-body">
-						<div class="span12">
-
-
-
-						</div>
-						<div class="space5"></div>
-					</div>
-					<!-- END EXAMPLE TABLE widget--> 
+<div id="container" class="row-fluid"> 
+	<!-- BEGIN SIDEBAR -->
+	<?php include"../../ili-functions/fragments/sidebar.php";?>
+	<!-- END SIDEBAR --> 
+	<!-- BEGIN PAGE -->
+	<div id="main-content"> 
+		<!-- BEGIN PAGE CONTAINER-->
+		<div class="container-fluid"> 
+			<!-- BEGIN PAGE HEADER-->
+			<div class="row-fluid">
+				<div class="span12">
+					<h3 class="page-title"> Caisse <small> Décaissement</small> </h3>
+					<ul class="breadcrumb">
+						<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+						<li><a href="decaissement">Décaissement</a><span class="divider-last">&nbsp;</span></li>
+					</ul>
 				</div>
 			</div>
-			<!-- END PAGE CONTENT--> 
+			<!-- END PAGE HEADER--> 
+			<!-- BEGIN PAGE CONTENT-->
+			<div class="row-fluid">
+				<div class="span12"> 
+					<!-- BEGIN EXAMPLE TABLE widget-->
+					<form action="" method="post">
+						<div class="widget">
+							<div class="widget-title"><h4><i class="icon-reorder"></i> Décaissement</h4></div>
+							<div class="widget-body">
+								<div class="row-fluid">
+									<div class="span7">
+										<h3>Détail</h3>
+										<div class="control-group">
+											<label class="control-label" style="margin-top:42px;">Date : </label>
+											<div class="controls">
+												<input type="text" class="input-large" value="<?php echo $Now;?>" readonly required>
+											</div>
+										</div>
+										<div class="control-group">
+											<div class="controls">
+												<input type="text" class="input-large" name="Amount" placeholder="Montant" autofocus required>
+											</div>
+										</div>
+										<div class="control-group">
+											<div class="controls">
+												<input type="text" class="input-xxlarge" name="Description" placeholder="Désignation" required>
+											</div>
+										</div>
+									</div>
+									<div class="span5">
+										<h3>Paiement</h3>
+										<div class="control-group">
+											<div class="controls">
+												   <label><input type="radio" id="E" name="PaymentKind" value="ESPECE" onclick="showRadio()" checked/>Espèces</label>
+												   <label><input type="radio" id="C" name="PaymentKind" value="CHEQUE" onclick="showRadio()" />Chéque</label>
+										   </div>
+										</div>
+										<div id="CHEQUE">
+											<div class="control-group">
+											   <div class="controls">
+												  <input type="text" name="Bank" class="input-xlarge" placeholder="Banque"/>
+												  <span class="help-inline"></span>
+											   </div>
+											</div>
+											<div class="control-group">
+											   <div class="controls">
+												  <input type="text" name="PaymentCode" class="input-xlarge" placeholder="N° Chéque"/>
+												  <span class="help-inline"></span>
+											   </div>
+											</div>
+											<div class="control-group">
+											   <div class="controls">
+												  <input type="text" name="TransferDate" class="input-xlarge" placeholder="Echéance" data-mask="99-99-9999"/>
+												  <span class="help-inline"></span>
+											   </div>
+											</div>
+											<br>
+										 </div><!-- Chéque --> 
+									</div>
+									<div class="span12">
+										<center><button class="btn btn-success"><i class="icon-ok icon-white"></i> Enregistrer</button></center>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE widget-->
+					</form>
+<?php
+if( (isset($_POST['Description'])) && (isset($_POST['Amount'])) && (isset($_POST['PaymentKind'])) ){
+	$idUser 		= addslashes($_SESSION['user_id']);
+	$Description 	= addslashes($_POST['Description']);
+	$Amount 		= -addslashes($_POST['Amount']);
+	$PaymentKind 	= addslashes($_POST['PaymentKind']);
+	if(isset($_POST['PaymentCode']))	{$PaymentCode	=addslashes($_POST['PaymentCode']);} 	else{$PaymentCode='';}
+	if(isset($_POST['Bank']))			{$Bank			=addslashes($_POST['Bank']);} 			else{$Bank='';}
+	if(isset($_POST['TransferDate']))	{$TransferDate	=addslashes($_POST['TransferDate']);} 	else{$TransferDate='';}
+	QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$Now', '$Description', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
+	NotifAllWrite("", "", $User." a effectuer un décaissement : ".$Description);
+	LogWrite("Décaissement : ".$Description);
+	RedirectJS("ili-modules/caisse/journal");
+}
+?>
+				</div>
+			</div>
 		</div>
 		<!-- END PAGE CONTAINER--> 
 	</div>
 	<!-- END PAGE --> 
 </div>
 <!-- END CONTAINER --> 
+
 <!-- BEGIN FOOTER -->
+
 <div id="footer"> <?php echo $copy_right;?>
 	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up"></i></span> </div>
 </div>
@@ -116,7 +190,12 @@ AuthorizedPrivileges('CLIENTS', 'S');
 <script type="text/javascript" src="../../ili-style/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script> 
 <script type="text/javascript" src="../../ili-style/assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script> 
 <script src="../../ili-style/assets/fancybox/source/jquery.fancybox.pack.js"></script> 
-<script>jQuery(document).ready(function(){App.init();});</script> 
+<script>
+      jQuery(document).ready(function() {       
+         // initiate layout and plugins
+         App.init();
+      });
+   </script> 
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
