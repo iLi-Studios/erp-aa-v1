@@ -14,6 +14,6 @@
 * Encadreur Professionnel : [Mr. Sakly Ayoub](https://github.com/saklyayoub)
 
 ##### Projet Hebergé sur le serveur Hebergili : [www.hebergili.com](http://www.hebergili.com/)
-##### [Lien de test ICI V0](http://http://erp-aa-v0.ili-studios.tn/)
-##### [Lien de test ICI V1](http://http://erp-aa-v1.ili-studios.tn/)
+##### [Lien de test ICI Version 1.0 ALPHA](http://ili-studios.tn/projets/iLi-ERP-AA-V0/)
+##### [Lien de test ICI Version 1.1 BETA](http://ili-studios.tn/projets/iLi-ERP-AA-V1/)
 
