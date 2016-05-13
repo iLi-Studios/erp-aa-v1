@@ -325,12 +325,12 @@ function NotifAllWrite($user_dont_notif1, $user_dont_notif2, $Description){
 function MessageStatus($idMessage, $idDiscussion){
 	$idUser=$_SESSION['user_id'];
 	$q="SELECT * FROM `message` WHERE `idMessage`='$idMessage' AND `ToUser`='$idUser';";
-	$q1="SELECT * FROM `message`, `discussion` WHERE `discussion`.`idMessage`='$idMessage' AND `idDiscussion`='$idDiscussion' AND `ToUserDiscussion`='$idUser';";
+	$q1="SELECT * FROM `message`, `discussion` WHERE `discussion`.`idMessage`='$idMessage' AND `idDiscussion`='$idDiscussion' AND `discussion`.`ToUser`='$idUser';";
 	if($idDiscussion!=''){$q=$q1;}
 	$o=QueryExcute("mysqli_fetch_object", $q);
 	if($o){
 		if($idDiscussion==''){if(($o->Seen=='0')&&($o->ToUser==$idUser)){echo '<span class="label label label-success">Nouveau</span>';}}
-		else{if(($o->SeenDiscussion=='0')&&($o->ToUserDiscussion=$idUser)){echo '<span class="label label label-success">Nouveau</span>';}}
+		else{if(($o->Seen=='0')&&($o->ToUser=$idUser)){echo '<span class="label label label-success">Nouveau</span>';}}
 	}
 }
 function MessageStatusChekIfLocked($idMessage){
@@ -365,7 +365,7 @@ function MessageGetAll(){
 				<th style="width:20%"> <a href="ili-users/user_profil?id='.$o->FromUser.'">'.$info_user->FamilyName.' '.$info_user->FirstName.'</a> </th>
 				<th style="width:46%"><strong> <a href="ili-messages/read?id='.$idMessage.'&id2='.$idDiscussion.'">'.$o->Subject.'</a> </strong></th>
 				<th style="width:12%">'?><?php if($o1>='1'){MessageStatus($ox->idMessage, $idDiscussion);}		else{MessageStatus($o->idMessage, '');} MessageStatusChekIfLocked($o->idMessage); echo' </th>
-				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStampDiscussion);}else{DateDifference($o->TimeStamp);} echo' </th>
+				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStamp);}else{DateDifference($o->TimeStamp);} echo' </th>
 			</tr>
 			';	
 	}
@@ -414,21 +414,21 @@ function MessageGet($idMessage){
 		$r2=QueryExcuteWhile($q2);
 		while ($o2=mysqli_fetch_object($r2)){
 			//envoi
-			$sender2=UserGetInfo($o2->FormUserDiscussion);
+			$sender2=UserGetInfo($o2->FormUser);
 			if(isset($sender2->ProfilePhoto)){$img2=$sender2->ProfilePhoto;}else{$img2='';}
 			echo'
 			<div class="msg-time-chat"> <a href="#" class="message-img"><img class="avatar" src="'.$img2.'" alt=""></a>
 				<div class="message-body msg-in">
 					<div class="text">
 						<p class="attribution"><a href="'.$URL.'ili-users/user_profil?id='.$sender2->idUser.'">'.$sender2->FamilyName.' '.$sender2->FirstName.'</a> ';?><?php DateDifference($o2->TimeStamp); ?><?php echo'</p>
-						<p> '.$o2->ContaintDiscussion.' </p>
+						<p> '.$o2->Containt.' </p>
 					</div>
 				</div>
 			</div>
 			';	
 		}
 		//msg
-		$sender=UserGetInfo($o1->ToUser);
+		$sender=UserGetInfo($o1->FromUser);
 		if(isset($sender->ProfilePhoto)){$img=$sender->ProfilePhoto;}else{$img='';}
 		echo'
 		<div class="msg-time-chat"> <a href="#" class="message-img"><img class="avatar" src="'.$img.'" alt=""></a>
@@ -461,7 +461,7 @@ function MessageGetInfo($idMessage){
 }
 function DiscussionMakeSee($idDiscussion){
 	$user_id = $_SESSION['user_id'];
-	$query="UPDATE `discussion` SET `SeenDiscussion`='1' WHERE `idDiscussion`='$idDiscussion' AND `ToUserDiscussion`='$user_id';";
+	$query="UPDATE `discussion` SET `Seen`='1' WHERE `idDiscussion`='$idDiscussion' AND `ToUser`='$user_id';";
 	QueryExcute('', $query);
 }
 function DiscussionGetInfo($idDiscussion){
@@ -477,9 +477,9 @@ function MessageGetReceever($idMessage, $idDiscussion){
 		echo $O1->ToUser;
 	}
 	else{
-		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FormUserDiscussion`, `ToUserDiscussion` FROM `discussion` WHERE `idDiscussion`='$idDiscussion';");
-		$FormUserDiscussion=$O2->FormUserDiscussion;
-		$ToUserDiscussion=$O2->ToUserDiscussion;
+		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FormUser`, `ToUser` FROM `discussion` WHERE `idDiscussion`='$idDiscussion';");
+		$FormUserDiscussion=$O2->FormUser;
+		$ToUserDiscussion=$O2->ToUser;
 		if($FormUserDiscussion==$idUser){echo $ToUserDiscussion;}else{echo $FormUserDiscussion;}
 	}
 }
@@ -559,7 +559,7 @@ function MessageGetAllHeader(){
 	$r2=QueryExcuteWhile($q2);
 	if(mysqli_num_rows($r2)>'0'){		
 		while ($o2=mysqli_fetch_object($r2)){
-			$s2=UserGetInfo($o2->FormUserDiscussion);
+			$s2=UserGetInfo($o2->FormUser);
 			if(isset($s2->ProfilePhoto)){$img2=$s2->ProfilePhoto;}else{$img2='';}
 			echo'
 			<li> 
@@ -571,7 +571,7 @@ function MessageGetAllHeader(){
 						<span class="from">'.$s2->FamilyName.' '.$s2->FirstName.'</span> 
 					</span> 
 					<span class="message"> '.$o2->Subject.' </span> 
-					<span class="small italic">';?><?php DateDifference($o2->TimeStampDiscussion); ?><?php echo'</span>
+					<span class="small italic">';?><?php DateDifference($o2->TimeStamp); ?><?php echo'</span>
 				</a> 
 			</li>
 			';
