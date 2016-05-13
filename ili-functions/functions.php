@@ -102,7 +102,7 @@ function GetUserPanel($page, $var1, $var2){
 				if($var2==2){echo'<a href="user_ban?id='.$var1.'" class="icon-ban-circle tooltips" data-original-title="Bannir"></a>';}
 			}
 			//S IN ALL BUT ADMIN
-			if( (($s) && ($_SESSION['user_idRank']>=$Rank)) || ($_SESSION['user_id']==$id)){echo'<a href="user_profil?id='.$id.'" class="icon-eye-open tooltips" data-original-title="Voir plus"></a>';}	
+			if( (($s) && ($_SESSION['user_idRank']>=$var2)) || ($_SESSION['user_id']==$var1)){echo'<a href="user_profil?id='.$var1.'" class="icon-eye-open tooltips" data-original-title="Voir plus"></a>';}	
 		}
 	}
 	if($page=='USER_PROFILE'){
@@ -181,6 +181,9 @@ function RedirectJS($page){
 }
 function Refresh(){
 	echo'<script language="Javascript">Javascript:history.go(-1)</script>';
+}
+function RedirectPrevious(){
+	echo'<script language="Javascript">Javascript:history.go(-2)</script>';
 }
 
 /*DATE*/

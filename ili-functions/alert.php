@@ -46,7 +46,9 @@ function AlertGet($code){
 		case "31";AletWrite("alert-error", "ERREUR : INSERTION CONTRACT CYCLE !");break;
 		case "32";AletWrite("alert-error", "ERREUR : INSERTION PAYMENT ! ");break;
 		case "33";AletWrite("alert-error", "ERREUR : CONTRAT NON RENOUVELABLE ! ");break;
+		case "34";AletWrite("alert-error", "ERREUR : CHEQUE NON DISPONIBLE! ");break;
+		case "35";AletWrite("alert-error", "ERREUR : PAIEMENT NON DISPONIBLE ! ");break;
 		
-		case "34";AletWrite("alert-success", "OK : Opération effectuer avec succée! Vous devez vous déconnecter pour appliquer les modifications!");}
+		case "36";AletWrite("alert-success", "OK : Opération effectuer avec succée! Vous devez vous déconnecter pour appliquer les modifications!");}
 	}
 ?>

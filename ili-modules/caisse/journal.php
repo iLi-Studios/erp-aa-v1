@@ -90,7 +90,7 @@ function Checkout($date1, $date2, $idUser){
 				$PaymentInfo=PaymentInfo($o->idPayment);
 				echo'
 				<tr>
-					<td style="text-align:right;"><a href="'.$URL.'ili-caisse/DetailsPayement.php?idPayment='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
+					<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/paiement?id='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
 					<td style="text-align:right;">';?><?php if($PaymentInfo){echo'<a href="'.$URL.'ili-modules/contrat/contrat?id='.$PaymentInfo->idContract.'">'.$PaymentInfo->idContract.'</a>';}else{echo '#';}?><?php echo'&nbsp;&nbsp;</td>
 					<td style="text-align:center;">';?><?php if($PaymentInfo){echo'<a href="'.$URL.'ili-modules/client/client?id='.$PaymentInfo->idClient.'">'.$PaymentInfo->idClient.'</a>';}else{echo '<center>##</center>';}?><?php echo'</td>
 					<td>';?><?php if($o->Description){echo $o->Description;}else{echo '<center>##</center>';}?><?php echo'</td>

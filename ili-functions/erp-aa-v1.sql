@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 21 Avril 2016 à 18:41
+-- Généré le :  Jeu 12 Mai 2016 à 14:47
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `ili_crm_code`
+-- Base de données :  `erp-aa-v1`
 --
 
 -- --------------------------------------------------------
@@ -47,6 +47,7 @@ INSERT INTO `client` (`idClient`, `FamilyName`, `FirstName`, `Phone`, `Adress`, 
 ('00000003', 'RAISSI', 'AZIZ', '20123123', 'Agba', '00000001'),
 ('00000004', 'YAKOUB', 'SAKLY', '27957171', 'CITEE ESSEHA AGBA TUNIS', '00000001'),
 ('00000005', 'BOUGHANMI', 'KHOULOUD', '93555666', 'Tunis', '00000001'),
+('0014 L/M/A 000 RC ', 'STE : BFCO', 'SARL', '71554225', 'Zahrouni Tunis', '00000001'),
 ('1245 M/A/C 000 /J', 'TNL DISTRIBUTION', 'SARL', '71255366', 'GP5 AGBA MANOUBA', '00000001');
 
 -- --------------------------------------------------------
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `contractcycle` (
   KEY `idContract` (`idContract`),
   KEY `idPayment` (`idPayment`),
   KEY `CreatedBy` (`CreatedBy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `contractcycle`
@@ -80,7 +81,10 @@ INSERT INTO `contractcycle` (`idCycle`, `idPayment`, `idContract`, `StartDate`, 
 (5, 8, '0200', '21-06-2016', '21-07-2016', '00000001'),
 (6, 9, '0500', '20-04-2016', '20-04-2017', '00000001'),
 (7, 10, '0500', '21-04-2017', '21-04-2018', '00000001'),
-(8, 11, '0900', '21-04-2016', '21-10-2016', '00000001');
+(8, 11, '0900', '21-04-2016', '21-10-2016', '00000001'),
+(9, 14, '0901', '25-04-2016', '25-10-2016', '00000001'),
+(10, 16, '011', '01-05-2016', '01-06-2016', '00000001'),
+(11, 19, '0902', '09-05-2016', '09-11-2016', '00000001');
 
 -- --------------------------------------------------------
 
@@ -105,6 +109,30 @@ CREATE TABLE IF NOT EXISTS `discussion` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `help`
+--
+
+CREATE TABLE IF NOT EXISTS `help` (
+  `idHelp` int(20) NOT NULL AUTO_INCREMENT,
+  `Category` varchar(255) NOT NULL,
+  `Question` varchar(1000) NOT NULL,
+  `Answer` varchar(10000) NOT NULL,
+  PRIMARY KEY (`idHelp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `help`
+--
+
+INSERT INTO `help` (`idHelp`, `Category`, `Question`, `Answer`) VALUES
+(1, 'Profile', 'Modification des diplôme?', '<ul>\r\n<li>Connexion > Mon Profile > Modifier Profile > Modifier Mes Diplômes</li>\r\n<li>Effectuer la modification</li>\r\n<li>Enregistrer</li>\r\n</ul>'),
+(2, 'Utilisateurs', 'Ajouter un utilisateur', 'Connexion > Ajouter <br>\r\nRemplir le formulaire <br>\r\nCrée  '),
+(3, 'Profile', 'Modification des d’expérance?', 'Connexion > Mon Profile > Modifier Profile > Modifier Mes Expérance<br> Effectuer la modification <br>\r\nEnregistrer'),
+(4, 'Profile', 'Modification des informations personelle?', 'Connexion > Mon Profile > Modifier Profile > Modifier Mes Informations Personelles<br> Effectuer la modification <br>\r\nEnregistrer');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `insurancecontract`
 --
 
@@ -123,10 +151,13 @@ CREATE TABLE IF NOT EXISTS `insurancecontract` (
 
 INSERT INTO `insurancecontract` (`idContract`, `idClient`, `TypeContract`, `KindContract`) VALUES
 ('0100', '00000001', 'Automobile', 'Ferme'),
+('011', '00000001', 'Automobile', 'Renouvelable'),
 ('0200', '00000003', 'Multirisque habitation', 'Renouvelable'),
 ('0300', '00000001', 'Assurance voyage', 'Ferme'),
 ('0500', '00000002', 'Automobile', 'Renouvelable'),
-('0900', '1245 M/A/C 000 /J', 'Automobile', 'Renouvelable');
+('0900', '1245 M/A/C 000 /J', 'Automobile', 'Renouvelable'),
+('0901', '00000005', 'Automobile', 'Renouvelable'),
+('0902', '0014 L/M/A 000 RC', 'Automobile', 'Renouvelable');
 
 -- --------------------------------------------------------
 
@@ -141,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `logsystem` (
   `Description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=184 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=213 ;
 
 --
 -- Contenu de la table `logsystem`
@@ -315,7 +346,36 @@ INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES
 (180, '00000001', '21-04-2016 13:40:01', 'Modification de client : <a href="ili-modules/client/client?id=00000005">BOUGHANMI KHOULOUD</a>'),
 (181, '00000001', '21-04-2016 13:41:19', 'Création de client : <a href="ili-modules/client/client?id=1245 M/A/C 000 /J">1245 M/A/C 000 /J</a>'),
 (182, '00000001', '21-04-2016 13:42:05', 'Ajout contract ID : 0900'),
-(183, '00000001', '21-04-2016 13:54:08', 'Décaissement : #FACTURE:00618610_SONED');
+(183, '00000001', '21-04-2016 13:54:08', 'Décaissement : #FACTURE:00618610_SONED'),
+(184, '00000001', '21-04-2016 19:02:56', 'Connexion'),
+(185, '00000001', '21-04-2016 23:14:32', 'Connexion'),
+(186, '00000001', '23-04-2016 14:42:39', 'Connexion'),
+(187, '00000001', '23-04-2016 15:44:07', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(188, '00000001', '23-04-2016 15:44:28', 'Déconnexion'),
+(189, '00000001', '25-04-2016 12:31:02', 'Connexion'),
+(190, '00000001', '25-04-2016 12:35:37', 'Ajout contract ID : 0901'),
+(191, '00000001', '25-04-2016 12:37:22', 'Décaissement : Gazoile'),
+(192, '00000001', '25-04-2016 12:38:12', 'Ajout de privilége <strong>CREER</strong> sur le bloc <strong>USERS</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(193, '00000001', '26-04-2016 01:16:33', 'Connexion'),
+(194, '00000001', '01-05-2016 01:28:57', 'Connexion'),
+(195, '00000001', '01-05-2016 01:31:10', 'Ajout contract ID : 011'),
+(196, '00000001', '01-05-2016 01:32:17', 'Décaissement : FACTURE ADSL'),
+(197, '00000001', '01-05-2016 01:33:18', 'Décaissement : STEG'),
+(198, '00000001', '09-05-2016 11:18:25', 'Connexion'),
+(199, '00000001', '09-05-2016 11:20:36', 'Déconnexion'),
+(200, '00000001', '09-05-2016 11:20:37', 'Connexion'),
+(201, '09186670', '09-05-2016 11:24:35', 'Connexion'),
+(202, '00000001', '09-05-2016 11:32:22', 'Création de client : <a href="ili-modules/client/client?id=0014 L/M/A 000 RC ">0014 L/M/A 000 RC </a>'),
+(203, '00000001', '09-05-2016 11:33:08', 'Ajout contract ID : 0902'),
+(204, '00000001', '09-05-2016 11:49:44', 'Décaissement : Divers & Imprévus'),
+(205, '00000001', '10-05-2016 11:04:54', 'Connexion'),
+(206, '00000001', '10-05-2016 11:09:17', 'Déconnexion'),
+(207, '00000001', '10-05-2016 11:09:19', 'Connexion'),
+(208, '00000001', '10-05-2016 13:01:20', 'Décaissement : test3'),
+(209, '00000001', '10-05-2016 13:01:38', 'Décaissement : test3'),
+(210, '00000001', '12-05-2016 10:26:52', 'Connexion'),
+(211, '00000001', '12-05-2016 14:36:27', 'Ajout du diplôme : tayaran, pour l''utilisateur : <a href="ili-users/user_profil?id=00000001">00000001</a>'),
+(212, '00000001', '12-05-2016 14:44:02', 'Création de l''utilisateur : <a href="ili-users/user_profil?id=07204349">07204349</a>');
 
 -- --------------------------------------------------------
 
@@ -337,7 +397,14 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `ClosedBy` (`ClosedBy`),
   KEY `FromUser` (`FromUser`),
   KEY `ToUser` (`ToUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `message`
+--
+
+INSERT INTO `message` (`idMessage`, `FromUser`, `ToUser`, `Subject`, `Containt`, `TimeStamp`, `Seen`, `ClosedBy`) VALUES
+(1, '00000001', '09186670', 'test', '<p>1</p>\r\n', '09-05-2016 11:24:05', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -353,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `notificationsystem` (
   `seen` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idNotification`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=197 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=224 ;
 
 --
 -- Contenu de la table `notificationsystem`
@@ -446,13 +513,40 @@ INSERT INTO `notificationsystem` (`idNotification`, `idUser`, `Description`, `Ti
 (187, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a modifié le client, RAISSI AZIZ', '21-04-2016 13:39:35', '0'),
 (188, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a modifié le client, RAISSI AZIZ', '21-04-2016 13:39:35', '1'),
 (189, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a modifié le client, BOUGHANMI KHOULOUD', '21-04-2016 13:40:01', '0'),
-(190, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a modifié le client, BOUGHANMI KHOULOUD', '21-04-2016 13:40:01', '0'),
+(190, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a modifié le client, BOUGHANMI KHOULOUD', '21-04-2016 13:40:01', '1'),
 (191, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=1245 M/A/C 000 /J">Sakly Ayoub a creé un nouveau client , TNL DISTRIBUTION SARL', '21-04-2016 13:41:19', '0'),
-(192, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=1245 M/A/C 000 /J">Sakly Ayoub a creé un nouveau client , TNL DISTRIBUTION SARL', '21-04-2016 13:41:19', '0'),
+(192, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=1245 M/A/C 000 /J">Sakly Ayoub a creé un nouveau client , TNL DISTRIBUTION SARL', '21-04-2016 13:41:19', '1'),
 (193, '09186670', 'Ajout contract ID : 0900', '21-04-2016 13:42:05', '0'),
-(194, '00000001', 'Ajout contract ID : 0900', '21-04-2016 13:42:05', '0'),
+(194, '00000001', 'Ajout contract ID : 0900', '21-04-2016 13:42:05', '1'),
 (195, '09186670', ' a effectuer un décaissement : #FACTURE:00618610_SONED', '21-04-2016 13:54:08', '0'),
-(196, '00000001', ' a effectuer un décaissement : #FACTURE:00618610_SONED', '21-04-2016 13:54:08', '0');
+(196, '00000001', ' a effectuer un décaissement : #FACTURE:00618610_SONED', '21-04-2016 13:54:08', '1'),
+(197, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '23-04-2016 15:44:07', '0'),
+(198, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '23-04-2016 15:44:07', '1'),
+(199, '09186670', 'Ajout contract ID : 0901', '25-04-2016 12:35:37', '0'),
+(200, '00000001', 'Ajout contract ID : 0901', '25-04-2016 12:35:37', '1'),
+(201, '09186670', ' a effectuer un décaissement : Gazoile', '25-04-2016 12:37:22', '0'),
+(202, '00000001', ' a effectuer un décaissement : Gazoile', '25-04-2016 12:37:22', '1'),
+(203, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>USERS</strong> de Hafaeid Abd El Karim', '25-04-2016 12:38:12', '0'),
+(204, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>USERS</strong> de Hafaeid Abd El Karim', '25-04-2016 12:38:12', '1'),
+(205, '09186670', 'Ajout contract ID : 011', '01-05-2016 01:31:10', '0'),
+(206, '00000001', 'Ajout contract ID : 011', '01-05-2016 01:31:10', '1'),
+(207, '09186670', ' a effectuer un décaissement : FACTURE ADSL', '01-05-2016 01:32:17', '0'),
+(208, '00000001', ' a effectuer un décaissement : FACTURE ADSL', '01-05-2016 01:32:17', '1'),
+(209, '09186670', ' a effectuer un décaissement : STEG', '01-05-2016 01:33:18', '0'),
+(210, '00000001', ' a effectuer un décaissement : STEG', '01-05-2016 01:33:18', '1'),
+(211, '09186670', '<a href="http://localhost/erp-aa-v1/ili-modules/client/client?id=0014 L/M/A 000 RC ">Sakly Ayoub a creé un nouveau client , STE : BFCO SARL', '09-05-2016 11:32:22', '0'),
+(212, '00000001', '<a href="http://localhost/erp-aa-v1/ili-modules/client/client?id=0014 L/M/A 000 RC ">Sakly Ayoub a creé un nouveau client , STE : BFCO SARL', '09-05-2016 11:32:22', '1'),
+(213, '09186670', 'Ajout contract ID : 0902', '09-05-2016 11:33:08', '0'),
+(214, '00000001', 'Ajout contract ID : 0902', '09-05-2016 11:33:08', '1'),
+(215, '09186670', ' a effectuer un décaissement : Divers & Imprévus', '09-05-2016 11:49:44', '0'),
+(216, '00000001', ' a effectuer un décaissement : Divers & Imprévus', '09-05-2016 11:49:44', '1'),
+(217, '09186670', ' a effectuer un décaissement : test3', '10-05-2016 13:01:20', '0'),
+(218, '00000001', ' a effectuer un décaissement : test3', '10-05-2016 13:01:20', '1'),
+(219, '09186670', '00000001 a effectuer un décaissement : test3', '10-05-2016 13:01:38', '0'),
+(220, '00000001', '00000001 a effectuer un décaissement : test3', '10-05-2016 13:01:38', '1'),
+(221, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout du diplôme : tayaran', '12-05-2016 14:36:27', '0'),
+(222, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=07204349">Nouveau utilisateur, Boughanmi Khouloud', '12-05-2016 14:44:02', '0'),
+(223, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=07204349">Nouveau utilisateur, Boughanmi Khouloud', '12-05-2016 14:44:02', '0');
 
 -- --------------------------------------------------------
 
@@ -472,7 +566,7 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `RecevedBy` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idPayment`),
   KEY `RecevedBy` (`RecevedBy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Contenu de la table `payment`
@@ -488,7 +582,14 @@ INSERT INTO `payment` (`idPayment`, `EncashmentDate`, `Description`, `PaymentKin
 (10, '20-04-2016', '', 'ESPECE', '', '', '', '245.022', '00000001'),
 (11, '21-04-2016', '', 'CHEQUE', '0100609', 'UBCI', '21-05-2016', '287.000', '00000001'),
 (12, '21-04-2016', '#FACTURE:001524250_TOPNET', 'ESPECE', '', '', '', '-100', '00000001'),
-(13, '21-04-2016', '#FACTURE:00618610_SONED', 'ESPECE', '', '', '', '-50', '00000001');
+(13, '21-04-2016', '#FACTURE:00618610_SONED', 'ESPECE', '', '', '', '-50', '00000001'),
+(14, '25-04-2016', '', 'CHEQUE', '0100200300', 'UIB', '26-04-2016', '250.000', '00000001'),
+(15, '25-04-2016', 'Gazoile', 'CHEQUE', '0123', 'BIAT', '25-04-2016', '-70', '00000001'),
+(16, '01-05-2016', '', 'ESPECE', '', '', '', '250.000', '00000001'),
+(17, '01-05-2016', 'FACTURE ADSL', 'ESPECE', '', '', '', '-100', '00000001'),
+(18, '01-05-2016', 'STEG', 'CHEQUE', '5000', 'UIB', '02-05-2016', '-100', '00000001'),
+(19, '09-05-2016', '', 'CHEQUE', '00015245245', 'UBCI', '09-05-2016', '352.245', '00000001'),
+(20, '09-05-2016', 'Divers & Imprévus', 'CHEQUE', '02255025531', 'BIAT', '09-05-2016', '-100', '00000001');
 
 -- --------------------------------------------------------
 
@@ -523,8 +624,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`idUser`, `idRank`, `FamilyName`, `FirstName`, `Email`, `FunctionPost`, `Phone`, `Adress`, `BirthDay`, `Password`, `LastPasswordChangedDate`, `fbAccount`, `githubAccount`, `linkedinAccount`, `ProfilePhoto`, `CreatedBy`, `CreatedDate`) VALUES
-('00000001', 3, 'Sakly', 'Ayoub', 'saklyayoub@live.com', 'Gérant', '20.666.996', '16 Rue Ben Zid Agba 2010 Manouba', '22-09-1988', '3cb61b94f984497b9230075a6f777346', '15-04-2016 15:26:22', 'http://www.facebook.com/saklyayoub', 'https://github.com/saklyayoub', 'https://www.linkedin.com/in/sakly-ayoub-ba269391', 'http://www.ili-studios.com/img/saklyayoub.png', 'SAKLY AYOUB', '2016-03-12 11:48:10'),
-('09186670', 2, 'Hafaeid', 'Abd El Karim', 'hafaeidh@ili-studios.com', 'CO-Founder', '52.239.322', '60 Rue de tazarka, Denden, Manouba 2010', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '16-04-2016 14:08:09', 'https://www.facebook.com/profile.php?id=100004842556636&fref=ts', 'https://github.com/AbdouHF', '', 'http://www.ili-studios.com/img/abdou.png', 'Sakly Ayoub', '16-04-2016 14:08:09');
+('00000001', 3, 'Sakly', 'Ayoub', 'saklyayoub@live.com', 'Gérant', '20.666.996', '16 Rue Ben Zid Agba 2010 Manouba', '22-09-1988', '3cb61b94f984497b9230075a6f777346', '15-04-2016 15:26:22', 'http://www.facebook.com/saklyayoub', 'https://github.com/saklyayoub', 'https://www.linkedin.com/in/sakly-ayoub-ba269391', 'http://www.ili-studios.tn/img/saklyayoub.png', 'SAKLY AYOUB', '2016-03-12 11:48:10'),
+('07204349', 2, 'Boughanmi', 'Khouloud', 'kouloud.boughanmi@yahoo.fr', 'Stagiaire ', '20.180.681', 'Ben arous', '05-08-1993', '8eaaded21bf16e0e151c0e96f1302405', '12-05-2016 14:44:02', '', '', '', '', 'Sakly Ayoub', '12-05-2016 14:44:02'),
+('09186670', 2, 'Hafaeid', 'Abd El Karim', 'hafaeidh@ili-studios.com', 'CO-Founder', '52.239.322', '60 Rue de tazarka, Denden, Manouba 2010', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '16-04-2016 14:08:09', 'https://www.facebook.com/profile.php?id=100004842556636&fref=ts', 'https://github.com/AbdouHF', '', 'http://www.ili-studios.tn/img/abdou.png', 'Sakly Ayoub', '16-04-2016 14:08:09');
 
 -- --------------------------------------------------------
 
@@ -541,14 +643,15 @@ CREATE TABLE IF NOT EXISTS `usersdiploma` (
   `Institute` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idDiploma`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `usersdiploma`
 --
 
 INSERT INTO `usersdiploma` (`idDiploma`, `idUser`, `Year`, `Location`, `Description`, `Institute`) VALUES
-(1, '09186670', '2013', 'Manouba', 'Bac', 'Ibn Abi Dhiaf');
+(1, '09186670', '2013', 'Manouba', 'Bac', 'Ibn Abi Dhiaf'),
+(2, '00000001', '2010', 'gamra', 'tayaran', 'naza');
 
 -- --------------------------------------------------------
 
@@ -584,16 +687,19 @@ CREATE TABLE IF NOT EXISTS `usersprivilege` (
   PRIMARY KEY (`idPrivilege`),
   KEY `idUser` (`idUser`),
   KEY `idUser_2` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `usersprivilege`
 --
 
 INSERT INTO `usersprivilege` (`idPrivilege`, `idUser`, `bloc`, `s`, `c`, `u`, `d`) VALUES
-(6, '09186670', 'USERS', '1', '0', '0', '0'),
+(6, '09186670', 'USERS', '1', '1', '0', '0'),
 (7, '09186670', 'CLIENTS', '1', '0', '0', '0'),
-(8, '09186670', 'CONTRAT', '1', '1', '0', '0');
+(8, '09186670', 'CONTRAT', '1', '1', '1', '0'),
+(9, '07204349', 'USERS', '1', '0', '0', '0'),
+(10, '07204349', 'CLIENTS', '1', '0', '0', '0'),
+(11, '07204349', 'CONTRAT', '1', '0', '0', '0');
 
 -- --------------------------------------------------------
 

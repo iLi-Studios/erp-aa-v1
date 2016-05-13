@@ -53,10 +53,12 @@ function user_side_bar(){
 				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/journal">Journal</a></li>
 				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/echeancier">Echéancier</a></li>
 				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/decaissement">Décaissement</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/recherche_paiement">Recherche Paiement</a></li>
+				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/recherche_cheque">Recherche Chéque</a></li>
 			</ul>
 		</li>
         
-        <li><a class="" href="<?php echo $URL;?>construction"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
+        <li><a class="" href="<?php echo $URL;?>aide"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
 		<li><a class="" href="<?php echo $URL;?>ili-functions/logout"><span class="icon-box"><i class="icon-signout"></i></span> Déconexion</a></li>
 	</ul>
 	<!-- END SIDEBAR MENU --> 

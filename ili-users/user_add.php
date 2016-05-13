@@ -170,8 +170,8 @@
 								<!--Rank*--> 
 								<br>
 								<center>
-									<button type="reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Cancel</button>
-									<button type="submit" class="btn btn-warning"><i class="icon-plus icon-white"></i> Create</button>
+									<button type="reset" class="btn btn-info"><i class="icon-ban-circle icon-white"></i> Annuler </button>
+									<button type="submit" class="btn btn-warning"><i class="icon-plus icon-white"></i> Crée </button>
 								</center>
 							</form><?php UserInsert(); ?>
 						</div>

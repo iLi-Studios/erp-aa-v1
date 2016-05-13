@@ -1,7 +1,13 @@
 <?php 
 include"../../ili-functions/functions.php";
 Authorization('2');
-AuthorizedPrivileges('CLIENTS', 'S');
+AuthorizedPrivileges('CAISSE', 'S');
+if(isset($_GET['id'])){
+	$id=$_GET['id'];
+	$o=QueryExcute("mysqli_fetch_object", "SELECT * FROM `payment` WHERE `idPayment`='$id';");
+	if(!$o){RedirectJS('index?message=35');}
+}
+else{RedirectJS('index?message=35');}
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -29,17 +35,6 @@ AuthorizedPrivileges('CLIENTS', 'S');
 <link href="../../ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
 </head>
-<script type="text/javascript">
-function showRadio(){
-	 if(document.getElementById('C').checked == true){
-		 document.getElementById('CHEQUE').style.display = 'block';
-	 }
-	 else{
-		  document.getElementById('CHEQUE').style.display = 'none';
-	 }
-}
-</script>
-<style type="text/css">#CHEQUE {display: none;}</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -47,109 +42,70 @@ function showRadio(){
 <?php include"../../ili-functions/fragments/page_header.php";?>
 <!-- END HEADER --> 
 <!-- BEGIN CONTAINER -->
-<div id="container" class="row-fluid"> 
-	<!-- BEGIN SIDEBAR -->
-	<?php include"../../ili-functions/fragments/sidebar.php";?>
-	<!-- END SIDEBAR --> 
-	<!-- BEGIN PAGE -->
-	<div id="main-content"> 
-		<!-- BEGIN PAGE CONTAINER-->
-		<div class="container-fluid"> 
-			<!-- BEGIN PAGE HEADER-->
-			<div class="row-fluid">
-				<div class="span12">
-					<h3 class="page-title"> Caisse <small> Décaissement</small> </h3>
-					<ul class="breadcrumb">
-						<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
-						<li><a href="decaissement">Décaissement</a><span class="divider-last">&nbsp;</span></li>
-					</ul>
-				</div>
+<div id="container" class="row-fluid">
+<!-- BEGIN SIDEBAR -->
+<?php include"../../ili-functions/fragments/sidebar.php";?>
+<!-- END SIDEBAR --> 
+<!-- BEGIN PAGE -->
+<div id="main-content"> 
+	<!-- BEGIN PAGE CONTAINER-->
+	<div class="container-fluid"> 
+		<!-- BEGIN PAGE HEADER-->
+		<div class="row-fluid">
+			<div class="span12">
+				<h3 class="page-title"> Caisse <small> Paiement</small> </h3>
+				<ul class="breadcrumb">
+					<li> <a href="<?php echo $URL; ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span> </li>
+					<li><a href="paiement?id=<?php echo $id;?>">Détail du paiement</a><span class="divider-last">&nbsp;</span></li>
+				</ul>
 			</div>
-			<!-- END PAGE HEADER--> 
-			<!-- BEGIN PAGE CONTENT-->
-			<div class="row-fluid">
+		</div>
+		<!-- END PAGE HEADER--> 
+		<!-- BEGIN PAGE CONTENT-->
+		 <div class="row-fluid">
 				<div class="span12"> 
 					<!-- BEGIN EXAMPLE TABLE widget-->
-					<form action="" method="post">
 						<div class="widget">
-							<div class="widget-title"><h4><i class="icon-reorder"></i> Décaissement</h4></div>
+							<div class="widget-title"><h4><i class="icon-reorder"></i> Détails du paiement</h4></div>
 							<div class="widget-body">
-								<div class="row-fluid">
-									<div class="span7">
-										<h3>Détail</h3>
-										<div class="control-group">
-											<label class="control-label" style="margin-top:42px;">Date : </label>
-											<div class="controls">
-												<input type="text" class="input-large" value="<?php echo $Now;?>" readonly required>
-											</div>
-										</div>
-										<div class="control-group">
-											<div class="controls">
-												<input type="text" class="input-large" name="Amount" placeholder="Montant" autofocus required>
-											</div>
-										</div>
-										<div class="control-group">
-											<div class="controls">
-												<input type="text" class="input-xxlarge" name="Description" placeholder="Désignation" required>
-											</div>
-										</div>
-									</div>
-									<div class="span5">
-										<h3>Paiement</h3>
-										<div class="control-group">
-											<div class="controls">
-												   <label><input type="radio" id="E" name="PaymentKind" value="ESPECE" onclick="showRadio()" checked/>Espèces</label>
-												   <label><input type="radio" id="C" name="PaymentKind" value="CHEQUE" onclick="showRadio()" />Chéque</label>
-										   </div>
-										</div>
-										<div id="CHEQUE">
-											<div class="control-group">
-											   <div class="controls">
-												  <input type="text" name="Bank" class="input-xlarge" placeholder="Banque"/>
-												  <span class="help-inline"></span>
-											   </div>
-											</div>
-											<div class="control-group">
-											   <div class="controls">
-												  <input type="text" name="PaymentCode" class="input-xlarge" placeholder="N° Chéque"/>
-												  <span class="help-inline"></span>
-											   </div>
-											</div>
-											<div class="control-group">
-											   <div class="controls">
-												  <input type="text" name="TransferDate" class="input-xlarge" placeholder="Echéance" data-mask="99-99-9999"/>
-												  <span class="help-inline"></span>
-											   </div>
-											</div>
-											<br>
-										 </div><!-- Chéque --> 
-									</div>
-									<div class="span12">
-										<center><button class="btn btn-success"><i class="icon-ok icon-white"></i> Enregistrer</button></center>
-									</div>
+								<div class="span12">
+									<table class="table table-borderless">
+										<tbody>
+										<tr>
+											<td class="span4">CODE PAIEMENT</td>
+											<td><?php echo $id;?></td>
+										</tr>
+										<tr>
+											<td class="span4">DESCRIPTION</td>
+											<td><?php echo $o->Description;?></td>
+										</tr>
+										<tr>
+											<td class="span4">TYPE</td>
+											<td>
+											<?php 
+											if($o->PaymentKind=='CHEQUE'){echo 'CHEQUE <a href="'.$URL.'ili-modules/caisse/cheque?id='.$o->PaymentCode.'">#'.$o->PaymentCode.'</a>';}
+											else{echo $o->PaymentKind;}
+											?>
+											</td>
+										</tr>
+										<tr>
+											<td class="span4">DATE</td>
+											<td><?php echo $o->EncashmentDate;?></td>
+										</tr>
+										<tr>
+											<td class="span4">REçUE PAR</td>
+											<td><?php echo '<a href="'.$URL.'ili-users/user_profil?id='.$o->RecevedBy.'">'.$o->RecevedBy.'</a>';?></td>
+										</tr>
+										</tbody>
+									</table>
 								</div>
+								<div class="space5"></div>
+								
 							</div>
 						</div>
 						<!-- END EXAMPLE TABLE widget-->
-					</form>
-<?php
-if( (isset($_POST['Description'])) && (isset($_POST['Amount'])) && (isset($_POST['PaymentKind'])) ){
-	$idUser 		= addslashes($_SESSION['user_id']);
-	$Description 	= addslashes($_POST['Description']);
-	$Amount 		= -addslashes($_POST['Amount']);
-	$PaymentKind 	= addslashes($_POST['PaymentKind']);
-	if(isset($_POST['PaymentCode']))	{$PaymentCode	=addslashes($_POST['PaymentCode']);} 	else{$PaymentCode='';}
-	if(isset($_POST['Bank']))			{$Bank			=addslashes($_POST['Bank']);} 			else{$Bank='';}
-	if(isset($_POST['TransferDate']))	{$TransferDate	=addslashes($_POST['TransferDate']);} 	else{$TransferDate='';}
-	QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$Now', '$Description', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
-	NotifAllWrite("", "", $idUser." a effectuer un décaissement : ".$Description);
-	LogWrite("Décaissement : ".$Description);
-	RedirectJS("ili-modules/caisse/journal");
-}
-?>
 				</div>
 			</div>
-		</div>
 		<!-- END PAGE CONTAINER--> 
 	</div>
 	<!-- END PAGE --> 

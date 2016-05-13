@@ -5,18 +5,28 @@ AuthorizedPrivileges('CLIENTS', 'S');
 $idUser=$_SESSION['user_id'];
 if(isset($_GET['date1'])){$date1=$_GET['date1'];}else{$date1=$Now;}
 if(isset($_GET['date2'])){$date2=$_GET['date2'];}else{$date2=$Now;}
-if(isset($_GET['operation'])){$operation=$_GET['operation'];}else{$operation='ES';}
+if(isset($_GET['operation'])){
+	$operation=$_GET['operation'];
+	if($operation!='DC'){
+		if($operation!='C'){
+			if($operation!='D'){
+				RedirectJS('ili-modules/caisse/echeancier?date1='.$date1.'&date2='.$date2.'&operation=DC');
+			}
+		}
+	}
+}
+else{$operation='DC';}
 
 function CheckGetTotalOperation($date1, $date2, $operation){
-	if($operation=='ES'){
+	if($operation=='DC'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';");
 		echo $o[0];
 	}
-	elseif($operation=='E'){
+	elseif($operation=='C'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
 		echo $o[0];
 	}
-	elseif($operation=='S'){
+	elseif($operation=='D'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
 		echo $o[0];
 	}
@@ -30,15 +40,15 @@ function CheckGetTotalOperationOut($date1, $date2){
 	echo $o[0];
 }
 function CheckGetTotalAmmount($date1, $date2, $operation){
-	if($operation=='ES'){
+	if($operation=='DC'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';");
 		printf("%0.3f", $o[0]);
 	}
-	elseif($operation=='E'){
+	elseif($operation=='C'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
 		printf("%0.3f", $o[0]);
 	}
-	elseif($operation=='S'){
+	elseif($operation=='D'){
 		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
 		printf("%0.3f", $o[0]);
 	}
@@ -53,10 +63,10 @@ function CheckGetTotalAmmountOut($date1, $date2){
 }
 function Check($date1, $date2, $operation){
 	global $URL;
-	$SQL_ES 	= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
-	$SQL_E		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;";
-	$SQL_S		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;";
-	if($operation='ES'){$query=$SQL_ES;}elseif($operation='E'){$query=$SQL_E;}elseif($operation='S'){$query=$SQL_S;}
+	$SQL_DC 	= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
+	$SQL_D		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;";
+	$SQL_C		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;";
+	if($operation=='DC'){$query=$SQL_DC;}elseif($operation=='D'){$query=$SQL_C;}elseif($operation=='C'){$query=$SQL_D;}
 	$result=QueryExcuteWhile($query);
 	echo'
 	<center>
@@ -74,8 +84,8 @@ function Check($date1, $date2, $operation){
 				$PaymentInfo=PaymentInfo($o->idPayment);
 				echo'
 			<tr>
-				<td style="text-align:right;"><a href="'.$URL.'ili-caisse/DetailsPayement.php?idPayment='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
-				<td style="text-align:right;"><a href="'.$URL.'ili-check/DetailsCheck.php?PaymentCode='.$o->PaymentCode.'">'.$o->PaymentCode.'&nbsp;&nbsp;</a></td>
+				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/paiement?id='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
+				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/cheque?id='.$o->PaymentCode.'">'.$o->PaymentCode.'&nbsp;&nbsp;</a></td>
 				<td style="text-align:center;">'.$o->EncashmentDate.'</td>
 				<td style="text-align:center;">'.$o->TransferDate.'</td>
 				<td style="text-align:center;"><a href="'.$URL.'ili-users/DetailsUser.php?idUser='.$o->RecevedBy.'">'.$o->RecevedBy.'</a></td>
@@ -194,9 +204,9 @@ function Check($date1, $date2, $operation){
 										<th>OPERATION</th>
 										<th>
 											<select name="operation" style="width:100%; margin-top:10px;">
-												<option <?php if($operation=='ES'){echo'selected';}?>value="ES">DEBITS/CREDITS</option>
-												<option <?php if($operation=='E'){echo'selected';}?>value="E">CREDITS</option>
-												<option <?php if($operation=='S'){echo'selected';}?>value="S">DEBITS</option>
+												<option <?php if($operation=='DC'){echo'selected';}?> value="DC">DEBITS/CREDITS</option>
+												<option <?php if($operation=='C'){echo'selected';}?> value="C">CREDITS</option>
+												<option <?php if($operation=='D'){echo'selected';}?> value="D">DEBITS</option>
 											</select>
 										</th>
 										<th><button class="btn btn-success"><i class="icon-search icon-white"></i> Chercher</button></th>
