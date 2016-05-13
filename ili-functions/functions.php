@@ -1089,7 +1089,7 @@ function UserInsert(){
 			if(QueryExcute('mysqli_fetch_object', "SELECT * FROM users WHERE Email='$Email';")){Redirect('ili-users/user_add?message=9');}
 			else{
 				QueryExcute("", "INSERT INTO `users` VALUES ('$cin', '2', '$FamilyName', '$FirstName', '$Email', '$FunctionPost', '$Phone', '$Adress', '$BirthDay', MD5('$Password'), '$Timestamp', '$fbAccount', '$githubAccount', '$linkedinAccount', '$ProfilePhoto', '$add_by', '$Timestamp')");
-				QueryExcute("", "INSERT INTO `usersprivilege` VALUES (NULL, '$cin', 'USERS', '1', '0', '0', '0'), (NULL, '$cin', 'CLIENTS', '1', '0', '0', '0'), (NULL, '$cin', 'CONTRAT', '1', '0', '0', '0')");
+				QueryExcute("", "INSERT INTO `usersprivilege` VALUES (NULL, '$cin', 'USERS', '1', '0', '0', '0'), (NULL, '$cin', 'CLIENTS', '1', '0', '0', '0'), (NULL, '$cin', 'CONTRAT', '1', '0', '0', '0'), (NULL, '$cin', 'CAISSE', '1', '0', '0', '0')");
 				NotifAllWrite($cin, '', '<a href="'.$URL.'ili-users/user_profil?id='.$cin.'">Nouveau utilisateur, '.$FamilyName.' '.$FirstName);
 				LogWrite("Création de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$cin."\">".$cin."</a>");
 				RedirectJS('ili-users/users');
@@ -1473,7 +1473,7 @@ function UserPrivilegesGet($idUser, $Rank){
 		$result=QueryExcuteWhile($query);
 		while ($o=mysqli_fetch_object($result)){
 			$query2="SELECT `s`, `c`, `u`, `d` FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
-			if($o->bloc != 'CONTRAT'){
+			if(($o->bloc != 'CONTRAT') && ($o->bloc != 'CAISSE')){
 				echo'
 						<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
 						$result2=QueryExcuteWhile($query2);
@@ -1503,6 +1503,21 @@ function UserPrivilegesGet($idUser, $Rank){
 						}		
 					echo'</li>';
 			}
+			if($o->bloc == 'CAISSE'){
+				echo'
+						<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+						$result2=QueryExcuteWhile($query2);
+						while ($b=mysqli_fetch_object($result2)){
+							echo'
+								<ul class="branch">';
+									if($b->s){echo'<li><a><p class="icon-book"></p></a> Journal</li>';}
+									if($b->c){echo'<li><a><p class="icon-signout"></p></a> Décaissement</li>';}
+									if($b->u){echo'<li><a><p class="icon-money"></p></a> Echéancier</li>';}
+							echo'</ul>';
+						}		
+					echo'</li>';
+			}
+
 		}
 		echo'</ul></li></ul></div></ul>';	
 	}
@@ -1522,7 +1537,7 @@ function UserPrivilegesGetUpdate($idUser){
 	$query="SELECT `bloc` FROM `usersprivilege` WHERE `idUser`='$idUser'";
 	$result=QueryExcuteWhile($query);
 	while ($o=mysqli_fetch_object($result)){
-		if($o->bloc != 'CONTRAT'){
+		if(($o->bloc != 'CONTRAT') && ($o->bloc != 'CAISSE')){
 			echo'
 							<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
 			$query2="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
@@ -1823,6 +1838,125 @@ function UserPrivilegesGetUpdate($idUser){
 						QueryExcute('', $query);
 						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>SUPPRIMER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
 						LogWrite("Ajout de privilége <strong>SUPPRIMER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					echo'		
+								</ul>
+					';
+				}
+		}
+		if($o->bloc == 'CAISSE'){
+			echo'
+							<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+			$query2="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
+			$result2=QueryExcuteWhile($query2);
+			while ($b=mysqli_fetch_object($result2)){
+					echo'
+								<ul class="branch">
+						';			
+					if($b->s){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'s0" value="1">
+											<input type="checkbox" name="s0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-book"></p></a> Journal
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'s1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-book"></p></a> Journal
+										</form>
+									</li>
+						';
+					}
+					if($b->c){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'c0" value="1">
+											<input type="checkbox" name="c0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-signout"></p></a> Décaissement
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'c1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-signout"></p></a> Décaissement
+										</form>
+									</li>
+						';
+					}
+					if($b->u){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'u0" value="1">
+											<input type="checkbox" name="u0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-money"></p></a> Echéancier
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'u1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-money"></p></a> Echéancier
+										</form>
+									</li>
+						';
+					}
+					if(isset($_POST[$b->idPrivilege.'s0'])){
+						$query="UPDATE `usersprivilege` SET s='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>JOURNAL</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'s1'])){
+						$query="UPDATE `usersprivilege` SET s='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>JOURNAL</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c0'])){
+						$query="UPDATE `usersprivilege` SET c='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c1'])){
+						$query="UPDATE `usersprivilege` SET c='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u0'])){
+						$query="UPDATE `usersprivilege` SET u='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u1'])){
+						$query="UPDATE `usersprivilege` SET u='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
 						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
 					}
 					echo'		

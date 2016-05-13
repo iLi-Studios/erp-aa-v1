@@ -1,7 +1,7 @@
 <?php 
 include"../../ili-functions/functions.php";
 Authorization('2');
-AuthorizedPrivileges('CLIENTS', 'S');
+AuthorizedPrivileges('CAISSE', 'S');
 function GetUserListeForSelect($User){
 	if($_SESSION['user_Rank']='3'){
 		echo'

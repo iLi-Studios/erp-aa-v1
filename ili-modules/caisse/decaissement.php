@@ -1,7 +1,7 @@
 <?php 
 include"../../ili-functions/functions.php";
 Authorization('2');
-AuthorizedPrivileges('CLIENTS', 'S');
+AuthorizedPrivileges('CAISSE', 'C');
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>

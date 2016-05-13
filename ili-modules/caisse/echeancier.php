@@ -1,7 +1,7 @@
 <?php 
 include"../../ili-functions/functions.php";
 Authorization('2');
-AuthorizedPrivileges('CLIENTS', 'S');
+AuthorizedPrivileges('CAISSE', 'U');
 $idUser=$_SESSION['user_id'];
 if(isset($_GET['date1'])){$date1=$_GET['date1'];}else{$date1=$Now;}
 if(isset($_GET['date2'])){$date2=$_GET['date2'];}else{$date2=$Now;}
