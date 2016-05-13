@@ -66,10 +66,7 @@ Authorization('2');
 				<div class="widget">
 					<div class="widget-title">
 						<h4><i class="icon-reorder"></i> '.$Category.'</h4>
-						<span class="tools">
-                           <a href="javascript:;" class="icon-chevron-down"></a>
-                           <a class="icon-remove" href="javascript:;"></a>
-                        </span>
+						<span class="tools"><a href="javascript:;" class="icon-chevron-down"></a></span>
 					</div>
 					<div class="widget-body" style="display: block;">
 						<div class="accordion in collapse" id="accordion1" style="height: auto;">';

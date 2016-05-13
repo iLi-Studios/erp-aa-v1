@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 12 Mai 2016 à 14:47
+-- Généré le :  Ven 13 Mai 2016 à 15:09
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -118,17 +118,34 @@ CREATE TABLE IF NOT EXISTS `help` (
   `Question` varchar(1000) NOT NULL,
   `Answer` varchar(10000) NOT NULL,
   PRIMARY KEY (`idHelp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `help`
 --
 
 INSERT INTO `help` (`idHelp`, `Category`, `Question`, `Answer`) VALUES
-(1, 'Profile', 'Modification des diplôme?', '<ul>\r\n<li>Connexion > Mon Profile > Modifier Profile > Modifier Mes Diplômes</li>\r\n<li>Effectuer la modification</li>\r\n<li>Enregistrer</li>\r\n</ul>'),
-(2, 'Utilisateurs', 'Ajouter un utilisateur', 'Connexion > Ajouter <br>\r\nRemplir le formulaire <br>\r\nCrée  '),
+(1, 'Profile', 'Modification des diplôme?', '<ul>\n<li>Connexion > Mon Profile > Modifier Profile > Modifier Mes Diplômes</li>\n<li>Effectuer la modification</li>\n<li>Enregistrer</li>\n</ul>'),
+(2, 'Utilisateurs', 'Ajouter un utilisateur', '<ul>\n<li>Connexion > Utilisateurs > Ajouter </li>\n<li>Remplir le formulaire </li>\n<li>Crée</li>\n</ul>  '),
 (3, 'Profile', 'Modification des d’expérance?', 'Connexion > Mon Profile > Modifier Profile > Modifier Mes Expérance<br> Effectuer la modification <br>\r\nEnregistrer'),
-(4, 'Profile', 'Modification des informations personelle?', 'Connexion > Mon Profile > Modifier Profile > Modifier Mes Informations Personelles<br> Effectuer la modification <br>\r\nEnregistrer');
+(4, 'Profile', 'Modification des informations personelle?', 'Connexion > Mon Profile > Modifier Profile > Modifier Mes Informations Personelles<br> Effectuer la modification <br>\r\nEnregistrer'),
+(5, 'Profile', 'Modification de la photo de profile?', '<ul>\r\n<li>Connexion > Mon Profile > Modifier Profile > Modifier photo de profile</li>\r\n<li>Effectuer la modification</li>\r\n<li>Enregistrer</li>\r\n</ul>'),
+(6, 'Utilisateurs', 'Supprimer un utilisateur?', '<ul>\n<li>Connexion > Utilisateurs > supprimer ></li>\n<li>Effectuer la supprission</li>\n<li>supprimer</li>\n</ul>'),
+(7, 'Utilisateurs', 'modifier un utilisateur?', '<ul>\n<li>Connexion > Utilisateurs > modifier les champs ></li>\n<li>Effectuer la modification</li>\n<li>Enregistrer</li>\n</ul>'),
+(10, 'Jornal System', 'Affiche le jornal du system?', '<ul>\n<li>Connexion > Jornal du system > Recherche par id ou opérateur ou operation ou date ></li>\n</ul>'),
+(11, 'Message', 'Envoyer message?', '<ul>\r\n<li>Connexion > Message > Nouveau message</li>\r\n<li>Remplir sujet</li>\r\n<li>choisir le destinateur</li>\r\n<li>Remplir le contenu de message</li>\r\n<li>Envoyer</li>\r\n</ul>'),
+(12, 'Message', 'Boite de reception?', '<ul>\r\n<li>Connexion > Message > Boite de reception </li>\r\n<li>ouvrir boite de message et repondu</li>\r\n</ul>'),
+(13, 'Dashboard', 'Dashboard?', '<ul>\r\n<li>Connexion > Dashboard > </li>\r\n<li>les statistiques du système</li>\r\n<li>historique des notifications </li>\r\n<li>historique des messages</li>\r\n</ul>'),
+(14, 'Client', 'Ajout client?', '<ul>\n<li>Connexion > Clients > Ajouter </li>\n<li>Remplir le formulaire </li>\n<li>Crée</li>\n</ul>'),
+(15, 'Client', 'Supprimer un client?', '<ul>\n<li>Connexion > Clients > click sur le Client que vous souhaitez supprimer > supprimer ></li>\n<li>Effectuer la supprission</li>\n<li>supprimer</li>\n</ul>'),
+(16, 'Client', 'Modifier un client?', '<ul>\n<li>Connexion > Clients > click sur le Client que vous souhaitez modifier > modifier les champs ></li>\n<li>Effectuer la modification</li>\n<li>Enregistrer</li>\n</ul>'),
+(17, 'Contrat', 'Liste des contrats?', '<ul>\n<li>Connexion > Liste des contrats </li>\n<li>Recherche par Conrtat, Client, Nature, Type, Date Debut, Date Fin ou Etat</li>\n</ul>'),
+(18, 'Caisse', 'Journal du caisse?', '<ul>\r\n<li>Connexion > Caisse > Journal du caisse  </li>\r\n<li>choisir la date début et la date fin </li>\r\n<li>filtrer la recette de caisse par utilisateur ou par tous les opérateurs</li>\r\n<li>chercher</li>\r\n</ul>'),
+(19, 'Caisse', 'Echéancier ?', '<ul>\r\n<li>Connexion > Caisse > Echéancier  </li>\r\n<li>choisir la date début et la date fin </li>\r\n<li>filtrer la recette de Echéancier chèque par credits ou debuts</li>\r\n<li>chercher</li>\r\n</ul>'),
+(20, 'Caisse', 'Décaissement  ?', '<ul>\r\n<li>Connexion > Caisse > Décaissement   </li>\r\n<li>choisir la paiement de décaissement chéque ou espéces </li>\r\n<li>écrit le montant et la désignation de décaissement</li>\r\n<li>Enregistrer</li>\r\n</ul>'),
+(21, 'Contrat', 'Ajout?', '<ul>\r\n<li>Connexion > Contrat > choix d''ajout > Poursuivre</li>\r\n<li>Remplir le formulaire </li>\r\n<li>Crée</li>\r\n</ul>\r\n</ul>'),
+(22, 'Contrat', 'Renouveler?', '<ul>\r\n<li>Connexion > Contrat > Renouveler </li>\r\n<li>click sur le Client que vous souhaitez de renouveler </li>\r\n<li>Enregistrer</li>\r\n</ul>\r\n</ul>'),
+(23, 'Caisse', 'Détails paiement  ?', '<ul>\r\n<li>Connexion > Caisse >    </li>\r\n<li>  </li>\r\n<li></li>\r\n<li></li>\r\n</ul>');
 
 -- --------------------------------------------------------
 
@@ -172,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `logsystem` (
   `Description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=213 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=225 ;
 
 --
 -- Contenu de la table `logsystem`
@@ -364,7 +381,6 @@ INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES
 (198, '00000001', '09-05-2016 11:18:25', 'Connexion'),
 (199, '00000001', '09-05-2016 11:20:36', 'Déconnexion'),
 (200, '00000001', '09-05-2016 11:20:37', 'Connexion'),
-(201, '09186670', '09-05-2016 11:24:35', 'Connexion'),
 (202, '00000001', '09-05-2016 11:32:22', 'Création de client : <a href="ili-modules/client/client?id=0014 L/M/A 000 RC ">0014 L/M/A 000 RC </a>'),
 (203, '00000001', '09-05-2016 11:33:08', 'Ajout contract ID : 0902'),
 (204, '00000001', '09-05-2016 11:49:44', 'Décaissement : Divers & Imprévus'),
@@ -375,7 +391,18 @@ INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES
 (209, '00000001', '10-05-2016 13:01:38', 'Décaissement : test3'),
 (210, '00000001', '12-05-2016 10:26:52', 'Connexion'),
 (211, '00000001', '12-05-2016 14:36:27', 'Ajout du diplôme : tayaran, pour l''utilisateur : <a href="ili-users/user_profil?id=00000001">00000001</a>'),
-(212, '00000001', '12-05-2016 14:44:02', 'Création de l''utilisateur : <a href="ili-users/user_profil?id=07204349">07204349</a>');
+(212, '00000001', '12-05-2016 14:44:02', 'Création de l''utilisateur : <a href="ili-users/user_profil?id=07204349">07204349</a>'),
+(213, '00000001', '13-05-2016 10:34:46', 'Connexion'),
+(215, '00000001', '13-05-2016 10:40:15', 'Suppression du diplôme : tayaran, de l''utilisateur : <a href="ili-users/user_profil?id=00000001">00000001</a>'),
+(216, '00000001', '13-05-2016 12:23:10', 'Suppression de l`utilisateur avec CIN=07204349'),
+(217, '00000001', '13-05-2016 12:23:14', 'Suppression de l`utilisateur avec CIN=09186670'),
+(218, '00000001', '13-05-2016 13:07:49', 'Création de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(219, '00000001', '13-05-2016 13:24:04', 'Ajout de privilége <strong>CREER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(220, '00000001', '13-05-2016 13:26:10', 'Suppression de privilége <strong>CREER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(221, '00000001', '13-05-2016 13:26:28', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(222, '00000001', '13-05-2016 14:48:23', 'Connexion'),
+(223, '00000001', '13-05-2016 14:49:08', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(224, '00000001', '13-05-2016 14:49:20', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>');
 
 -- --------------------------------------------------------
 
@@ -397,14 +424,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `ClosedBy` (`ClosedBy`),
   KEY `FromUser` (`FromUser`),
   KEY `ToUser` (`ToUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Contenu de la table `message`
---
-
-INSERT INTO `message` (`idMessage`, `FromUser`, `ToUser`, `Subject`, `Containt`, `TimeStamp`, `Seen`, `ClosedBy`) VALUES
-(1, '00000001', '09186670', 'test', '<p>1</p>\r\n', '09-05-2016 11:24:05', 1, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -420,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `notificationsystem` (
   `seen` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idNotification`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=224 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=236 ;
 
 --
 -- Contenu de la table `notificationsystem`
@@ -454,99 +474,61 @@ INSERT INTO `notificationsystem` (`idNotification`, `idUser`, `Description`, `Ti
 (128, '00000001', '<a href="ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, modification de photo de profile', '16-04-2016 14:08:39', '1'),
 (129, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, modification des liens socieaux', '16-04-2016 14:09:19', '1'),
 (130, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, ajout du diplôme : Bac', '16-04-2016 14:10:01', '1'),
-(131, '09186670', '<a href="ili-users/user_profil?id=00000001">Sakly Ayoub, modification de photo de profile', '16-04-2016 14:10:50', '0'),
-(132, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout de compétence : JS', '16-04-2016 14:11:25', '0'),
-(133, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout de compétence : HTML5', '16-04-2016 14:11:41', '0'),
-(134, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout de compétence : CSS3', '16-04-2016 14:11:49', '0'),
-(135, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout de compétence : PHP4/5', '16-04-2016 14:12:03', '0'),
 (136, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, ajout de compétence : JS', '16-04-2016 14:12:28', '1'),
 (137, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, ajout de compétence : HTML4/5', '16-04-2016 14:12:37', '1'),
 (138, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, ajout de compétence : PHP4/5', '16-04-2016 14:12:49', '1'),
 (139, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, ajout de compétence : JAVA', '16-04-2016 14:12:58', '1'),
-(140, '09186670', '<a href="ili-modules/client/client?id=2">Sakly Ayoub a creé un nouveau client , 2 2', '16-04-2016 14:40:26', '0'),
 (141, '00000001', '<a href="ili-modules/client/client?id=2">Sakly Ayoub a creé un nouveau client , 2 2', '16-04-2016 14:40:26', '1'),
-(142, '09186670', '<a href="ili-modules/client/client?id=3">Sakly Ayoub a creé un nouveau client , 3 3', '16-04-2016 14:41:03', '0'),
 (143, '00000001', '<a href="ili-modules/client/client?id=3">Sakly Ayoub a creé un nouveau client , 3 3', '16-04-2016 14:41:03', '1'),
-(144, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=4">Sakly Ayoub a creé un nouveau client , 4 4', '16-04-2016 14:41:29', '0'),
 (145, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=4">Sakly Ayoub a creé un nouveau client , 4 4', '16-04-2016 14:41:29', '1'),
-(146, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=5">Sakly Ayoub a creé un nouveau client , 5 5', '16-04-2016 14:42:12', '0'),
 (147, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=5">Sakly Ayoub a creé un nouveau client , 5 5', '16-04-2016 14:42:12', '1'),
-(148, '09186670', '<a href="#">Sakly Ayoub a supprimé le client, 1 1', '16-04-2016 14:49:55', '0'),
 (149, '00000001', '<a href="#">Sakly Ayoub a supprimé le client, 1 1', '16-04-2016 14:49:55', '1'),
-(150, '09186670', '<a href="#">Sakly Ayoub a supprimé le client, 2 2', '16-04-2016 14:50:02', '0'),
 (151, '00000001', '<a href="#">Sakly Ayoub a supprimé le client, 2 2', '16-04-2016 14:50:02', '1'),
-(152, '09186670', '<a href="#">Sakly Ayoub a supprimé le client, 3 3', '16-04-2016 14:50:08', '0'),
 (153, '00000001', '<a href="#">Sakly Ayoub a supprimé le client, 3 3', '16-04-2016 14:50:08', '1'),
-(154, '09186670', '<a href="#">Sakly Ayoub a supprimé le client, 4 4', '16-04-2016 14:50:13', '0'),
 (155, '00000001', '<a href="#">Sakly Ayoub a supprimé le client, 4 4', '16-04-2016 14:50:13', '1'),
-(156, '09186670', '<a href="#">Sakly Ayoub a supprimé le client, 5 5', '16-04-2016 14:50:19', '0'),
 (157, '00000001', '<a href="#">Sakly Ayoub a supprimé le client, 5 5', '16-04-2016 14:50:19', '1'),
-(158, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSA ', '16-04-2016 21:52:17', '0'),
 (159, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSA ', '16-04-2016 21:52:17', '1'),
-(160, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ', '16-04-2016 21:53:07', '0'),
 (161, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ', '16-04-2016 21:53:07', '1'),
-(162, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ALI', '16-04-2016 21:53:30', '0'),
 (163, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ALI', '16-04-2016 21:53:30', '1'),
-(164, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ALI', '16-04-2016 21:53:42', '0'),
 (165, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000001">Sakly Ayoub a modifié le client, BEN ISSAA ALI', '16-04-2016 21:53:42', '1'),
 (166, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, a été banni', '16-04-2016 23:04:32', '1'),
-(167, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, a été débanni', '16-04-2016 23:18:02', '0'),
 (168, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=09186670">Hafaeid Abd El Karim, a été débanni', '16-04-2016 23:18:02', '1'),
-(169, '09186670', 'Ajout contract ID : 0100', '18-04-2016 12:27:28', '0'),
 (170, '00000001', 'Ajout contract ID : 0100', '18-04-2016 12:27:28', '1'),
-(171, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a creé un nouveau client , Rassi Aziz', '19-04-2016 01:05:47', '0'),
 (172, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a creé un nouveau client , Rassi Aziz', '19-04-2016 01:05:47', '1'),
-(173, '09186670', 'Ajout contract ID : 0200', '19-04-2016 01:06:21', '0'),
 (174, '00000001', 'Ajout contract ID : 0200', '19-04-2016 01:06:21', '1'),
-(175, '09186670', 'Ajout contract ID : 0300', '19-04-2016 01:27:16', '0'),
 (176, '00000001', 'Ajout contract ID : 0300', '19-04-2016 01:27:16', '1'),
-(177, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a creé un nouveau client , Boughanmi Khouloud', '19-04-2016 11:43:22', '0'),
 (178, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a creé un nouveau client , Boughanmi Khouloud', '19-04-2016 11:43:22', '1'),
-(179, '09186670', 'Sakly Ayoub a renouveler le contrat #0200', '19-04-2016 14:12:10', '0'),
 (180, '00000001', 'Sakly Ayoub a renouveler le contrat #0200', '19-04-2016 14:12:10', '1'),
-(181, '09186670', 'Ajout contract ID : 0500', '20-04-2016 14:21:02', '0'),
 (182, '00000001', 'Ajout contract ID : 0500', '20-04-2016 14:21:02', '1'),
-(183, '09186670', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '20-04-2016 14:59:20', '0'),
 (184, '00000001', '<a href="http://localhost/ili-crm-assure/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '20-04-2016 14:59:20', '1'),
-(185, '09186670', 'Sakly Ayoub a renouveler le contrat #0500', '20-04-2016 15:07:18', '0'),
 (186, '00000001', 'Sakly Ayoub a renouveler le contrat #0500', '20-04-2016 15:07:18', '1'),
-(187, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a modifié le client, RAISSI AZIZ', '21-04-2016 13:39:35', '0'),
 (188, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000003">Sakly Ayoub a modifié le client, RAISSI AZIZ', '21-04-2016 13:39:35', '1'),
-(189, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a modifié le client, BOUGHANMI KHOULOUD', '21-04-2016 13:40:01', '0'),
 (190, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=00000005">Sakly Ayoub a modifié le client, BOUGHANMI KHOULOUD', '21-04-2016 13:40:01', '1'),
-(191, '09186670', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=1245 M/A/C 000 /J">Sakly Ayoub a creé un nouveau client , TNL DISTRIBUTION SARL', '21-04-2016 13:41:19', '0'),
 (192, '00000001', '<a href="http://localhost/ili-crm-assure/ili-modules/client/client?id=1245 M/A/C 000 /J">Sakly Ayoub a creé un nouveau client , TNL DISTRIBUTION SARL', '21-04-2016 13:41:19', '1'),
-(193, '09186670', 'Ajout contract ID : 0900', '21-04-2016 13:42:05', '0'),
 (194, '00000001', 'Ajout contract ID : 0900', '21-04-2016 13:42:05', '1'),
-(195, '09186670', ' a effectuer un décaissement : #FACTURE:00618610_SONED', '21-04-2016 13:54:08', '0'),
 (196, '00000001', ' a effectuer un décaissement : #FACTURE:00618610_SONED', '21-04-2016 13:54:08', '1'),
-(197, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '23-04-2016 15:44:07', '0'),
 (198, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de Hafaeid Abd El Karim', '23-04-2016 15:44:07', '1'),
-(199, '09186670', 'Ajout contract ID : 0901', '25-04-2016 12:35:37', '0'),
 (200, '00000001', 'Ajout contract ID : 0901', '25-04-2016 12:35:37', '1'),
-(201, '09186670', ' a effectuer un décaissement : Gazoile', '25-04-2016 12:37:22', '0'),
 (202, '00000001', ' a effectuer un décaissement : Gazoile', '25-04-2016 12:37:22', '1'),
-(203, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>USERS</strong> de Hafaeid Abd El Karim', '25-04-2016 12:38:12', '0'),
 (204, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>USERS</strong> de Hafaeid Abd El Karim', '25-04-2016 12:38:12', '1'),
-(205, '09186670', 'Ajout contract ID : 011', '01-05-2016 01:31:10', '0'),
 (206, '00000001', 'Ajout contract ID : 011', '01-05-2016 01:31:10', '1'),
-(207, '09186670', ' a effectuer un décaissement : FACTURE ADSL', '01-05-2016 01:32:17', '0'),
 (208, '00000001', ' a effectuer un décaissement : FACTURE ADSL', '01-05-2016 01:32:17', '1'),
-(209, '09186670', ' a effectuer un décaissement : STEG', '01-05-2016 01:33:18', '0'),
 (210, '00000001', ' a effectuer un décaissement : STEG', '01-05-2016 01:33:18', '1'),
-(211, '09186670', '<a href="http://localhost/erp-aa-v1/ili-modules/client/client?id=0014 L/M/A 000 RC ">Sakly Ayoub a creé un nouveau client , STE : BFCO SARL', '09-05-2016 11:32:22', '0'),
 (212, '00000001', '<a href="http://localhost/erp-aa-v1/ili-modules/client/client?id=0014 L/M/A 000 RC ">Sakly Ayoub a creé un nouveau client , STE : BFCO SARL', '09-05-2016 11:32:22', '1'),
-(213, '09186670', 'Ajout contract ID : 0902', '09-05-2016 11:33:08', '0'),
 (214, '00000001', 'Ajout contract ID : 0902', '09-05-2016 11:33:08', '1'),
-(215, '09186670', ' a effectuer un décaissement : Divers & Imprévus', '09-05-2016 11:49:44', '0'),
 (216, '00000001', ' a effectuer un décaissement : Divers & Imprévus', '09-05-2016 11:49:44', '1'),
-(217, '09186670', ' a effectuer un décaissement : test3', '10-05-2016 13:01:20', '0'),
 (218, '00000001', ' a effectuer un décaissement : test3', '10-05-2016 13:01:20', '1'),
-(219, '09186670', '00000001 a effectuer un décaissement : test3', '10-05-2016 13:01:38', '0'),
 (220, '00000001', '00000001 a effectuer un décaissement : test3', '10-05-2016 13:01:38', '1'),
-(221, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=00000001">Sakly Ayoub, ajout du diplôme : tayaran', '12-05-2016 14:36:27', '0'),
-(222, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=07204349">Nouveau utilisateur, Boughanmi Khouloud', '12-05-2016 14:44:02', '0'),
-(223, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=07204349">Nouveau utilisateur, Boughanmi Khouloud', '12-05-2016 14:44:02', '0');
+(223, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=07204349">Nouveau utilisateur, Boughanmi Khouloud', '12-05-2016 14:44:02', '1'),
+(227, '00000001', 'L`utilisateur avec CIN :07204349 a été supprimer', '13-05-2016 12:23:10', '1'),
+(228, '00000001', 'L`utilisateur avec CIN :09186670 a été supprimer', '13-05-2016 12:23:14', '1'),
+(229, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=09186670">Nouveau utilisateur, hafeidh abdel kerim', '13-05-2016 13:07:49', '1'),
+(230, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:24:04', '1'),
+(231, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:24:04', '1'),
+(232, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:10', '1'),
+(233, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:10', '1'),
+(234, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:28', '1'),
+(235, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:28', '1');
 
 -- --------------------------------------------------------
 
@@ -566,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `RecevedBy` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idPayment`),
   KEY `RecevedBy` (`RecevedBy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Contenu de la table `payment`
@@ -625,8 +607,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`idUser`, `idRank`, `FamilyName`, `FirstName`, `Email`, `FunctionPost`, `Phone`, `Adress`, `BirthDay`, `Password`, `LastPasswordChangedDate`, `fbAccount`, `githubAccount`, `linkedinAccount`, `ProfilePhoto`, `CreatedBy`, `CreatedDate`) VALUES
 ('00000001', 3, 'Sakly', 'Ayoub', 'saklyayoub@live.com', 'Gérant', '20.666.996', '16 Rue Ben Zid Agba 2010 Manouba', '22-09-1988', '3cb61b94f984497b9230075a6f777346', '15-04-2016 15:26:22', 'http://www.facebook.com/saklyayoub', 'https://github.com/saklyayoub', 'https://www.linkedin.com/in/sakly-ayoub-ba269391', 'http://www.ili-studios.tn/img/saklyayoub.png', 'SAKLY AYOUB', '2016-03-12 11:48:10'),
-('07204349', 2, 'Boughanmi', 'Khouloud', 'kouloud.boughanmi@yahoo.fr', 'Stagiaire ', '20.180.681', 'Ben arous', '05-08-1993', '8eaaded21bf16e0e151c0e96f1302405', '12-05-2016 14:44:02', '', '', '', '', 'Sakly Ayoub', '12-05-2016 14:44:02'),
-('09186670', 2, 'Hafaeid', 'Abd El Karim', 'hafaeidh@ili-studios.com', 'CO-Founder', '52.239.322', '60 Rue de tazarka, Denden, Manouba 2010', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '16-04-2016 14:08:09', 'https://www.facebook.com/profile.php?id=100004842556636&fref=ts', 'https://github.com/AbdouHF', '', 'http://www.ili-studios.tn/img/abdou.png', 'Sakly Ayoub', '16-04-2016 14:08:09');
+('09186670', 2, 'hafeidh', 'abdel kerim', 'hafeidh@ili-studios.com', 'administrateur', '52.239.322', 'tunis', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '13-05-2016 14:49:20', '', '', '', '', 'Sakly Ayoub', '13-05-2016 13:07:49');
 
 -- --------------------------------------------------------
 
@@ -643,15 +624,7 @@ CREATE TABLE IF NOT EXISTS `usersdiploma` (
   `Institute` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idDiploma`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Contenu de la table `usersdiploma`
---
-
-INSERT INTO `usersdiploma` (`idDiploma`, `idUser`, `Year`, `Location`, `Description`, `Institute`) VALUES
-(1, '09186670', '2013', 'Manouba', 'Bac', 'Ibn Abi Dhiaf'),
-(2, '00000001', '2010', 'gamra', 'tayaran', 'naza');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -687,19 +660,17 @@ CREATE TABLE IF NOT EXISTS `usersprivilege` (
   PRIMARY KEY (`idPrivilege`),
   KEY `idUser` (`idUser`),
   KEY `idUser_2` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Contenu de la table `usersprivilege`
 --
 
 INSERT INTO `usersprivilege` (`idPrivilege`, `idUser`, `bloc`, `s`, `c`, `u`, `d`) VALUES
-(6, '09186670', 'USERS', '1', '1', '0', '0'),
-(7, '09186670', 'CLIENTS', '1', '0', '0', '0'),
-(8, '09186670', 'CONTRAT', '1', '1', '1', '0'),
-(9, '07204349', 'USERS', '1', '0', '0', '0'),
-(10, '07204349', 'CLIENTS', '1', '0', '0', '0'),
-(11, '07204349', 'CONTRAT', '1', '0', '0', '0');
+(12, '09186670', 'USERS', '1', '0', '0', '0'),
+(13, '09186670', 'CLIENTS', '1', '0', '0', '0'),
+(14, '09186670', 'CONTRAT', '1', '0', '0', '0'),
+(15, '09186670', 'CAISSE', '1', '0', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -714,7 +685,7 @@ CREATE TABLE IF NOT EXISTS `usersqualification` (
   `Value` float NOT NULL,
   PRIMARY KEY (`idQualification`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `usersqualification`
@@ -724,11 +695,7 @@ INSERT INTO `usersqualification` (`idQualification`, `idUser`, `Label`, `Value`)
 (1, '00000001', 'JS', 50),
 (2, '00000001', 'HTML5', 83),
 (3, '00000001', 'CSS3', 92),
-(4, '00000001', 'PHP4/5', 87),
-(5, '09186670', 'JS', 62),
-(6, '09186670', 'HTML4/5', 75),
-(7, '09186670', 'PHP4/5', 59),
-(8, '09186670', 'JAVA', 68);
+(4, '00000001', 'PHP4/5', 87);
 
 -- --------------------------------------------------------
 
