@@ -4,15 +4,74 @@ function user_side_bar(){
 	// ADMIN
 	if($_SESSION['user_idRank']>=3){
 		echo'
-		<li><a class="" href="'.$URL.'ili-modules/client/liste"><span class="icon-box"><i class="icon-user"></i></span> Clients</a></li>
-		<!--<li><a class="" href="'.$URL.'ili-modules/contrat/liste"><span class="icon-box"><i class="icon-file"></i></span> Contrat</a></li>-->
+		<li><a class="" href="'.$URL.'ili-modules/client/liste"><span class="icon-box"><i class="icon-user"></i></span>Client</a></li>
+		<li class="has-sub">
+			<a href="javascript:;" class="">
+				<span class="icon-box"> <i class="icon-file"></i></span> Contrat
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub">
+				<li><a class="" href="'.$URL.'ili-modules/contrat/liste">Liste</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/contrat/add/index">Ajouter</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/contrat/renew/search">Renouveler</a></li>
+			</ul>
+		</li>
+		<li class="has-sub">
+			<a href="javascript:;" class="">
+				<span class="icon-box"> <i class="icon-money"></i></span> Caisse
+				<span class="arrow"></span>
+			</a>
+			<ul class="sub">
+				<li><a class="" href="'.$URL.'ili-modules/caisse/journal">Journal</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/caisse/echeancier">Echéancier</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/caisse/decaissement">Décaissement</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/caisse/recherche_paiement">Recherche Paiement</a></li>
+				<li><a class="" href="'.$URL.'ili-modules/caisse/recherche_cheque">Recherche Chéque</a></li>
+			</ul>
+		</li>
 		';
 	}	
 	if($_SESSION['user_idRank']==2){
-		$up_clt=UserPrivileges("CLIENTS", $_SESSION['user_id']);$s_clt=$up_clt->s;
-		if($s_clt){echo'<li><a class="" href="'.$URL.'ili-modules/client/liste"><span class="icon-box"><i class="icon-user"></i></span> Clients</a></li>';}
-		//$up_cnt=UserPrivileges("CONTRAT", $_SESSION['user_id']);$s_cnt=$up_cnt->s;
-		//if($s_cnt){echo'<li><a class="" href="'.$URL.'ili-modules/contrat/liste"><span class="icon-box"><i class="icon-file"></i></span> Contrat</a></li>';}
+		//CLIENT
+		$up_clinet=UserPrivileges("CLIENTS", $_SESSION['user_id']);
+		if($up_clinet->s){echo'<li><a class="" href="'.$URL.'ili-modules/client/liste"><span class="icon-box"><i class="icon-user"></i></span>Client</a></li>';}
+		//CONTRAT
+		$up_contrat=UserPrivileges("CONTRAT", $_SESSION['user_id']);
+		if($up_contrat->s){
+			echo'
+			<li class="has-sub">
+				<a href="javascript:;" class="">
+					<span class="icon-box"> <i class="icon-file"></i></span> Contrat
+					<span class="arrow"></span>
+				</a>
+				<ul class="sub">
+					<li><a class="" href="'.$URL.'ili-modules/contrat/liste">Liste</a></li>';?>
+					<?php if($up_contrat->c){echo'<li><a class="" href="'.$URL.'ili-modules/contrat/add/index">Ajouter</a></li>';}?>
+					<?php if($up_contrat->u){echo'<li><a class="" href="'.$URL.'ili-modules/contrat/renew/search">Renouveler</a></li>';}?>
+					<?php echo'
+				</ul>
+			</li>
+		';}
+		//CAISSE
+		$up_caisse=UserPrivileges("CAISSE", $_SESSION['user_id']);
+		if($up_caisse->s){
+			echo'
+			<li class="has-sub">
+				<a href="javascript:;" class="">
+					<span class="icon-box"> <i class="icon-money"></i></span> Caisse
+					<span class="arrow"></span>
+				</a>
+				<ul class="sub">
+					<li><a class="" href="'.$URL.'ili-modules/caisse/journal">Journal</a></li>';?>
+					<?php if($up_caisse->u){echo'<li><a class="" href="'.$URL.'ili-modules/caisse/echeancier">Echéancier</a></li>';}?>
+					<?php if($up_caisse->c){echo'<li><a class="" href="'.$URL.'ili-modules/caisse/decaissement">Décaissement</a></li>';}?>
+					<?php echo'
+					<li><a class="" href="'.$URL.'ili-modules/caisse/recherche_paiement">Recherche Paiement</a></li>
+					<li><a class="" href="'.$URL.'ili-modules/caisse/recherche_cheque">Recherche Chéque</a></li>
+				</ul>
+			</li>
+			';
+		}
 	}
 }
 ?>
@@ -33,31 +92,6 @@ function user_side_bar(){
 	<ul class="sidebar-menu">
 		<li class="has-sub active"> <a href="<?php echo $URL;?>" class=""> <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard </a> </li>
 		<?php user_side_bar();?>
-		<li class="has-sub">
-			<a href="javascript:;" class="">
-				<span class="icon-box"> <i class="icon-file"></i></span> Contrat
-				<span class="arrow"></span>
-			</a>
-			<ul class="sub">
-				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/liste">Liste</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/add/index">Ajouter</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/contrat/renew/search">Renouveler</a></li>
-			</ul>
-		</li>
-		<li class="has-sub">
-			<a href="javascript:;" class="">
-				<span class="icon-box"> <i class="icon-money"></i></span> Caisse
-				<span class="arrow"></span>
-			</a>
-			<ul class="sub">
-				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/journal">Journal</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/echeancier">Echéancier</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/decaissement">Décaissement</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/recherche_paiement">Recherche Paiement</a></li>
-				<li><a class="" href="<?php echo $URL;?>ili-modules/caisse/recherche_cheque">Recherche Chéque</a></li>
-			</ul>
-		</li>
-        
         <li><a class="" href="<?php echo $URL;?>aide"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
 		<li><a class="" href="<?php echo $URL;?>ili-functions/logout"><span class="icon-box"><i class="icon-signout"></i></span> Déconexion</a></li>
 	</ul>
