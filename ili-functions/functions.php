@@ -158,14 +158,18 @@ function GetUserPanel($page, $var1, $var2){
 	if($page=='CLIENT_CONTRACT'){
 		// ADMIN
 		if($_SESSION['user_idRank']>=3){
-			//C
-			echo'<a href="'.$URL.'ili-modules/contrat/add/add_existant?clt='.$var1.'" class="icon-file tooltips" data-toggle="modal" data-original-title="Nouveau Conrtat"></a>';
+			//Cree => IF C
+			echo'<a href="'.$URL.'ili-modules/contrat/add/index" class="icon-file tooltips" data-toggle="modal" data-original-title="Nouveau Conrtat"></a>';
+			//Renouveler => IF U
+			if($var2=='Renouvelable'){echo'<a href="'.$URL.'ili-modules/contrat/renew/renew?id='.$var1.'" class="icon-repeat tooltips" data-toggle="modal" data-original-title="Renouveler Ce Contrat"></a>';}
 		}
 		// USER
 		if($_SESSION['user_idRank']==2){
-			$up_cnt=UserPrivileges("CONTRAT", $_SESSION['user_id']);$c=$up->c;
+			$up_cnt=UserPrivileges("CONTRAT", $_SESSION['user_id']);$c=$up_cnt->c;$u=$up_cnt->u;
 			//C
-			echo'<a href="'.$URL.'ili-modules/contrat/add/add_existant?clt='.$var1.'" class="icon-file tooltips" data-toggle="modal" data-original-title="Nouveau Conrtat"></a>';
+			if($c){echo'<a href="'.$URL.'ili-modules/contrat/add/add_existant?clt='.$var1.'" class="icon-file tooltips" data-toggle="modal" data-original-title="Nouveau Conrtat"></a>';}
+			//Renouveler => IF U
+			if($u){if($var2=='Renouvelable'){echo'<a href="'.$URL.'ili-modules/contrat/renew/renew?id='.$var1.'" class="icon-repeat tooltips" data-toggle="modal" data-original-title="Renouveler Ce Contrat"></a>';}}
 		}
 	}
 }

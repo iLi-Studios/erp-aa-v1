@@ -125,7 +125,7 @@ $createur=UserGetInfo($_SESSION['user_id']);
                         <div class="widget-title">
                             <h4><i class="icon-reorder"></i> Détails du contrat</h4>
                             <span class="tools">
-								<?php GetUserPanel('CLIENT_CONTRACT', '', '');?>
+								<?php GetUserPanel('CLIENT_CONTRACT', $cnt->idContract, $cnt->KindContract);?>
 								<a href="javascript:;" class="icon-chevron-down"></a>
 							</span>
                         </div>
