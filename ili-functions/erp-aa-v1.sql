@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 13 Mai 2016 à 15:09
+-- Généré le :  Jeu 19 Mai 2016 à 00:52
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -95,16 +95,23 @@ INSERT INTO `contractcycle` (`idCycle`, `idPayment`, `idContract`, `StartDate`, 
 CREATE TABLE IF NOT EXISTS `discussion` (
   `idDiscussion` int(255) NOT NULL AUTO_INCREMENT,
   `idMessage` int(255) NOT NULL,
-  `FormUser` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `FromUser` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `ToUser` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Containt` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `TimeStamp` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Seen` tinyint(1) NOT NULL,
   PRIMARY KEY (`idDiscussion`),
   KEY `idMessage` (`idMessage`),
-  KEY `FormUser` (`FormUser`),
+  KEY `FormUser` (`FromUser`),
   KEY `ToUser` (`ToUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `discussion`
+--
+
+INSERT INTO `discussion` (`idDiscussion`, `idMessage`, `FromUser`, `ToUser`, `Containt`, `TimeStamp`, `Seen`) VALUES
+(4, 4, '09186670', '00000001', '<p>ab-ay</p>\r\n', '19-05-2016 00:40:43', 1);
 
 -- --------------------------------------------------------
 
@@ -189,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `logsystem` (
   `Description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=225 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=252 ;
 
 --
 -- Contenu de la table `logsystem`
@@ -402,7 +409,34 @@ INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES
 (221, '00000001', '13-05-2016 13:26:28', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
 (222, '00000001', '13-05-2016 14:48:23', 'Connexion'),
 (223, '00000001', '13-05-2016 14:49:08', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
-(224, '00000001', '13-05-2016 14:49:20', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>');
+(224, '00000001', '13-05-2016 14:49:20', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(225, '00000001', '18-05-2016 10:20:31', 'Connexion'),
+(226, '09186670', '18-05-2016 10:21:32', 'Connexion'),
+(227, '09186670', '18-05-2016 10:54:17', 'Connexion'),
+(228, '00000001', '18-05-2016 10:54:56', 'Changement de l''image de profil de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(229, '09186670', '18-05-2016 11:00:39', 'Déconnexion'),
+(230, '09186670', '18-05-2016 11:00:43', 'Connexion'),
+(231, '09186670', '18-05-2016 11:02:18', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(232, '09186670', '18-05-2016 11:02:29', 'Déconnexion'),
+(233, '09186670', '18-05-2016 11:02:32', 'Connexion'),
+(234, '00000001', '18-05-2016 11:27:54', 'Ajout de privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(235, '00000001', '18-05-2016 11:40:21', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(236, '00000001', '18-05-2016 12:12:40', 'Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(237, '00000001', '18-05-2016 12:12:54', 'Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(238, '00000001', '18-05-2016 12:18:09', 'Suppression de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(239, '00000001', '18-05-2016 12:18:14', 'Suppression de privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(240, '00000001', '18-05-2016 12:18:18', 'Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(241, '00000001', '18-05-2016 12:18:29', 'Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(242, '00000001', '18-05-2016 12:18:43', 'Ajout de privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(243, '00000001', '18-05-2016 12:19:01', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(244, '00000001', '18-05-2016 12:24:17', 'Suppression de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(245, '00000001', '18-05-2016 12:24:21', 'Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(246, '00000001', '18-05-2016 12:24:33', 'Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(247, '00000001', '18-05-2016 12:24:51', 'Ajout de privilége <strong>CREER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(248, '00000001', '18-05-2016 12:25:23', 'Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>CAISSE</strong> pour l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(249, '00000001', '19-05-2016 00:24:06', 'Connexion'),
+(250, '00000001', '19-05-2016 00:24:47', 'Changement du mot de passe de l''utilisateur : <a href="ili-users/user_profil?id=09186670">09186670</a>'),
+(251, '09186670', '19-05-2016 00:24:54', 'Connexion');
 
 -- --------------------------------------------------------
 
@@ -424,7 +458,14 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `ClosedBy` (`ClosedBy`),
   KEY `FromUser` (`FromUser`),
   KEY `ToUser` (`ToUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `message`
+--
+
+INSERT INTO `message` (`idMessage`, `FromUser`, `ToUser`, `Subject`, `Containt`, `TimeStamp`, `Seen`, `ClosedBy`) VALUES
+(4, '00000001', '09186670', '1', '<p>ay-ab</p>\r\n', '19-05-2016 00:33:51', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -440,7 +481,7 @@ CREATE TABLE IF NOT EXISTS `notificationsystem` (
   `seen` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idNotification`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=236 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=267 ;
 
 --
 -- Contenu de la table `notificationsystem`
@@ -528,7 +569,38 @@ INSERT INTO `notificationsystem` (`idNotification`, `idUser`, `Description`, `Ti
 (232, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:10', '1'),
 (233, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:10', '1'),
 (234, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:28', '1'),
-(235, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:28', '1');
+(235, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '13-05-2016 13:26:28', '1'),
+(236, '00000001', '<a href="ili-users/user_profil?id=09186670">hafeidh abdel kerim, modification de photo de profile', '18-05-2016 10:54:56', '1'),
+(237, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 11:27:54', '0'),
+(238, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 11:27:54', '1'),
+(239, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 11:40:21', '0'),
+(240, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 11:40:21', '1'),
+(241, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> de hafeidh abdel kerim', '18-05-2016 12:12:40', '0'),
+(242, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> de hafeidh abdel kerim', '18-05-2016 12:12:40', '1'),
+(243, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> de hafeidh abdel kerim', '18-05-2016 12:12:54', '0'),
+(244, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>CLIENTS</strong> de hafeidh abdel kerim', '18-05-2016 12:12:54', '1'),
+(245, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:09', '0'),
+(246, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:09', '1'),
+(247, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:14', '0'),
+(248, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:14', '1'),
+(249, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:18', '0'),
+(250, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:18', '1'),
+(251, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:29', '0'),
+(252, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:29', '1'),
+(253, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:43', '0'),
+(254, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:18:43', '1'),
+(255, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:19:01', '0'),
+(256, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>CONTRAT</strong> de hafeidh abdel kerim', '18-05-2016 12:19:01', '1'),
+(257, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:17', '0'),
+(258, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:17', '1'),
+(259, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>JOURNAL</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:21', '0'),
+(260, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Supprission du privilége <strong>JOURNAL</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:21', '1'),
+(261, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>JOURNAL</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:33', '0'),
+(262, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>JOURNAL</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:33', '1'),
+(263, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:51', '0'),
+(264, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:24:51', '1'),
+(265, '09186670', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:25:23', '0'),
+(266, '00000001', '<a href="http://localhost/erp-aa-v1/ili-users/user_profil?id=">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>CAISSE</strong> de hafeidh abdel kerim', '18-05-2016 12:25:23', '1');
 
 -- --------------------------------------------------------
 
@@ -607,7 +679,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`idUser`, `idRank`, `FamilyName`, `FirstName`, `Email`, `FunctionPost`, `Phone`, `Adress`, `BirthDay`, `Password`, `LastPasswordChangedDate`, `fbAccount`, `githubAccount`, `linkedinAccount`, `ProfilePhoto`, `CreatedBy`, `CreatedDate`) VALUES
 ('00000001', 3, 'Sakly', 'Ayoub', 'saklyayoub@live.com', 'Gérant', '20.666.996', '16 Rue Ben Zid Agba 2010 Manouba', '22-09-1988', '3cb61b94f984497b9230075a6f777346', '15-04-2016 15:26:22', 'http://www.facebook.com/saklyayoub', 'https://github.com/saklyayoub', 'https://www.linkedin.com/in/sakly-ayoub-ba269391', 'http://www.ili-studios.tn/img/saklyayoub.png', 'SAKLY AYOUB', '2016-03-12 11:48:10'),
-('09186670', 2, 'hafeidh', 'abdel kerim', 'hafeidh@ili-studios.com', 'administrateur', '52.239.322', 'tunis', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '13-05-2016 14:49:20', '', '', '', '', 'Sakly Ayoub', '13-05-2016 13:07:49');
+('09186670', 2, 'hafeidh', 'abdel kerim', 'hafeidh@ili-studios.com', 'administrateur', '52.239.322', 'tunis', '01-08-1993', '21232f297a57a5a743894a0e4a801fc3', '19-05-2016 00:24:47', '', '', '', 'http://ili-studios.tn/img/abdou.png', 'Sakly Ayoub', '13-05-2016 13:07:49');
 
 -- --------------------------------------------------------
 
@@ -669,8 +741,8 @@ CREATE TABLE IF NOT EXISTS `usersprivilege` (
 INSERT INTO `usersprivilege` (`idPrivilege`, `idUser`, `bloc`, `s`, `c`, `u`, `d`) VALUES
 (12, '09186670', 'USERS', '1', '0', '0', '0'),
 (13, '09186670', 'CLIENTS', '1', '0', '0', '0'),
-(14, '09186670', 'CONTRAT', '1', '0', '0', '0'),
-(15, '09186670', 'CAISSE', '1', '0', '1', '0');
+(14, '09186670', 'CONTRAT', '1', '1', '1', '0'),
+(15, '09186670', 'CAISSE', '1', '1', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -742,7 +814,7 @@ ALTER TABLE `contractcycle`
 --
 ALTER TABLE `discussion`
   ADD CONSTRAINT `discussion_ibfk_1` FOREIGN KEY (`idMessage`) REFERENCES `message` (`idMessage`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `discussion_ibfk_2` FOREIGN KEY (`FormUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `discussion_ibfk_2` FOREIGN KEY (`FromUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `discussion_ibfk_3` FOREIGN KEY (`ToUser`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
