@@ -477,10 +477,11 @@ function MessageGetReceever($idMessage, $idDiscussion){
 		echo $O1->ToUser;
 	}
 	else{
-		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FormUser`, `ToUser` FROM `discussion` WHERE `idDiscussion`='$idDiscussion';");
-		$FormUserDiscussion=$O2->FormUser;
-		$ToUserDiscussion=$O2->ToUser;
-		if($FormUserDiscussion==$idUser){echo $ToUserDiscussion;}else{echo $FormUserDiscussion;}
+		//Get Last idDiscussion From idMessage
+		$O=QueryExcute("mysqli_fetch_array", "SELECT MAX(`idDiscussion`) FROM `discussion` WHERE `idMessage`='$idMessage';");
+		$MaxidDiscussion=$O[0];
+		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FormUser`, `ToUser` FROM `discussion` WHERE `idDiscussion`='$MaxidDiscussion';");
+		if($O2->FormUser!=$idUser){echo $O2->FormUser;}else{echo $O2->ToUser;}
 	}
 }
 function MessageDestinationGetList(){
