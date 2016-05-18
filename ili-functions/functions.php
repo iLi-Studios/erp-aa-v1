@@ -403,7 +403,7 @@ function Inbox(){
 				<th style="width:20%"> <a href="'.$URL.'ili-users/user_profil?id='.$o->FromUser.'">'.$info_user->FamilyName.' '.$info_user->FirstName.'</a> </th>
 				<th style="width:46%"><strong> <a href="'.$URL.'ili-messages/read?id='.$idMessage.'&id2='.$idDiscussion.'">'.$o->Subject.'</a> </strong></th>
 				<th style="width:12%">'?><?php if($o1>='1'){MessageStatus($ox->idMessage, $idDiscussion);}		else{MessageStatus($o->idMessage, '');} MessageStatusChekIfLocked($o->idMessage); echo' </th>
-				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStampDiscussion);}else{DateDifference($o->TimeStamp);} echo' </th>
+				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStamp);}else{DateDifference($o->TimeStamp);} echo' </th>
 			</tr>
 			';
 	}		
@@ -418,7 +418,7 @@ function MessageGet($idMessage){
 		$r2=QueryExcuteWhile($q2);
 		while ($o2=mysqli_fetch_object($r2)){
 			//envoi
-			$sender2=UserGetInfo($o2->FormUser);
+			$sender2=UserGetInfo($o2->FromUser);
 			if(isset($sender2->ProfilePhoto)){$img2=$sender2->ProfilePhoto;}else{$img2='';}
 			echo'
 			<div class="msg-time-chat"> <a href="#" class="message-img"><img class="avatar" src="'.$img2.'" alt=""></a>
@@ -477,15 +477,15 @@ function DiscussionGetInfo($idDiscussion){
 function MessageGetReceever($idMessage, $idDiscussion){
 	$idUser=$_SESSION['user_id'];
 	if($idDiscussion==''){
-		$O1=QueryExcute("mysqli_fetch_object", "SELECT `ToUser` FROM `message` WHERE `idMessage`='$idMessage';");
-		echo $O1->ToUser;
+		$O1=QueryExcute("mysqli_fetch_object", "SELECT `FromUser`, `ToUser` FROM `message` WHERE `idMessage`='$idMessage';");
+		if($O1->FromUser!=$idUser){echo $O1->FromUser;}else{echo $O1->ToUser;}
 	}
 	else{
 		//Get Last idDiscussion From idMessage
 		$O=QueryExcute("mysqli_fetch_array", "SELECT MAX(`idDiscussion`) FROM `discussion` WHERE `idMessage`='$idMessage';");
 		$MaxidDiscussion=$O[0];
-		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FormUser`, `ToUser` FROM `discussion` WHERE `idDiscussion`='$MaxidDiscussion';");
-		if($O2->FormUser!=$idUser){echo $O2->FormUser;}else{echo $O2->ToUser;}
+		$O2=QueryExcute("mysqli_fetch_object", "SELECT `FromUser`, `ToUser` FROM `discussion` WHERE `idDiscussion`='$MaxidDiscussion';");
+		if($O2->FromUser!=$idUser){echo $O2->FromUser;}else{echo $O2->ToUser;}
 	}
 }
 function MessageDestinationGetList(){
