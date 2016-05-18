@@ -1166,7 +1166,7 @@ function UserPasswordUpdate($idUser){
 			if($Password_new2==$Password_new){
 				QueryExcute("mysqli_fetch_object", "UPDATE `users` SET `LastPasswordChangedDate`='$Timestamp', `Password`='$Password_new' WHERE `idUser`='$idUser';");
 				LogWrite("Changement du mot de passe de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
-				RedirectJS('ili-users/user_edit?message=26&id='.$idUser);
+				RedirectJS('ili-users/user_edit?message=36&id='.$idUser);
 			}
 			else{RedirectJS('ili-users/user_edit?message=11&id='.$idUser);}
 		}
