@@ -1279,7 +1279,7 @@ function UserProfilePhotoUpdate($idUser){
 		QueryExcute("mysqli_fetch_object", "UPDATE `users` SET `ProfilePhoto`='$ProfilePhoto' WHERE `idUser`='$user->idUser';");
 		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification de photo de profile');
 		LogWrite("Changement de l\'image de profil de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
-		RedirectJS('ili-users/user_edit?message=26&id='.$idUser);
+		RedirectJS('ili-users/user_edit?message=36&id='.$idUser);
 	}
 }
 function UserSocialeUpdate($idUser){

@@ -48,7 +48,8 @@ function AlertGet($code){
 		case "33";AletWrite("alert-error", "ERREUR : CONTRAT NON RENOUVELABLE ! ");break;
 		case "34";AletWrite("alert-error", "ERREUR : CHEQUE NON DISPONIBLE! ");break;
 		case "35";AletWrite("alert-error", "ERREUR : PAIEMENT NON DISPONIBLE ! ");break;
+		case "36";AletWrite("alert-success", "OK : Vous devez vous déconnecter, puis reconnecter pour appliquer ce changement!");break;
 		
-		case "36";AletWrite("alert-success", "OK : Opération effectuer avec succée! Vous devez vous déconnecter pour appliquer les modifications!");}
+		case "37";AletWrite("alert-success", "OK : Opération effectuer avec succée! Vous devez vous déconnecter pour appliquer les modifications!");}
 	}
 ?>
