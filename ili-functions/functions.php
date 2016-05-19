@@ -564,7 +564,7 @@ function MessageGetAllHeader(){
 	$r2=QueryExcuteWhile($q2);
 	if(mysqli_num_rows($r2)>'0'){		
 		while ($o2=mysqli_fetch_object($r2)){
-			$s2=UserGetInfo($o2->FormUser);
+			$s2=UserGetInfo($o2->FromUser);
 			if(isset($s2->ProfilePhoto)){$img2=$s2->ProfilePhoto;}else{$img2='';}
 			echo'
 			<li> 

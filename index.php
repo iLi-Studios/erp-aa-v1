@@ -162,9 +162,9 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
 								<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> <a href="javascript:;" class="icon-remove"></a> </span> </div>
 							<div class="widget-body">
 								<div id="site_statistics_loading"> <img src="ili-style/img/loading.gif" alt="loading" /> </div>
-								<div id="site_statistics_content" class="hide">
-									<div id="site_statistics" class="chart"></div>
-								</div>
+<div id="site_statistics_content" class="hide">
+	<div id="site_statistics" class="chart"></div>
+</div>
 							</div>
 						</div>
 						<!-- END SITE VISITS PORTLET--> 
@@ -251,7 +251,236 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
                 App.setMainPage(true);
                 App.init();
             });
-        </script> 
+        </script>
+<script>
+	var handleDashboardCharts = function () {
+
+        // used by plot functions
+        var data = [];
+        var totalPoints = 200;
+
+        // random data generator for plot charts
+        function getRandomData() {
+            if (data.length > 0) data = data.slice(1);
+            // do a random walk
+            while (data.length < totalPoints) {
+                var prev = data.length > 0 ? data[data.length - 1] : 50;
+                var y = prev + Math.random() * 10 - 5;
+                if (y < 0) y = 0;
+                if (y > 100) y = 100;
+                data.push(y);
+            }
+            // zip the generated y values with the x values
+            var res = [];
+            for (var i = 0; i < data.length; ++i) res.push([i, data[i]])
+            return res;
+        }
+
+        if (!jQuery.plot) {
+            return;
+        }
+
+        function randValue() {
+            return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
+        }
+
+        var credit = [
+            [1, 900],
+            [2, 51],
+            [3, 50],
+            [4, 60],
+            [5, 50],
+            [6, 20],
+            [7, 205],
+            [8, 316],
+            [9, 206],
+            [10, 318],
+            [11, 309],
+            [12, 500],
+            [13, 501],
+            [14, 102],
+            [15, 13],
+            [16, 141],
+            [17, 105],
+            [18, 105],
+            [19, 116],
+            [20, 107],
+            [21, 108],
+            [22, 109],
+            [23, 200],
+            [24, 210],
+            [25, 104],
+            [26, 204],
+            [27, 250],
+            [28, 260],
+            [29, 270],
+            [30, 310],
+			[31, 500]
+        ];
+        var debit = [
+            [1, 666],
+            [2, 5],
+            [3, 5],
+            [4, 6],
+            [5, 5],
+            [6, 20],
+            [7, 25],
+            [8, 36],
+            [9, 26],
+            [10, 38],
+            [11, 39],
+            [12, 50],
+            [13, 51],
+            [14, 12],
+            [15, 13],
+            [16, 14],
+            [17, 15],
+            [18, 15],
+            [19, 16],
+            [20, 17],
+            [21, 18],
+            [22, 19],
+            [23, 20],
+            [24, 21],
+            [25, 14],
+            [26, 24],
+            [27, 25],
+            [28, 26],
+            [29, 27],
+            [30, 31],
+			[31, 500]
+        ];
+
+        $('#site_statistics_loading').hide();
+        $('#site_statistics_content').show();
+
+        var plot = $.plot($("#site_statistics"), [{
+            data: credit,
+            label: "Crédit"
+        }, {
+            data: debit,
+            label: "Débit"
+        }], {
+            series: {
+                lines: {
+                    show: true,
+                    lineWidth: 2,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 0.05
+                        }, {
+                            opacity: 0.01
+                        }]
+                    }
+                },
+                points: {
+                    show: true
+                },
+                shadowSize: 2
+            },
+            grid: {
+                hoverable: true,
+                clickable: true,
+                tickColor: "#eee",
+                borderWidth: 0
+            },
+            colors: ["#A5D16C", "#FCB322", "#32C2CD"],
+            xaxis: {
+                ticks: 11,
+                tickDecimals: 0
+            },
+            yaxis: {
+                ticks: 11,
+                tickDecimals: 0
+            }
+        });
+
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                top: y + 5,
+                left: x + 15,
+                border: '1px solid #333',
+                padding: '4px',
+                color: '#fff',
+                'border-radius': '3px',
+                'background-color': '#333',
+                opacity: 0.80
+            }).appendTo("body").fadeIn(200);
+        }
+
+        var previousPoint = null;
+        $("#site_statistics").bind("plothover", function (event, pos, item) {
+            $("#x").text(pos.x.toFixed(0));
+            $("#y").text(pos.y.toFixed(3));
+
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1].toFixed(3);
+
+                    showTooltip(item.pageX, item.pageY, item.series.label + " du " + x + " = " + y + " TND");
+                }
+            } else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+        });
+
+        //server load
+        var options = {
+            series: {
+                shadowSize: 1
+            },
+            lines: {
+                show: true,
+                lineWidth: 0.5,
+                fill: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.1
+                    }, {
+                        opacity: 1
+                    }]
+                }
+            },
+            yaxis: {
+                min: 0,
+                max: 100,
+                tickFormatter: function (v) {
+                    return v + "%";
+                }
+            },
+            xaxis: {
+                show: false
+            },
+            colors: ["#A5D16C"],
+            grid: {
+                tickColor: "#eaeaea",
+                borderWidth: 0
+            }
+        };
+
+        $('#load_statistics_loading').hide();
+        $('#load_statistics_content').show();
+
+        var updateInterval = 30;
+        var plot = $.plot($("#load_statistics"), [getRandomData()], options);
+
+        function update() {
+            plot.setData([getRandomData()]);
+            plot.draw();
+            setTimeout(update, updateInterval);
+        }
+        update();
+    }
+</script>
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
