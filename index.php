@@ -10,6 +10,26 @@ function Statistique($query, $result_type){
 		printf('%0.3f', $o[0]);
 	}
 }
+function CreditChart(){
+	$i=0;$j=0;
+	for ($i=01;$i<=31;$i++){
+		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= $i.date("-m-Y");;}
+		$r=QueryExcuteWhile("SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`='$date' AND `Amount` > 0");
+		while ($o=mysqli_fetch_array($r)){
+			echo '['.$i.', ';?><?php if($o[0]){echo $o[0].'],';}else{echo '0],';}
+		}
+	}
+}
+function DebitChart(){
+	$i=0;$j=0;
+	for ($i=01;$i<=31;$i++){
+		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= $i.date("-m-Y");;}
+		$r=QueryExcuteWhile("SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`='$date' AND `Amount` < 0");
+		while ($o=mysqli_fetch_array($r)){
+			echo '['.$i.', ';?><?php if($o[0]){echo -$o[0].'],';}else{echo '0],';}
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -284,72 +304,8 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
             return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
         }
 
-        var credit = [
-            [1, 900],
-            [2, 51],
-            [3, 50],
-            [4, 60],
-            [5, 50],
-            [6, 20],
-            [7, 205],
-            [8, 316],
-            [9, 206],
-            [10, 318],
-            [11, 309],
-            [12, 500],
-            [13, 501],
-            [14, 102],
-            [15, 13],
-            [16, 141],
-            [17, 105],
-            [18, 105],
-            [19, 116],
-            [20, 107],
-            [21, 108],
-            [22, 109],
-            [23, 200],
-            [24, 210],
-            [25, 104],
-            [26, 204],
-            [27, 250],
-            [28, 260],
-            [29, 270],
-            [30, 310],
-			[31, 500]
-        ];
-        var debit = [
-            [1, 666],
-            [2, 5],
-            [3, 5],
-            [4, 6],
-            [5, 5],
-            [6, 20],
-            [7, 25],
-            [8, 36],
-            [9, 26],
-            [10, 38],
-            [11, 39],
-            [12, 50],
-            [13, 51],
-            [14, 12],
-            [15, 13],
-            [16, 14],
-            [17, 15],
-            [18, 15],
-            [19, 16],
-            [20, 17],
-            [21, 18],
-            [22, 19],
-            [23, 20],
-            [24, 21],
-            [25, 14],
-            [26, 24],
-            [27, 25],
-            [28, 26],
-            [29, 27],
-            [30, 31],
-			[31, 500]
-        ];
+        var credit = [<?php CreditChart();?>];
+        var debit = [<?php DebitChart();?>];
 
         $('#site_statistics_loading').hide();
         $('#site_statistics_content').show();
@@ -485,3 +441,4 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
 </body>
 <!-- END BODY -->
 </html>
+
