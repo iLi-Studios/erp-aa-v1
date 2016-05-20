@@ -35,8 +35,11 @@ function QueryExcuteWhile($query){
     	printf("Échec de la connexion : %s\n", mysqli_connect_error());
     	exit();
 	}
-	else{//correction de problémes des accents
+	else{
+		//correction de problémes des accents
 		mysqli_query($link, "SET NAMES UTF8");
+		//correction de format du date
+		mysqli_query($link, "SET lc_time_names = 'fr_FR'");
 		if($result=mysqli_query($link, $query)){return $result;}
 	}
 }

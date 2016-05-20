@@ -67,8 +67,8 @@ function CheckoutGetTotalOperationCheck($date1, $date2, $idUser){
 function Checkout($date1, $date2, $idUser){
 	global $URL;
 	$USER=UserGetInfo($idUser);
-	$sql1="SELECT * FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT * FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT * FROM `payment` WHERE `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT * FROM `payment` WHERE `EncashmentDate` BETWEEN '$date1' AND '$date2';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$nobre_de_resultat=QueryExcute("mysqli_fetch_row", $query);
 	$result=QueryExcuteWhile($query);
