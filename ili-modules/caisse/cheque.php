@@ -81,7 +81,7 @@ else{RedirectJS('index?message=34');}
 										</tr>
 										<tr>
 											<td class="span4">ECHEANCE</td>
-											<td><?php echo $o->TransferDate;?></td>
+											<td><?php echo FormatEnDateToFr($o->TransferDate);?></td>
 										</tr>
 										<tr>
 											<td class="span4">#PAIEMENT</td>

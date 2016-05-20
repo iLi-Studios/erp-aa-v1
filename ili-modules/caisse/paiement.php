@@ -90,7 +90,7 @@ else{RedirectJS('index?message=35');}
 										</tr>
 										<tr>
 											<td class="span4">DATE</td>
-											<td><?php echo $o->EncashmentDate;?></td>
+											<td><?php echo FormatEnDateToFr($o->EncashmentDate);?></td>
 										</tr>
 										<tr>
 											<td class="span4">REçUE PAR</td>
