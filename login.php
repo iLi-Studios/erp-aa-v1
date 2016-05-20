@@ -1,4 +1,25 @@
-<?php include"ili-functions/functions.php"; ?>
+<?php 
+include"ili-functions/functions.php"; 
+function LogIn($Email, $Password){
+		if($o=QueryExcute("mysqli_fetch_object", "SELECT * FROM `users`, `usersrank` WHERE `users`.Email='$Email' AND `users`.Password='$Password' AND `users`.idRank=`usersrank`.idRank")){
+			if($o->idRank=='1'){Redirect("login?message=3");}
+			else{
+				$_SESSION['user_id']=$o->idUser;
+				$_SESSION['user_nom']=$o->FamilyName;
+				$_SESSION['user_prenom']=$o->FirstName; 
+				$_SESSION['user_nom_prenom']=$_SESSION['user_nom'].' '.$_SESSION['user_prenom'];
+				$_SESSION['user_idRank']=$o->idRank;
+				$_SESSION['user_Rank']=$o->Rank;
+				$_SESSION['user_img']=$o->ProfilePhoto;
+				LogWrite("Connexion");
+				Redirect("index");
+			}
+		}
+		else{
+			Redirect("login?message=2");
+			}
+}
+?>
 <!DOCTYPE html>
 <?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->

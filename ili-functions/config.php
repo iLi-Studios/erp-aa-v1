@@ -3,9 +3,9 @@
 define('MYSQL_SERVEUR', 'localhost');
 define('MYSQL_UTILISATEUR', 'root');
 define('MYSQL_MOTDEPASSE', '');
-define('MYSQL_BASE', 'erp-aa-v1');
-$URL="http://localhost/erp-aa-v1/";
-$sytem_title="iLiERP-AA-V1";
+define('MYSQL_BASE', 'ilimanager10');
+$URL="http://localhost/iLi-Manager-1.0/";
+$sytem_title="iLi-Manager1.0";
 $copy_right ='2016 &copy; '.$sytem_title.'  By <a href="http://www.ili-studios.tn/" target="new" style="none"> <strong>iLi-Studios</strong> </a>';
 $author=
 "

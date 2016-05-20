@@ -12,30 +12,6 @@ if (!isset($_SESSION)){
 }
 
 /*AUTHORIZATION*/
-function LogIn($Email, $Password){
-	/*if($_SESSION['tentative']<=3){*/
-		$query="SELECT * FROM `users`, `usersRank` WHERE `users`.Email='$Email' AND `users`.Password='$Password' AND `users`.idRank=`usersRank`.idRank";
-		if( ($o=QueryExcute("mysqli_fetch_object", $query)) == true){
-			if($o->idRank=='1'){Redirect("login?message=3");}
-			else{
-				$_SESSION['user_id']=$o->idUser;
-				$_SESSION['user_nom']=$o->FamilyName;
-				$_SESSION['user_prenom']=$o->FirstName; 
-				$_SESSION['user_nom_prenom']=$_SESSION['user_nom'].' '.$_SESSION['user_prenom'];
-				$_SESSION['user_idRank']=$o->idRank;
-				$_SESSION['user_Rank']=$o->Rank;
-				$_SESSION['user_img']=$o->ProfilePhoto;
-				LogWrite("Connexion");
-				Redirect("index");
-			}
-		}
-		else{
-			$_SESSION['tentative']=$_SESSION['tentative']+1;
-			Redirect("login?message=2");
-			}
-	/*}
-	else{Redirect("login?message=13");}*/
-}
 function LogOut(){
 	if (isset($_SESSION["user_id"])){
 		session_destroy();

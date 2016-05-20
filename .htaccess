@@ -1,6 +1,4 @@
 Options -Indexes
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [L]
-# Resolve .php file for extensionless php urls
-# RewriteRule ^([^/.]+)$ $1.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
