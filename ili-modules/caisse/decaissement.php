@@ -78,7 +78,7 @@ function showRadio(){
 									<div class="span7">
 										<h3>Détail</h3>
 										<div class="control-group">
-											<label class="control-label" style="margin-top:42px;">Date : </label>
+											<label class="control-label" style="margin-top:65px;">Date : </label>
 											<div class="controls">
 												<input type="text" class="input-large" value="<?php echo $Now;?>" readonly required>
 											</div>
@@ -117,7 +117,8 @@ function showRadio(){
 											</div>
 											<div class="control-group">
 											   <div class="controls">
-												  <input type="text" name="TransferDate" class="input-xlarge" placeholder="Echéance" data-mask="99-99-9999"/>
+											   	  <label>Echéance</label>
+												  <input type="date" name="TransferDate" class="input-xlarge" placeholder="Echéance"/>
 												  <span class="help-inline"></span>
 											   </div>
 											</div>
@@ -141,7 +142,7 @@ if( (isset($_POST['Description'])) && (isset($_POST['Amount'])) && (isset($_POST
 	if(isset($_POST['PaymentCode']))	{$PaymentCode	=addslashes($_POST['PaymentCode']);} 	else{$PaymentCode='';}
 	if(isset($_POST['Bank']))			{$Bank			=addslashes($_POST['Bank']);} 			else{$Bank='';}
 	if(isset($_POST['TransferDate']))	{$TransferDate	=addslashes($_POST['TransferDate']);} 	else{$TransferDate='';}
-	QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$Now', '$Description', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
+	QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$NowEN', '$Description', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
 	NotifAllWrite("", "", $idUser." a effectuer un décaissement : ".$Description);
 	LogWrite("Décaissement : ".$Description);
 	RedirectJS("ili-modules/caisse/journal");

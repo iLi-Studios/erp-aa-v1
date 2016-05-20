@@ -13,8 +13,9 @@ function Statistique($query, $result_type){
 function CreditChart(){
 	$i=0;$j=0;
 	for ($i=01;$i<=31;$i++){
-		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= $i.date("-m-Y");;}
-		$r=QueryExcuteWhile("SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`='$date' AND `Amount` > 0");
+		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= date("Y-m-").$i;}
+		$q="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`='$date' AND `Amount` > 0";
+		$r=QueryExcuteWhile($q);
 		while ($o=mysqli_fetch_array($r)){
 			echo '['.$i.', ';?><?php if($o[0]){echo $o[0].'],';}else{echo '0],';}
 		}
@@ -23,7 +24,7 @@ function CreditChart(){
 function DebitChart(){
 	$i=0;$j=0;
 	for ($i=01;$i<=31;$i++){
-		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= $i.date("-m-Y");;}
+		if($i<10){$date= '0'.$i.date("-m-Y");}else{$date= date("Y-m-").$i;}
 		$r=QueryExcuteWhile("SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`='$date' AND `Amount` < 0");
 		while ($o=mysqli_fetch_array($r)){
 			echo '['.$i.', ';?><?php if($o[0]){echo -$o[0].'],';}else{echo '0],';}
@@ -179,12 +180,12 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
 						<div class="widget">
 							<div class="widget-title">
 								<h4><i class="icon-bar-chart"></i> Journal du caisse</h4>
-								<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> <a href="javascript:;" class="icon-remove"></a> </span> </div>
+								<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a></span> </div>
 							<div class="widget-body">
 								<div id="site_statistics_loading"> <img src="ili-style/img/loading.gif" alt="loading" /> </div>
-<div id="site_statistics_content" class="hide">
-	<div id="site_statistics" class="chart"></div>
-</div>
+								<div id="site_statistics_content" class="hide">
+									<div id="site_statistics" class="chart"></div>
+								</div>
 							</div>
 						</div>
 						<!-- END SITE VISITS PORTLET--> 
@@ -204,7 +205,7 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
 						<!-- END NOTIFICATIONS PORTLET--> 
 					</div>
 				</div>
-				<div class="row-fluid">
+				<!--<div class="row-fluid">
 					<div class="span12">
 						<div class="widget">
 							<div class="widget-title">
@@ -219,7 +220,7 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 			<!-- END PAGE CONTENT--> 
 		</div>
@@ -390,7 +391,7 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
         });
 
         //server load
-        var options = {
+       /*var options = {
             series: {
                 shadowSize: 1
             },
@@ -434,7 +435,7 @@ var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $U
             plot.draw();
             setTimeout(update, updateInterval);
         }
-        update();
+        update();*/
     }
 </script>
 <!-- END JAVASCRIPTS -->

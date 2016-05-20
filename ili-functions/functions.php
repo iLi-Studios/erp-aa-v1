@@ -255,6 +255,11 @@ function ExpireIn($date){
 	{echo '<span class="label label-success">Actif</span>';} //Vers
 }
 $Now= date("d-m-Y");
+$NowEN= date("Y-m-d");
+function FormatEnDateToFr($dateEN){
+	$dateFR=date_create($dateEN);
+	echo date_format($dateFR, 'd-m-Y');
+}
 $Timestamp = date("d-m-Y H:i:s");
 
 /*LOG*/

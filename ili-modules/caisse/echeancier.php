@@ -3,8 +3,8 @@ include"../../ili-functions/functions.php";
 Authorization('2');
 AuthorizedPrivileges('CAISSE', 'U');
 $idUser=$_SESSION['user_id'];
-if(isset($_GET['date1'])){$date1=$_GET['date1'];}else{$date1=$Now;}
-if(isset($_GET['date2'])){$date2=$_GET['date2'];}else{$date2=$Now;}
+if(isset($_GET['date1'])){$date1=$_GET['date1'];}else{$date1=$NowEN;}
+if(isset($_GET['date2'])){$date2=$_GET['date2'];}else{$date2=$NowEN;}
 if(isset($_GET['operation'])){
 	$operation=$_GET['operation'];
 	if($operation!='DC'){
@@ -63,9 +63,9 @@ function CheckGetTotalAmmountOut($date1, $date2){
 }
 function Check($date1, $date2, $operation){
 	global $URL;
-	$SQL_DC 	= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
-	$SQL_D		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;";
-	$SQL_C		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;";
+	$SQL_DC 	= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate` BETWEEN '$date1' AND '$date2'";
+	$SQL_D		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate` BETWEEN '$date1' AND 'date2' AND `Amount`>0;";
+	$SQL_C		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate` BETWEEN '$date1' AND '$date2' AND `Amount`<0;";
 	if($operation=='DC'){$query=$SQL_DC;}elseif($operation=='D'){$query=$SQL_C;}elseif($operation=='C'){$query=$SQL_D;}
 	$result=QueryExcuteWhile($query);
 	echo'
@@ -86,8 +86,8 @@ function Check($date1, $date2, $operation){
 			<tr>
 				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/paiement?id='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
 				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/cheque?id='.$o->PaymentCode.'">'.$o->PaymentCode.'&nbsp;&nbsp;</a></td>
-				<td style="text-align:center;">'.$o->EncashmentDate.'</td>
-				<td style="text-align:center;">'.$o->TransferDate.'</td>
+				<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
+				<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->TransferDate);?><?php echo'</td>
 				<td style="text-align:center;"><a href="'.$URL.'ili-users/DetailsUser.php?idUser='.$o->RecevedBy.'">'.$o->RecevedBy.'</a></td>
 				<td style="text-align:center;">';?><?php if($o->Amount>0){echo 'CREDITS';}elseif($o->Amount<0){echo 'DEBITS';}?><?php echo'</td>
 				<td style="text-align:right;">';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND&nbsp;&nbsp;</td>
@@ -198,9 +198,9 @@ function Check($date1, $date2, $operation){
 								<table width="100%">
 									<tr>
 										<th>Du</th>
-										<th><input type="text" class=" m-ctrl-medium date-picker" data-date-format="dd-mm-yyyy" name="date1" value="<?php echo $date1;?>" required style="width:80%; margin-top:10px;"></th>
+										<th><input type="date" name="date1" value="<?php echo $date1;?>" required style="width:80%; margin-top:10px;"></th>
 										<th>A</th>
-										<th><input type="text" class=" m-ctrl-medium date-picker" data-date-format="dd-mm-yyyy" name="date2" value="<?php echo $date2;?>" required style="width:80%;margin-top:10px;"></th>
+										<th><input type="date" name="date2" value="<?php echo $date2;?>" required style="width:80%;margin-top:10px;"></th>
 										<th>OPERATION</th>
 										<th>
 											<select name="operation" style="width:100%; margin-top:10px;">

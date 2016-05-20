@@ -12,7 +12,8 @@ if((isset($_POST['idClient'])) && (isset($_POST['idContract'])) && (isset($_POST
 	$StartDate					=addslashes($_POST['StartDate']);
 	$EndDate					=addslashes($_POST['EndDate']);
 	$Amount						=addslashes($_POST['Amount']);
-	$EncashmentDate				=addslashes($_POST['EncashmentDate']);
+	global $NowEN;
+	$EncashmentDate				=$NowEN;
 	$PaymentKind				=addslashes($_POST['PaymentKind']);
 	if(isset($_POST['PaymentCode']))	{$PaymentCode=addslashes($_POST['PaymentCode']);}else{$PaymentCode='';}
 	if(isset($_POST['Bank']))			{$Bank=addslashes($_POST['Bank']);}else{$Bank='';}
@@ -268,7 +269,7 @@ function showRadio(){
                                         <div class="control-group">
                                            <label class="control-label">Date de versement</label>
                                            <div class="controls">
-                                              <input type="text" name="TransferDate" class="span6" data-mask="99-99-9999"/>
+                                              <input type="date" name="TransferDate" class="span6"/>
                                               <span class="help-inline"></span>
                                            </div>
                                         </div>

@@ -95,7 +95,7 @@ function Checkout($date1, $date2, $idUser){
 					<td style="text-align:center;">';?><?php if($PaymentInfo){echo'<a href="'.$URL.'ili-modules/client/client?id='.$PaymentInfo->idClient.'">'.$PaymentInfo->idClient.'</a>';}else{echo '<center>##</center>';}?><?php echo'</td>
 					<td>';?><?php if($o->Description){echo $o->Description;}else{echo '<center>##</center>';}?><?php echo'</td>
 					<td style="text-align:center;">'.$o->PaymentKind.'</td>
-					<td style="text-align:center;">'.$o->EncashmentDate.'</td>
+					<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
 					<td style="text-align:center;"><a href="'.$URL.'ili-users/user_profil?id='.$o->RecevedBy.'">'.$o->RecevedBy.'</a></td>
 					<td style="text-align:right;">';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND&nbsp;&nbsp;</td>
 				</tr>
@@ -212,8 +212,8 @@ function CheckoutListForClient($idClient){
 					<div class="widget-body">
 						<div class="span12">
 							<?php
-							if(isset($_GET['DATE1'])){$DATE1=$_GET['DATE1'];}else{$DATE1=$Now;}
-							if(isset($_GET['DATE2'])){$DATE2=$_GET['DATE2'];}else{$DATE2=$Now;}
+							if(isset($_GET['DATE1'])){$DATE1=$_GET['DATE1'];}else{$DATE1=$NowEN;}
+							if(isset($_GET['DATE2'])){$DATE2=$_GET['DATE2'];}else{$DATE2=$NowEN;}
 							if(isset($_GET['idUser'])){$User=$_GET['idUser'];}else{$User='0';}
 							?>
 							<br>
@@ -221,9 +221,9 @@ function CheckoutListForClient($idClient){
 								<table width="100%">
 									<tr>
 										<th>Du</th>
-										<th><input type="text" class=" m-ctrl-medium date-picker" data-date-format="dd-mm-yyyy" name="DATE1" value="<?php echo $DATE1;?>" required style="width:80%; margin-top:10px;"></th>
+										<th><input type="date"  name="DATE1" value="<?php echo $DATE1;?>" required style="width:80%; margin-top:10px;"></th>
 										<th>A</th>
-										<th><input type="text" class=" m-ctrl-medium date-picker" data-date-format="dd-mm-yyyy" name="DATE2" value="<?php echo $DATE2;?>" required style="width:80%;margin-top:10px;"></th>
+										<th><input type="date"  name="DATE2" value="<?php echo $DATE2;?>" required style="width:80%;margin-top:10px;"></th>
 										<th>CAISSE/UTILISATEUR
 										<th> <select name="idUser" style="width:100%; margin-top:10px;"><?php GetUserListeForSelect($User);?></select>
 										</th>
