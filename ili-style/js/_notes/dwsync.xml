@@ -70,4 +70,14 @@
 <file name="respond.js" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197731889041" remote="131058834600000000" Dst="0" />
 <file name="ui-nestable.js" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197732149270" remote="131058834600000000" Dst="0" />
 <file name="jquery-latest.js" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="131006126179257533" remote="131058834600000000" Dst="0" />
+<file name="gmaps.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131006126178034013" remote="131082424800000000" Dst="0" />
+<file name="demo.gmaps.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197724666941" remote="131082424800000000" Dst="0" />
+<file name="jquery.cookie.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131006126179570109" remote="131082425400000000" Dst="0" />
+<file name="jquery.peity.min.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131006126179570109" remote="131082425400000000" Dst="0" />
+<file name="excanvas.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197724947197" remote="131082425400000000" Dst="0" />
+<file name="jquery.pulsate.min.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197731768890" remote="131082426000000000" Dst="0" />
+<file name="respond.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197731889041" remote="131082426000000000" Dst="0" />
+<file name="ui-nestable.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197732149270" remote="131082426000000000" Dst="0" />
+<file name="ui-tree.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197732229355" remote="131082426000000000" Dst="0" />
+<file name="jquery-latest.js" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131006126179257533" remote="131082426000000000" Dst="0" />
 </dwsync>

@@ -30,4 +30,6 @@
 <file name="modules.xml" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197506745636" remote="131058828600000000" Dst="0" />
 <file name="vcs.xml" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197506885775" remote="131058828600000000" Dst="0" />
 <file name="workspace.xml" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197507336158" remote="131058828600000000" Dst="0" />
+<file name="vcs.xml" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197506885775" remote="131082418800000000" Dst="0" />
+<file name="workspace.xml" server="ili-manager-1.0.ili-studios.tn//public_html/" local="130936197507336158" remote="131082418800000000" Dst="0" />
 </dwsync>

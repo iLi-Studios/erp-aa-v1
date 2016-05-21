@@ -130,7 +130,7 @@ function DebitChart(){
 						<div class="circle-wrap">
 							<div class="stats-circle gray-color"> <i class="icon-comments-alt"></i> </div>
 							<p> <strong>
-								<?php StatisticMessageGetSum(); ?>
+								<?php Statistique("SELECT COUNT('idMessage') FROM `message`", "number");?>
 								</strong> Message </p>
 						</a></div>
 					</div>
@@ -138,7 +138,7 @@ function DebitChart(){
 						<div class="circle-wrap">
 							<div class="stats-circle blue-color"> <i class="icon-bar-chart"></i> </div>
 							<p> <strong>
-								<?php StatisticLogGetSum(); ?>
+								<?php Statistique("SELECT COUNT('idLog') FROM `logsystem`", "number");?>
 								</strong> Logs Système </p>
 						</div>
 					</div>

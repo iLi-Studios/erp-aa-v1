@@ -21,14 +21,16 @@
 <file name="functions.php" server="erp-aa-v1.ili-studios.tn//public_html/" local="131056285043428819" remote="131057280000000000" Dst="0" />
 <file name="database.php" server="erp-aa-v1.ili-studios.tn//public_html/" local="130992690909618844" remote="131057280000000000" Dst="0" />
 <file name="alert.php" server="erp-aa-v1.ili-studios.tn//public_html/" local="131055541110755929" remote="131057280000000000" Dst="0" />
-<file name="erp-aa-v1.sql" server="erp-aa-v1.ili-studios.tn//public_html/" local="131057305129436459" remote="131057286000000000" Dst="0" />
 <file name="index.html" server="erp-aa-v1.ili-studios.tn//public_html/" local="130936197489627523" remote="131057286000000000" Dst="0" />
 <file name="logout.php" server="erp-aa-v1.ili-studios.tn//public_html/" local="130992785107868946" remote="131057286000000000" Dst="0" />
 <file name="config.php" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="131057473191558405" remote="131058827400000000" Dst="0" />
 <file name="functions.php" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="131082409336434647" remote="131082373200000000" Dst="0" />
 <file name="database.php" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130992690909618844" remote="131058827400000000" Dst="0" />
 <file name="alert.php" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="131055541110755929" remote="131058827400000000" Dst="0" />
-<file name="erp-aa-v1.sql" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="131057305129436459" remote="131058834600000000" Dst="0" />
 <file name="logout.php" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130992785107868946" remote="131058834600000000" Dst="0" />
 <file name="index.html" server="ili-studios.tn//public_html/projets/iLi-ERP-AA-V1/" local="130936197489627523" remote="131058834600000000" Dst="0" />
+<file name="functions.php" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131082453822697480" remote="131082417000000000" Dst="0" />
+<file name="config.php" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131082438300523311" remote="131082417000000000" Dst="0" />
+<file name="alert.php" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131081225228759221" remote="131082417000000000" Dst="0" />
+<file name="database.php" server="ili-manager-1.0.ili-studios.tn//public_html/" local="131081722902726545" remote="131082417000000000" Dst="0" />
 </dwsync>

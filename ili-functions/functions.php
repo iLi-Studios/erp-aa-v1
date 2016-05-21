@@ -242,10 +242,10 @@ $Timestamp = date("d-m-Y H:i:s");
 function LogWrite($Description){
 	global $Timestamp;
 	$idUser=$_SESSION['user_id'];
-	QueryExcute("", "INSERT INTO `LogSystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES (NULL, '$idUser', '$Timestamp', '$Description');");
+	QueryExcute("", "INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES (NULL, '$idUser', '$Timestamp', '$Description');");
 }
 function LogRead(){
-	$query="SELECT * FROM `LogSystem` ORDER BY idLog DESC";
+	$query="SELECT * FROM `logsystem` ORDER BY idLog DESC";
 	$result=QueryExcuteWhile($query);
 	while ($o=mysqli_fetch_object($result)){
 		echo'
@@ -286,12 +286,6 @@ function NotifGetAll(){
 }
 function NotificationGetWhile($o){
 	
-}
-function NotifGetSumNonSeen(){
-	$idUser=$_SESSION['user_id'];
-	$query="SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser' AND `Seen`='0'";
-	$o=QueryExcute("mysqli_num_rows", $query);
-	echo $o;
 }
 function NotifWrite($user, $Description){
 	global $Timestamp;
@@ -355,39 +349,6 @@ function MessageGetAll(){
 			';	
 	}
 	echo '<span>Voire plus ...</span>';		
-}
-function Inbox(){
-	global $URL;
-	$idUser=$_SESSION['user_id'];
-	$q="SELECT * FROM `message`
-			WHERE
-			(`FromUser`='$idUser' OR `ToUser`='$idUser')
-			ORDER BY `idMessage` DESC;";
-	$r=QueryExcuteWhile($q);
-	while ($o=mysqli_fetch_object($r)){
-		$info_user=UserGetInfo($o->FromUser);
-		$idMessage=$o->idMessage;
-		$q1="SELECT * FROM `message`, `discussion`
-			WHERE
-			`discussion`.`idMessage`=`message`.`idMessage`
-			AND
-			`message`.`idMessage`='$idMessage'
-			AND
-			`idDiscussion`=(SELECT MAX(`idDiscussion`) FROM `discussion`)
-			;";
-			$o1=QueryExcute("mysqli_num_rows", $q1);
-			if($o1>='1'){$rx=QueryExcuteWhile($q1);$ox=mysqli_fetch_object($rx);}
-			if($o1>='1'){$idDiscussion=$ox->idDiscussion;}else{$idDiscussion='';}
-			echo'
-			<tr>
-				<th style="width:4%;"></th>
-				<th style="width:20%"> <a href="'.$URL.'ili-users/user_profil?id='.$o->FromUser.'">'.$info_user->FamilyName.' '.$info_user->FirstName.'</a> </th>
-				<th style="width:46%"><strong> <a href="'.$URL.'ili-messages/read?id='.$idMessage.'&id2='.$idDiscussion.'">'.$o->Subject.'</a> </strong></th>
-				<th style="width:12%">'?><?php if($o1>='1'){MessageStatus($ox->idMessage, $idDiscussion);}		else{MessageStatus($o->idMessage, '');} MessageStatusChekIfLocked($o->idMessage); echo' </th>
-				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStamp);}else{DateDifference($o->TimeStamp);} echo' </th>
-			</tr>
-			';
-	}		
 }
 function MessageGet($idMessage){
 	global $URL;
@@ -477,91 +438,6 @@ function MessageDestinationGetList(){
 		echo'
 			<option value="'.$o->idUser.'">'.$o->FamilyName.' '.$o->FirstName.'</option>
 		';
-	}
-}
-function MessageGetSumHeader(){
-	$idUser=$_SESSION['user_id'];
-	$q1="SELECT COUNT(*) FROM `message` WHERE `ToUser`='$idUser' AND `Seen`='0';";
-	$q2="SELECT COUNT(*) FROM `message`, `discussion`
-			WHERE
-			(`message`.`ToUser`='$idUser' OR `message`.`FromUser`='$idUser' )
-             AND
-			`discussion`.`ToUser`='$idUser'
-			AND 
-			`message`.`Seen`='1'
-			AND
-			`discussion`.`idMessage`=`message`.`idMessage`
-			AND
-			`discussion`.`ToUser`='$idUser'
-			AND
-			`discussion`.`Seen`='0';";
-
-	$o1=QueryExcute("mysqli_fetch_row", $q1);
-	$o2=QueryExcute("mysqli_fetch_row", $q2);
-	$o=$o1[0]+$o2[0];
-	echo $o;
-}
-function MessageGetAllHeader(){
-	global $URL;
-	//get message source
-	$idUser=$_SESSION['user_id'];
-	$q1="SELECT * FROM `message` WHERE `ToUser`='$idUser' AND `Seen`='0' ORDER BY `idMessage` DESC LIMIT 3 ";	
-	$r1=QueryExcuteWhile($q1);
-	if(mysqli_num_rows($r1)>'0'){		
-		while ($o1=mysqli_fetch_object($r1)){
-			$s1=UserGetInfo($o1->FromUser);
-			if(isset($s1->ProfilePhoto)){$img1=$s1->ProfilePhoto;}else{$img1='';}
-			echo'
-			<li> 
-				<a href="'.$URL.'ili-messages/read?id='.$o1->idMessage.'"> 
-					<span class="photo">
-						<img src="'.$img1.'" alt="avatar" />
-					</span> 
-					<span class="subject"> 
-						<span class="from">'.$s1->FamilyName.' '.$s1->FirstName.'</span> 
-					</span> 
-					<span class="message"> '.$o1->Subject.' </span> 
-					<span class="small italic">';?><?php DateDifference($o1->TimeStamp); ?><?php echo'</span>
-				</a> 
-			</li>
-			';
-		}
-	}
-	//get rep messages
-	$q2="SELECT * FROM `message`, `discussion`
-			WHERE
-			(`message`.`ToUser`='$idUser' OR `message`.`FromUser`='$idUser' )
-             AND
-			`discussion`.`ToUser`='$idUser'
-			AND 
-			`message`.`Seen`='1'
-			AND
-			`discussion`.`idMessage`=`message`.`idMessage`
-			AND
-			`discussion`.`ToUser`='$idUser'
-			AND
-			`discussion`.`Seen`='0';
-			";
-	$r2=QueryExcuteWhile($q2);
-	if(mysqli_num_rows($r2)>'0'){		
-		while ($o2=mysqli_fetch_object($r2)){
-			$s2=UserGetInfo($o2->FromUser);
-			if(isset($s2->ProfilePhoto)){$img2=$s2->ProfilePhoto;}else{$img2='';}
-			echo'
-			<li> 
-				<a href="'.$URL.'ili-messages/read?id='.$o2->idMessage.'&id2='.$o2->idDiscussion.'"> 
-					<span class="photo">
-						<img src="'.$img2.'" alt="avatar" />
-					</span> 
-					<span class="subject"> 
-						<span class="from">'.$s2->FamilyName.' '.$s2->FirstName.'</span> 
-					</span> 
-					<span class="message"> '.$o2->Subject.' </span> 
-					<span class="small italic">';?><?php DateDifference($o2->TimeStamp); ?><?php echo'</span>
-				</a> 
-			</li>
-			';
-		}
 	}
 }
 function MessageStart($idUser){
@@ -1325,7 +1201,7 @@ function UserSocialGet($idUser){
 	if($user->githubAccount){echo'<li><a href="'.$user->githubAccount.'" target="new"><i class="icon-github"></i> Compte github</a></li>';}else{echo'<li><i class="icon-github"></i> Pas de compte Github </a></li>';}
 }
 function UserGetList(){
-	$query="SELECT * FROM users, usersRank WHERE users.idRank=usersRank.idRank";
+	$query="SELECT * FROM users, usersrank WHERE users.idRank=usersrank.idRank";
 	$result=QueryExcuteWhile($query);
 	while ($o=mysqli_fetch_object($result)){
 		echo'
@@ -1419,7 +1295,7 @@ function UserDeban($idUser){
 }
 function RankGetList($Rank_user){
 	if($_SESSION['user_idRank']==6){
-		$query="SELECT * FROM `usersRank` ORDER BY idRank ASC";
+		$query="SELECT * FROM `usersrank` ORDER BY idRank ASC";
 		$result=QueryExcuteWhile($query);
 		while ($o=mysqli_fetch_object($result)){
 			if($Rank_user==$o->idRank){$selected='selected="selected"';}else{$selected='';}
@@ -1427,7 +1303,7 @@ function RankGetList($Rank_user){
 		}
 	}
 	else{
-		$query="SELECT * FROM `usersRank` WHERE `idRank`<'6' ORDER BY idRank ASC";
+		$query="SELECT * FROM `usersrank` WHERE `idRank`<'6' ORDER BY idRank ASC";
 		$result=QueryExcuteWhile($query);
 		while ($o=mysqli_fetch_object($result)){
 			if($Rank_user==$o->idRank){$selected='selected="selected"';}else{$selected='';}
@@ -2046,37 +1922,5 @@ function PaymentInfo($idPayment){
 	";
 	$o=QueryExcute("mysqli_fetch_object",$sql);
 	if($o){return $o;}
-}
-
-/*STATISTIQUE*/
-function StatisticClientGetSum(){
-	$q="SELECT * FROM client";
-	$o=QueryExcute("mysqli_num_rows", $q);
-	echo $o;
-}
-function StatisticContractGetSum(){
-	$q="SELECT * FROM `contrat`";
-	$o=QueryExcute("mysqli_num_rows", $q);
-	echo $o;
-}
-function StatisticContractRenewGetSum(){
-	$q="SELECT * FROM `contrat_ren` ";
-	$o=QueryExcute("mysqli_num_rows", $q);
-	echo $o;
-}
-function StatisticMessageGetSum(){
-	$q="SELECT * FROM `message` ";
-	$o=QueryExcute("mysqli_num_rows", $q);
-	echo $o;
-}
-function StatisticLogGetSum(){
-	$q="SELECT * FROM `LogSystem`";
-	$o=QueryExcute("mysqli_num_rows", $q);
-	echo $o;
-}
-function StatisticSalesRevenuesGet(){
-	$q="SELECT (SUM(montant_ren)+(montant)) as total FROM contrat, contrat_ren WHERE contrat.id_cnt=contrat_ren.id_cnt_ren";
-	$o=QueryExcute("mysqli_fetch_object", $q);
-	echo sprintf("%.3f",$o->total);
 }
 ?>
