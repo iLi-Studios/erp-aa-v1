@@ -1,7 +1,32 @@
 <?php 
 include"../../ili-functions/functions.php";
-Authorization('2');
+Authorization('3');
 $ets=CompanyGetInfo();
+function CompanyInfoUpdate(){
+	global $URL;
+	$idUser = $_SESSION['user_id'];
+	$user=UserGetInfo($idUser);
+	if( isset($_POST['RS']) && isset($_POST['Activity']) && isset($_POST['Phone1']) && isset($_POST['Adress']) ){
+		if(isset($_POST['MF'])) 			{$MF=addslashes($_POST['MF']);} 					else{$MF='';}
+		$RS 			= addslashes($_POST['RS']);
+		if(isset($_POST['RC'])) 			{$RC=addslashes($_POST['RC']);} 					else{$RC='';}
+		$Activity 		= addslashes($_POST['Activity']);
+		$Adress 		= addslashes($_POST['Adress']);
+		$Phone1 		= $_POST['Phone1'];
+		if(isset($_POST['Phone2']))			{$Phone2=addslashes($_POST['Phone2']);} 			else{$Phone2='';}
+		if(isset($_POST['Fax']))			{$Fax=addslashes($_POST['Fax']);} 					else{$Fax='';}
+		if(isset($_POST['Email']))			{$Email=addslashes($_POST['Email']);} 				else{$Email='';}
+		if(isset($_POST['WebSite']))		{$WebSite=addslashes($_POST['WebSite']);} 			else{$WebSite='';}
+		if(isset($_POST['BankAccount1']))	{$BankAccount1=addslashes($_POST['BankAccount1']);} else{$BankAccount1='';}
+		if(isset($_POST['BankAccount2']))	{$BankAccount2=addslashes($_POST['BankAccount2']);} else{$BankAccount2='';}
+		
+		QueryExcute("", "UPDATE `company` SET `MF`='$MF', `RC`='$RC', `RS`='$RS', `Activity`='$Activity', `Adress`='$Adress', `Phone1`='$Phone1', `Phone2`='$Phone2', `Fax`='$Fax',	`Email`='$Email', `WebSite`='$WebSite', `BankAccount1`='$BankAccount1', `BankAccount2`='$BankAccount2' WHERE `id`=1");
+		NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/ets/info">'.$user->FamilyName.' '.$user->FirstName.', a modifier les informations de l`entreprise');
+		LogWrite("Modification des informations de l\'entreprise");
+		RedirectJS('ili-modules/ets/info');
+	}
+}
+CompanyInfoUpdate();
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -29,6 +54,14 @@ $ets=CompanyGetInfo();
 <link href="../../ili-style/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
 </head>
+<style>
+#nom_clt 		{padding-left:9px;border-radius:4px;background-color:#32C2CD;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;font-size:24.5px;margin-left:-0.15%;margin-top:-0.5%;}
+#activite_clt 	{padding-left:9px;border-radius:4px;background-color:#32C2CD;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;margin-left:-0.15%;margin-top:-0.2%;}
+#id_clt 		{height:25px;padding-left:9px;border-radius:4px;background-color:#E74955;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;font-size:13px;margin-left:-0.15%;margin-top:-2.2%;margin-bottom:-2%;padding:-1%, -1%;}
+#rc 			{height:25px;padding-left:9px;border-radius:4px;background-color:#32C2CD;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;font-size:13px;margin-left:-0.15%;margin-top:-2.2%;margin-bottom:-2%;padding:-1%, -1%;}
+#con 			{height:25px;padding-left:9px;border-radius:4px;background-color:#32C2CD;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;font-size:13px;margin-left:-0.25%;margin-top:-2.2%;margin-bottom:-2%;padding:-1%, -1%;}
+#Adress 		{height:25px;padding-left:9px;border-radius:4px;background-color:#32C2CD;font-size:11.844px;font-weight:bold;line-height:14px;color:#FFF;white-space:nowrap;vertical-align:baseline; border:none;box-shadow:none;font-size:13px;margin-left:-0.2%;margin-top:-0.8%;margin-bottom:-0.5%;width:100%;}
+</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -59,48 +92,51 @@ $ets=CompanyGetInfo();
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row-fluid">
 				<div class="span12">
+					<form action="" method="post" name="form1">
                     <!-- BEGIN EXAMPLE TABLE widget-->
                     <div class="widget">
                         <div class="widget-title">
                             <h4><i class="icon-reorder"></i> Fiche Etablissement</h4>
-							<?php if($_SESSION['user_idRank']>=3){echo'<span class="tools"><a href="edit" class="icon-edit tooltips" data-original-title="Modifier"></a></span>';}?>
+                            <span class="tools">
+							<a href="#" onclick="javascript:form1.submit();return false;" class="icon-save tooltips" data-original-title="Enregistrer"></a>
+							</span>
                         </div>
 						
 						<div class="widget-body">
                             <div class="span8">
-                                <h3><?php echo $ets->RS; ?> <br/><small><?php echo $ets->Activity; ?>, </small></h3>
+                                <h3><input name="RS" value="<?php echo $ets->RS; ?>"id="nom_clt" class="span12" autofocus required/> <br/><small><input name="Activity" value="<?php echo $ets->Activity; ?>"id="nom_clt" class="span12" required/>, </small></h3>
                                 <table class="table table-borderless">
                                     <tbody>
 										<tr>
 											<td>Tel1</td>
-											<td><?php echo $ets->Phone1; ?></td>
+											<td><input name="Phone1" value="<?php echo $ets->Phone1;?>" id="rc" class="span12" required/></td>
 										</tr>
 										<tr>
 											<td>Tel2</td>
-											<td><?php echo $ets->Phone2; ?></td>
+											<td><input name="Phone2" value="<?php echo $ets->Phone2;?>" id="rc" class="span12"/></td>
 										</tr>
                                         <tr>
 											<td>Fax</td>
-											<td><?php echo $ets->Fax; ?></td>
+											<td><input name="Fax" value="<?php echo $ets->Fax;?>" id="rc" class="span12"/></td>
 										</tr>
                                     <tr>
                                         <td class="span4">RIB 1:</td>
-                                        <td><?php echo $ets->BankAccount1; ?></td>
+                                        <td><input name="BankAccount1" value="<?php echo $ets->BankAccount1;?>" id="rc" class="span12"/></td>
                                     </tr>
                                     <tr>
                                         <td class="span4">RIB2 :</td>
-                                        <td><?php echo $ets->BankAccount2; ?></td>
+                                        <td><input name="BankAccount2" value="<?php echo $ets->BankAccount2;?>" id="rc" class="span12"/></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <h4>Addresse</h4>
                                 <div class="well">
                                     <address>
-                                        <?php echo $ets->Adress; ?><br><br>
+                                        <input name="Adress" value="<?php echo $ets->Adress;?>" id="rc" class="span12" required/><br><br>
                                     </address>
                                     <address>
-                                    	<a href="<?php echo $ets->WebSite; ?>"><?php echo $ets->WebSite; ?></a><br>
-                                        <a href="mailto:<?php echo $ets->Email; ?>"><?php echo $ets->Email; ?></a><br>
+                                    	<input name="WebSite" value="<?php echo $ets->WebSite;?>" id="rc" class="span12"/></a><br>
+                                        <input name="Email" value="<?php echo $ets->Email;?>" id="rc" class="span12"/></a><br>
                                     </address>
                                 </div>
                             </div>
@@ -110,11 +146,11 @@ $ets=CompanyGetInfo();
 										<tbody>
                                         	<tr>
                                                 <td class="span3">MF :</td>
-                                                <td><?php echo $ets->MF; ?></td>
+                                                <td><input name="MF" value="<?php echo $ets->MF;?>" id="rc" class="span12"/></td>
                                             </tr>
                                             <tr>
                                                 <td>RC :</td>
-                                                <td><?php echo $ets->RC; ?></td>
+                                                <td><input name="RC" value="<?php echo $ets->RC;?>" id="rc" class="span12"/></td>
                                             </tr>
 										</tbody>
 									</table>
@@ -128,6 +164,7 @@ $ets=CompanyGetInfo();
 						
                     </div>
                     <!-- END EXAMPLE TABLE widget-->
+					</form>
                 </div>
 			</div>
 			<!-- END PAGE CONTENT--> 

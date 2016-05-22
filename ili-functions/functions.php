@@ -268,8 +268,7 @@ function ErrorGet($message){
 /*NOTIFICATION*/
 function NotifGetAll(){
 	$idUser=$_SESSION['user_id'];
-	$query="SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser' ORDER BY idNotification DESC LIMIT 30";
-	$result=QueryExcuteWhile($query);
+	$result=QueryExcuteWhile("SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser' ORDER BY idNotification DESC LIMIT 30");
 	while ($o=mysqli_fetch_object($result)){
 		echo'
 			<li> 
@@ -284,17 +283,12 @@ function NotifGetAll(){
 		';
 	}
 }
-function NotificationGetWhile($o){
-	
-}
 function NotifWrite($user, $Description){
 	global $Timestamp;
-	$query="INSERT INTO `notificationsystem` VALUES (NULL, '$user', '$Description', '$Timestamp', '0');";
-	QueryExcute('', $query);
+	QueryExcute('', "INSERT INTO `notificationsystem` VALUES (NULL, '$user', '$Description', '$Timestamp', '0');");
 }
 function NotifAllWrite($user_dont_notif1, $user_dont_notif2, $Description){
-	$query = "SELECT idUser FROM users WHERE idUser<>'$user_dont_notif1' AND idUser<>'$user_dont_notif2' ";
-	$result=QueryExcuteWhile($query);
+	$result=QueryExcuteWhile("SELECT idUser FROM users WHERE idUser<>'$user_dont_notif1' AND idUser<>'$user_dont_notif2' ");
 	while ($o=mysqli_fetch_object($result)){
 		NotifWrite($o->idUser, $Description);
 	}
@@ -1293,24 +1287,6 @@ function UserDeban($idUser){
 	$QueryUserDeban="UPDATE users SET idRank='2' WHERE idUser='$idUser' ;";
 	QueryExcute('', $QueryUserDeban);
 }
-function RankGetList($Rank_user){
-	if($_SESSION['user_idRank']==6){
-		$query="SELECT * FROM `usersrank` ORDER BY idRank ASC";
-		$result=QueryExcuteWhile($query);
-		while ($o=mysqli_fetch_object($result)){
-			if($Rank_user==$o->idRank){$selected='selected="selected"';}else{$selected='';}
-			echo'<option '.$selected.' value="'.$o->idRank.'">'.$o->Rank.'</option>';
-		}
-	}
-	else{
-		$query="SELECT * FROM `usersrank` WHERE `idRank`<'6' ORDER BY idRank ASC";
-		$result=QueryExcuteWhile($query);
-		while ($o=mysqli_fetch_object($result)){
-			if($Rank_user==$o->idRank){$selected='selected="selected"';}else{$selected='';}
-			echo'<option '.$selected.' value="'.$o->idRank.'">'.$o->Rank.'</option>';
-		}
-	}
-}
 function UserGetInfo($idUser){
 	$query="SELECT * FROM users, usersrank WHERE users.idUser='$idUser' AND users.idRank=usersrank.idRank";
 	if($o=(QueryExcute("mysqli_fetch_object", $query))){return $o;}
@@ -1922,5 +1898,11 @@ function PaymentInfo($idPayment){
 	";
 	$o=QueryExcute("mysqli_fetch_object",$sql);
 	if($o){return $o;}
+}
+
+/*Company*/
+function CompanyGetInfo(){
+	$query="SELECT * FROM `company`";
+	if($o=(QueryExcute("mysqli_fetch_object", $query))){return $o;}
 }
 ?>
