@@ -11,7 +11,7 @@ function GetUserListeForSelect($User){
 		while ($o=mysqli_fetch_object($result)){
 			if($User==$o->idUser){$selected='selected';}else{$selected='';}
 			echo'
-			<option value="'.$o->idUser.'" '.$selected.'>#'.$o->idUser.', '.$o->FamilyName.' '.$o->FirstName.'</option>
+			<option value="'.$o->idUser.'" '.$selected.'>'.$o->FamilyName.' '.$o->FirstName.'</option>
 			';
 		}
 	}
@@ -23,116 +23,99 @@ function GetUserListeForSelect($User){
 	}
 }
 function CheckoutGetAmmountTotal($date1, $date2, $idUser){
-	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	printf("%0.3f", $o[0]);
 }
 function CheckoutGetAmmountTotalCash($date1, $date2, $idUser){
-	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `PaymentKind`='ESPECE' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `PaymentKind`='ESPECE' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='ESPECE' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='ESPECE'";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	printf("%0.3f", $o[0]);
 }
 function CheckoutGetAmmountTotalCheck($date1, $date2, $idUser){
-	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `PaymentKind`='CHEQUE' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `PaymentKind`='CHEQUE' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='CHEQUE' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT SUM(`Amount`) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='CHEQUE';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	printf("%0.3f", $o[0]);
 }
 function CheckoutGetTotalOperation($date1, $date2, $idUser){
-	$sql1="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	echo $o[0];
 }
 function CheckoutGetTotalOperationCash($date1, $date2, $idUser){
-	$sql1="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `PaymentKind`='ESPECE' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `PaymentKind`='ESPECE' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='ESPECE' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='ESPECE'";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	echo $o[0];
 }
 function CheckoutGetTotalOperationCheck($date1, $date2, $idUser){
-	$sql1="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `PaymentKind`='CHEQUE' AND `RecevedBy`='$idUser';";
-	$sql2="SELECT COUNT(*) FROM `payment` WHERE `EncashmentDate`>='$date1' AND `PaymentKind`='CHEQUE' AND `EncashmentDate`<='$date2';";
+	$sql1="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='CHEQUE' AND `RecevedBy`='$idUser';";
+	$sql2="SELECT COUNT(*) FROM `payment` WHERE  `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `PaymentKind`='CHEQUE';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$o=QueryExcute("mysqli_fetch_array", $query);
 	echo $o[0];
 }
 function Checkout($date1, $date2, $idUser){
 	global $URL;
-	$USER=UserGetInfo($idUser);
 	$sql1="SELECT * FROM `payment` WHERE `EncashmentDate` BETWEEN '$date1' AND '$date2' AND `RecevedBy`='$idUser';";
 	$sql2="SELECT * FROM `payment` WHERE `EncashmentDate` BETWEEN '$date1' AND '$date2';";
 	if($idUser){$query=$sql1;}else{$query=$sql2;}
 	$nobre_de_resultat=QueryExcute("mysqli_fetch_row", $query);
 	$result=QueryExcuteWhile($query);
 		echo'
-		<center>
-		<table width="100%" border="1">
-			<tr>
-				<th>#</th>
-				<th>#CONTRAT</th>
-				<th>#CLIENT</th>
-				<th>DESIGNATION</th>
-				<th>TYPE</th>
-				<th width="10%">DATE</th>
-				<th width="10%">#OPERATEUR</th>
-				<th>MONTANT</th>
-			</tr>
+		<div class="row-fluid">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Contrat</th>
+						<th class="hidden-480">Designation</th>
+						<th class="hidden-480">Type</th>
+						<th class="hidden-480">Date</th>
+						<th class="hidden-480">Operateur</th>
+						<th>Total</th>
+					</tr>
+				</thead>
 			';
 			while ($o=mysqli_fetch_object($result)){
 				$PaymentInfo=PaymentInfo($o->idPayment);
+				$USER2=UserGetInfo($o->RecevedBy);
 				echo'
-				<tr>
-					<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/paiement?id='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
-					<td style="text-align:right;">';?><?php if($PaymentInfo){echo'<a href="'.$URL.'ili-modules/contrat/contrat?id='.$PaymentInfo->idContract.'">'.$PaymentInfo->idContract.'</a>';}else{echo '#';}?><?php echo'&nbsp;&nbsp;</td>
-					<td style="text-align:center;">';?><?php if($PaymentInfo){echo'<a href="'.$URL.'ili-modules/client/client?id='.$PaymentInfo->idClient.'">'.$PaymentInfo->idClient.'</a>';}else{echo '<center>##</center>';}?><?php echo'</td>
-					<td>';?><?php if($o->Description){echo $o->Description;}else{echo '<center>##</center>';}?><?php echo'</td>
-					<td style="text-align:center;">'.$o->PaymentKind.'</td>
-					<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
-					<td style="text-align:center;"><a href="'.$URL.'ili-users/user_profil?id='.$o->RecevedBy.'">'.$o->RecevedBy.'</a></td>
-					<td style="text-align:right;">';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND&nbsp;&nbsp;</td>
-				</tr>
+				<tbody>
+					<tr>
+						<td>'.$o->idPayment.'</td>
+						<td>';?><?php if($PaymentInfo){echo $PaymentInfo->idContract;}else{echo '#';}?><?php echo'</td>
+						<td class="hidden-480">';?><?php if($o->Description){echo $o->Description;}else{echo '<center>##</center>';}?><?php echo'</td>
+						<td class="hidden-480">'.$o->PaymentKind.'</td>
+						<td class="hidden-480">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
+						<td class="hidden-480">';?><?php echo $USER2->FamilyName.' '.$USER2->FirstName ?><?php echo'</td>
+						<td>';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND</td>
+					</tr>
 				';
 			}
 			echo'
-			<tr>
-				<th colspan="5" rowspan="5"></th>
-				<th colspan="3" style="text-align:center;">TOTEAUX</th>
-				</tr>
-			<tr>
-
-				<th>TYPE</th>
-				<th style="text-align:center;">NBR</th>
-				<th style="text-align:center;">TOTAL</th>
-			</tr>
-			<tr>
-
-				<th>ESPECES</th>
-				<td style="text-align:right;">';?><?php CheckoutGetTotalOperationCash($date1, $date2, $idUser)?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckoutGetAmmountTotalCash($date1, $date2, $idUser)?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-
-				<th>CHEQUES</th>
-				<td style="text-align:right;">';?><?php CheckoutGetTotalOperationCheck($date1, $date2, $idUser)?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckoutGetAmmountTotalCheck($date1, $date2, $idUser)?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-
-				<th>SOMME</th>
-				<td style="text-align:right;">';?><?php CheckoutGetTotalOperation($date1, $date2, $idUser)?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckoutGetAmmountTotal($date1, $date2, $idUser)?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-		</table>
-		</center>
-		<br><br><br>
+				</tbody>
+			</table>
+		</div>
+		<div class="space20"></div>
+		<div class="row-fluid">
+			<div class="span4 invoice-block pull-right">
+				<ul class="unstyled amounts">
+					<li><strong>Total Chéque(';?><?php CheckoutGetTotalOperationCash($date1, $date2, $idUser)?><?php echo') : </strong> ';?><?php CheckoutGetAmmountTotalCash($date1, $date2, $idUser)?><?php echo' TND</li>
+					<li><strong>Total Espéce(';?><?php CheckoutGetTotalOperationCheck($date1, $date2, $idUser)?><?php echo') : </strong> ';?><?php CheckoutGetAmmountTotalCheck($date1, $date2, $idUser)?><?php echo' TND</li>
+					<li><strong>Somme(';?><?php CheckoutGetTotalOperation($date1, $date2, $idUser)?><?php echo') : </strong> ';?><?php CheckoutGetAmmountTotal($date1, $date2, $idUser)?><?php echo' TND</li>
+				</ul>
+			</div>
+		</div>
 		';
 }
 function CheckoutListForClient($idClient){
@@ -146,6 +129,7 @@ function CheckoutListForClient($idClient){
 		echo'</ol>';
 	}
 }
+$cmp=CompanyGetInfo();
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -205,32 +189,47 @@ function CheckoutListForClient($idClient){
 			<div class="span12"> 
 				<!-- BEGIN EXAMPLE TABLE widget-->
 				<div class="widget">
-					<div class="widget-title">
-						<h4><i class="icon-reorder"></i> Jounral du caisse</h4>
-						<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> </span>
-					</div>
+					<div class="widget-title"><h4><i class="icon-reorder"></i> Journal Du Caisse</h4></div>
 					<div class="widget-body">
 						<div class="span12">
+                            <div class="row-fluid invoice-list">
+								<div class="span4"><img src="../../ili-upload/logo.png" width="150px" height="150px" alt=""></div>
+								<div class="span4"><h2 style="margin-top:50px;">Journal Du Caisse</h2></div>
+								<div class="span4"  style="margin-top:20px; ">
+									<ul class="unstyled">
+                                        <li>Agence		: <strong><?php echo $cmp->RS ;?></strong></li>
+                                        <li>Tel			: <?php echo $cmp->Phone1 ;?></li>
+                                        <li>Fax			: <?php echo $cmp->Fax ;?></li>
+                                        <li>Email		: <?php echo $cmp->Email ;?></li>
+										<li>Site		: <?php echo $cmp->WebSite ;?></li>
+										<li>Adresse		: <?php echo $cmp->Adress ;?></li>
+                                    </ul>
+								</div>
+                            </div>
 							<?php
 							if(isset($_GET['DATE1'])){$DATE1=$_GET['DATE1'];}else{$DATE1=$NowEN;}
 							if(isset($_GET['DATE2'])){$DATE2=$_GET['DATE2'];}else{$DATE2=$NowEN;}
 							if(isset($_GET['idUser'])){$User=$_GET['idUser'];}else{$User='0';}
 							?>
-							<br>
-							<form method="post" action="">
-								<table width="100%">
-									<tr>
-										<th>Du</th>
-										<th><input type="date"  name="DATE1" value="<?php echo $DATE1;?>" required style="width:80%; margin-top:10px;"></th>
-										<th>A</th>
-										<th><input type="date"  name="DATE2" value="<?php echo $DATE2;?>" required style="width:80%;margin-top:10px;"></th>
-										<th>CAISSE/UTILISATEUR
-										<th> <select name="idUser" style="width:100%; margin-top:10px;"><?php GetUserListeForSelect($User);?></select>
-										</th>
-										<th><button class="btn btn-success"><i class="icon-search icon-white"></i> Chercher</button></th>
-									</tr>
-								</table>
-							</form>
+						    <div class="space20"></div>
+							<div class="space20"></div>
+                            <div class="row-fluid invoice-list">
+								<form action="" method="post">
+									<div class="span4">
+										<h5>DATE DEBUT</h5>
+										<input type="date"  name="DATE1" value="<?php echo $DATE1;?>" onChange="this.form.submit();" style="width:80%; border:none;">
+									</div>
+									<div class="span4">
+										<h5>DATE FIN</h5>
+										<input type="date"  name="DATE2" value="<?php echo $DATE2;?>" onChange="this.form.submit();" style="width:80%; border:none;">
+									</div>
+									<div class="span4">
+										<h5>UTILISATEUR</h5>
+										<select name="idUser" onChange="this.form.submit();" style="width:100%; border:none;"><?php GetUserListeForSelect($User);?></select>
+									</div>
+								</form>
+                            </div>
+                            <div class="space20"></div>
 							<?php
 							if( (isset($_POST['DATE1'])) && (isset($_POST['DATE2'])) && (isset($_POST['idUser']))){
 								$DATE1=$_POST['DATE1'];
@@ -245,8 +244,10 @@ function CheckoutListForClient($idClient){
 					</div>
 					<!-- END EXAMPLE TABLE widget--> 
 				</div>
+				
 			</div>
-			<!-- END PAGE CONTENT--> 
+			<!-- END PAGE CONTENT-->
+			 
 		</div>
 		<!-- END PAGE CONTAINER--> 
 	</div>
