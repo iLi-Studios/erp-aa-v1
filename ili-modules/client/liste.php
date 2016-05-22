@@ -88,10 +88,10 @@ function ClientGetList(){
                             <table class="table table-striped table-bordered" id="sample_1">
 								<thead>
 									<tr>
-										<th width="1%"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-										<th width="20%">Code</th>
-										<th class="hidden-phone" width="59%">Client</th>
-										<th class="hidden-phone" width="20%">TEL</th>
+										<th class="hidden-phone" width="1%"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
+										<th class="hidden-phone" width="20%">Code</th>
+										<th width="59%">Client</th>
+										<th width="20%">TEL</th>
 									</tr>
 								</thead>
 								<tbody><?php ClientGetList(); ?></tbody>
