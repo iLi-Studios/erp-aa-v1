@@ -26,6 +26,58 @@ function CompanyInfoUpdate(){
 		RedirectJS('ili-modules/ets/info');
 	}
 }
+function UpladImage(){
+	global $URL;
+	$idUser = $_SESSION['user_id'];
+	$user=UserGetInfo($idUser);
+	if(isset($_POST["UploadImage"])) {
+		$target_dir = "../../ili-upload/";
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]['name']);
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		$imageFilename = pathinfo($target_file,PATHINFO_FILENAME);
+		$imageNewName = "logo";
+		$NewTarget = $target_dir.$imageNewName.'.'.$imageFileType;
+		// Check if image file is a actual image or fake image
+		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+		if($check !== false) {
+			/*echo "Ce fichier est une image - " . $check["mime"] . ".";*/
+			$uploadOk = 1;
+		} else {
+			echo "Ce fichier n'est pas une image.";
+			$uploadOk = 0;
+		}
+		// Check if file already exists
+		/*if (file_exists($target_file)) {
+			echo "Fichier existe déjà.";
+			$uploadOk = 0;
+		}*/
+		// Check file size
+		if ($_FILES["fileToUpload"]["size"] > 500000) {
+			echo "Le fichier est volumineux.";
+			$uploadOk = 0;
+		}
+		// Allow certain file formats
+		if($imageFileType != "png" /*&& $imageFileType != "jpeg" && $imageFileType != "gif" && $imageFileType != "jpg"*/) {
+			echo "L'extension PNG uniquement est autorisé.";
+			$uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+			echo "Erreur : Chargement!.";
+		// if everything is ok, try to upload file
+		} else {
+			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $NewTarget)) {
+				/*echo "Fichier ". basename( $_FILES["fileToUpload"]["name"]). " Chargé.";*/
+				NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/ets/info">'.$user->FamilyName.' '.$user->FirstName.', a modifier le logo de l`entreprise');
+				LogWrite("Modification de logo de l\'entreprise");
+				RedirectJS('ili-modules/ets/info');
+			} else {
+				echo "Erreur : Chargement!.";
+			}
+		}
+	}
+}
 CompanyInfoUpdate();
 ?>
 <!DOCTYPE html>
@@ -156,15 +208,20 @@ CompanyInfoUpdate();
 									</table>
                                 </ul>
                             </div>
+					</form>
                             <div class="span4">
                             	<center><img src="<?php echo $URL; ?>/ili-upload/logo.png" width="300px" height="300px"/></center>
+								<form action="" method="post" name="form2" enctype="multipart/form-data">
+									<input type="hidden" name="UploadImage">
+									<input type="file" name="fileToUpload" id="fileToUpload" onChange="this.form.submit();">
+								</form>
+								<?php UpladImage();?>
                             </div>
                             <div class="space5"></div>
                         </div>
 						
                     </div>
                     <!-- END EXAMPLE TABLE widget-->
-					</form>
                 </div>
 			</div>
 			<!-- END PAGE CONTENT--> 
