@@ -1,5 +1,9 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserQualificationDrop($idQualification){
+	$Query="DELETE FROM `usersqualification` WHERE `idQualification`='$idQualification';";
+	QueryExcute('', $Query);
+}
 Authorization('2'); 
 $id_skills=$_GET['id_skills'];
 $skills_name=$_GET['skills_name'];

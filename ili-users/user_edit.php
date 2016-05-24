@@ -1,5 +1,1017 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserDiplomaInsert($idUser){
+	//Modal
+	echo'
+	<form action="" method="post">
+		<div id="myModal_diploma_add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_diploma_add_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_diploma_add_Label">Diplôme Ajout</h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td width="40%">Annee</td>
+							<td width="60%"><input name="InsertDiplomaYear" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Lieux</td>
+							<td><input name="InsertDiplomaLocation" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Diplôme</td>
+							<td><input name="InsertDiplomaDiscription" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Etablissement</td>
+							<td><input name="InsertDiplomaInstitute" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+					</table>
+				</center>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Ajouter"/>
+			</div>
+		</div>
+	</form>
+	';
+	//Form
+	if( (isset($_POST['InsertDiplomaYear'])) && (isset($_POST['InsertDiplomaLocation'])) && (isset($_POST['InsertDiplomaDiscription'])) && (isset($_POST['InsertDiplomaInstitute'])) ){	
+		global $URL;
+		$user=UserGetInfo($idUser);
+		$InsertDiplomaYear	 			= addslashes($_POST['InsertDiplomaYear']);
+		$InsertDiplomaLocation	 		= addslashes($_POST['InsertDiplomaLocation']);
+		$InsertDiplomaDiscription 		= addslashes($_POST['InsertDiplomaDiscription']);
+		$InsertDiplomaInstitute 		= addslashes($_POST['InsertDiplomaInstitute']);
+		$QueryInsertDiploma			= "INSERT INTO `usersdiploma` (`idDiploma`, `idUser`, `Year`, `Location`, `Description`, `Institute`) VALUES ('', '$user->idUser', '$InsertDiplomaYear', '$InsertDiplomaLocation', '$InsertDiplomaDiscription', '$InsertDiplomaInstitute');";
+		QueryExcute('', $QueryInsertDiploma);
+		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', ajout du diplôme : '.$InsertDiplomaDiscription);
+		LogWrite("Ajout du diplôme : ".$InsertDiplomaDiscription.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		Refresh();
+	}
+}
+function UserDiplomaUpdate($idUser){
+	//Function
+	$query="SELECT * FROM `usersdiploma` WHERE `idUser`='$idUser' ORDER BY `idDiploma` DESC;";
+	if(QueryExcute('mysqli_num_rows', $query)=='0'){echo"<strong>PAS DE DIPLOME!</strong>";}
+	else{
+		$result=QueryExcuteWhile($query);
+		while ($o=mysqli_fetch_object($result)){
+			echo'	<li><i class="icon-hand-right"></i>
+						<strong>'.$o->Description.'</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#myModal_diploma_mod'.$o->idDiploma.'" data-toggle="modal" class="icon-edit tooltips" data-original-title="&nbsp;&nbsp;Modifier"></a>
+						<a href="diploma_remove?idUser='.$_GET['id'].'&id_diploma='.$o->idDiploma.'&diploma_name='.$o->Description.'" class="icon-trash tooltips" data-original-title="&nbsp;&nbsp;Supprimer"></a>
+						<br/>
+						<em>'.$o->Location.', '.$o->Year.'</em><br/>
+						<em><strong>'.$o->Institute.'</strong></em><br>
+						<!-- Start myModal_diploma_mod -->
+						<form action="" method="post">
+							<div id="myModal_diploma_mod'.$o->idDiploma.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_diploma_mod'.$o->idDiploma.'_Label" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h3 id="myModal_diploma_mod'.$o->idDiploma.'_Label">Diplôme Modification</h3>
+								</div>
+								<div class="modal-body">
+									<center>
+										<table width="80%">
+											<tr>
+												<td width="40%">Annee</td>
+												<td width="60%"><input name="UpdateDiplomaYear" required type="text" value="'.$o->Year.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>Lieux</td>
+												<td><input name="UpdateDiplomaLocation" required type="text" value="'.$o->Location.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>Diplôme</td>
+												<td><input name="UpdateDiplomaDescription" required type="text" value="'.$o->Description.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>Etablissement</td>
+												<td><input name="UpdateDiplomaInstitute" required type="text" value="'.$o->Institute.'" class="input-large" /></td>
+											</tr>	
+										</table>
+									</center>
+								</div>
+								<div class="modal-footer">
+									<input type="hidden" name="UpdateDiplomaidDiploma" value="'.$o->idDiploma.'"/>
+									<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+									<input type="submit" class="btn btn-primary" value="Mettre à jour ?"/>
+								</div>
+							</div>
+						</form><!-- End myModal_diploma_mod -->
+					</li>
+					';				
+		}
+	}
+	//Form
+	if( (isset($_POST['UpdateDiplomaidDiploma'])) && (isset($_POST['UpdateDiplomaYear'])) && (isset($_POST['UpdateDiplomaLocation'])) && (isset($_POST['UpdateDiplomaDescription'])) && (isset($_POST['UpdateDiplomaInstitute'])) ){	
+		global $URL;
+		$user=UserGetInfo($idUser);
+		$UpdateDiplomaYear	 			= addslashes($_POST['UpdateDiplomaYear']);
+		$UpdateDiplomaLocation	 		= addslashes($_POST['UpdateDiplomaLocation']);
+		$UpdateDiplomaDescription 		= addslashes($_POST['UpdateDiplomaDescription']);
+		$UpdateDiplomaInstitute 		= addslashes($_POST['UpdateDiplomaInstitute']);
+		$UpdateDiplomaidDiploma			= addslashes($_POST['UpdateDiplomaidDiploma']);
+		$QueryUpdateDiploma	= "UPDATE `usersdiploma` 
+								SET 
+										`Year`='$UpdateDiplomaYear',
+										`Location`='$UpdateDiplomaLocation',
+										`Description`='$UpdateDiplomaDescription',
+										`Institute`='$UpdateDiplomaInstitute' 
+								WHERE `idDiploma`='$UpdateDiplomaidDiploma';";
+		QueryExcute('', $QueryUpdateDiploma);
+		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification du diplôme : '.$UpdateDiplomaDescription);
+		LogWrite("Modification du diplôme : ".$UpdateDiplomaDescription.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		Refresh();
+	}
+}
+function UserExpiranceInsert($idUser){
+	//Modal
+	echo'
+	<form action="" method="post">
+		<div id="myModal_expirance_add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_expirance_add_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_expirance_add_Label">Expériance Ajout</h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td width="40%">Etablissement</td>
+							<td width="60%"><input name="InsertCompany" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>URL Etablissement</td>
+							<td><input name="InsertCompanyURL" type="url" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Durée</td>
+							<td><input name="InsertPeriod" required type="text" placeholder="" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Expériance</td>
+							<td><textarea name="InsertDescription" style="resize: vertical; width:100%; max-height:150px;" rows="4"></textarea></td>
+						</tr>
+					</table>
+				</center>
+				<h6>NB: URL Teablissement doit être complet <br>
+					EXP. http://www.ili-studios.com/<br>
+					<strong>CONCEIL :</strong> Copiez-le directement depuis le navigateur</h6>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Ajouter"/>
+			</div>
+		</div>
+	</form>
+	';
+	//Form
+	if( (isset($_POST['InsertCompany'])) && (isset($_POST['InsertCompanyURL'])) && (isset($_POST['InsertPeriod'])) && (isset($_POST['InsertDescription'])) ){	
+		global $URL;
+		$user=UserGetInfo($idUser);
+		$InsertCompany	 		= addslashes($_POST['InsertCompany']);
+		$InsertCompanyURL	 	= addslashes($_POST['InsertCompanyURL']);
+		$InsertPeriod 			= addslashes($_POST['InsertPeriod']);
+		$InsertDescription 		= addslashes($_POST['InsertDescription']);
+		$QueryInsertExperience	= "INSERT INTO `usersexperience` (`idExperience`, `idUser`, `Company`, `CompanyURL`, `Period`, `Description`) VALUES (NULL, '$user->idUser', '$InsertCompany', '$InsertCompanyURL', '$InsertPeriod', '$InsertDescription');";
+		QueryExcute('', $QueryInsertExperience);
+		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', ajout de l\'expérence dans l\'etablissement : '.$InsertCompany);
+		LogWrite("Ajout de l\'expérience dans l\'etablissement : ".$InsertCompany.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		Refresh();
+	}
+}
+function UserExpiranceUpdate($idUser){
+	$query="SELECT * FROM `usersexperience` WHERE `idUser`='$idUser' ORDER BY `idExperience` DESC;";
+	if(QueryExcute('mysqli_num_rows', $query)=='0'){echo"<strong>PAS D'EXPERIENCE!</strong>";}
+	else{
+		$result=QueryExcuteWhile($query);
+		while ($o=mysqli_fetch_object($result)){
+			echo'	<li><i class="icon-hand-right"></i>
+						<strong>'.$o->Company.'</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#myModal_expirance_mod'.$o->idExperience.'" data-toggle="modal" class="icon-edit tooltips" data-original-title="&nbsp;&nbsp;Modifier"></a>
+						<a href="expirance_remove?idUser='.$_GET['id'].'&id_expirance='.$o->idExperience.'&Company='.$o->Company.'" class="icon-trash tooltips" data-original-title="&nbsp;&nbsp;Supprimer"></a>
+						<br/>
+						<em>Durée : '.$o->Period.'</em><br/>
+						<em>&nbsp;&nbsp;&nbsp;'.$o->Description.'</em><br>
+						<a href="'.$o->CompanyURL.'" target="new">'.$o->CompanyURL.'</a>
+						<!-- Start myModal_expirance_mod -->					
+						<form action="" method="post">
+							<div id="myModal_expirance_mod'.$o->idExperience.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_expirance_mod'.$o->idExperience.'_Label" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h3 id="myModal_expirance_mod'.$o->idExperience.'_Label">Expérience Modifier</h3>
+								</div>
+								<div class="modal-body">
+									<center>
+										<table width="80%">
+											<tr>
+												<td width="40%">Etablissement</td>
+												<td width="60%"><input name="UpdateCompany" required type="text" value="'.$o->Company.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>URL Etablissement</td>
+												<td><input name="UpdateCompanyURL" type="text" value="'.$o->CompanyURL.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>Durée</td>
+												<td><input name="UpdatePeriod" required type="text" value="'.$o->Period.'" class="input-large" /></td>
+											</tr>
+											<tr>
+												<td>Expérience</td>
+												<td><textarea name="UpdateDescription" style="resize: vertical; width:100%; max-height:150px;" rows="4">'.$o->Description.'</textarea></td>
+											</tr>
+										</table>
+									</center>
+									<h6>NB: URL Etablissement doit être complet <br>EXP: http://www.ili-studios.com/<br> <strong>CONCEIL :</strong> Copiez-le directement depuis le navigateur</h6>
+								</div>
+								<div class="modal-footer">
+									<input type="hidden" name="UpdateidExperience" value="'.$o->idExperience.'"/>
+									<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+									<input type="submit" class="btn btn-primary" value="Mettre à jour ?"/>
+								</div>
+							</div>
+						</form><!-- End myModal_expirance_mod -->						
+					</li>';
+		}
+		//formulaire d'update
+		if( (isset($_POST['UpdateCompany'])) && (isset($_POST['UpdateCompanyURL'])) && (isset($_POST['UpdatePeriod'])) && (isset($_POST['UpdateDescription'])) && (isset($_POST['UpdateidExperience'])) ){	
+			global $URL;
+			$UpdateCompany	 	= addslashes($_POST['UpdateCompany']);
+			$UpdateCompanyURL	= addslashes($_POST['UpdateCompanyURL']);
+			$UpdatePeriod 		= addslashes($_POST['UpdatePeriod']);
+			$UpdateDescription 	= addslashes($_POST['UpdateDescription']);
+			$UpdateidExperience	= addslashes($_POST['UpdateidExperience']);
+			$user				= UserGetInfo($idUser);
+			QueryExcute("", "UPDATE usersexperience SET Company='$UpdateCompany', CompanyURL='$UpdateCompanyURL', Period='$UpdatePeriod', Description='$UpdateDescription' WHERE idExperience='$UpdateidExperience';");
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', Modification de l`experiance dans l`etablissement : '.$UpdateCompany);
+			LogWrite("Modification de l\'expérience dans l\'etablissement : ".$UpdateCompany.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+			Refresh();
+			
+		}
+	}
+}
+function UserQualificationInsert($idUser){
+	//Modal
+	echo'
+	<form action="" method="post">
+		<div id="myModal_skills_add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_skills_add_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_skills_add_Label"><center>Ajout de Compétance</center></h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td width="40%">Compétance</td>
+							<td width="60%"><input name="InsertQualificationDescription" required type="text" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Niveau</td>
+							<td><input name="InsertQualificationLevel" required type="range" class="input-large" />%</td>
+						</tr>
+					</table>
+				</center>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Ajouter"/>
+			</div>
+		</div>
+	</form>
+	';
+	//form
+	if( (isset($_POST['InsertQualificationDescription'])) && (isset($_POST['InsertQualificationLevel'])) ){
+		global $URL;
+		$user=UserGetInfo($idUser);
+		$InsertQualificationDescription 	= addslashes($_POST['InsertQualificationDescription']);
+		$InsertQualificationLevel			= addslashes($_POST['InsertQualificationLevel']);
+		$QueryInsertQualification = "INSERT INTO usersqualification VALUES ('', '$idUser', '$InsertQualificationDescription', '$InsertQualificationLevel');";
+		QueryExcute('', $QueryInsertQualification);
+		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', ajout de compétence : '.$InsertQualificationDescription);
+		LogWrite("Ajout du compétence : ".$InsertQualificationDescription.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+		Refresh();
+	}	
+}
+function UserQualificationUpdate($idUser){
+	// Function
+	$Query="SELECT * FROM `usersqualification` WHERE idUser='$idUser' ORDER BY `idQualification` DESC;";
+	if(QueryExcute('mysqli_num_rows', $Query)=='0'){echo"<strong>PAS DE COMPETANCE!</strong>";}
+	else{
+		$Result=QueryExcuteWhile($Query);
+		while ($O=mysqli_fetch_object($Result)){
+			if($O->Value >= '0' && $O->Value <= '33'){$Color='danger';}
+			if($O->Value >'33' && $O->Value <= '66'){$Color='warning';}
+			if($O->Value >'66' && $O->Value <= '100'){$Color='success';}
+			echo'
+				<tr>
+					<td class="span1">
+						<span class="label label-inverse">
+							<a href="skills_remove?idUser='.$_GET['id'].'&id_skills='.$O->idQualification.'&skills_name='.$O->Label.'" class="icon-trash tooltips" data-original-title="Supprimer"></a>
+							'.$O->Label.'
+						</span>
+					</td>
+					<td>
+						<div class="progress progress-'.$Color.' progress-striped">
+							<div style="width: '.$O->Value.'%" class="bar"></div>
+						</div>
+					</td>
+				</tr>				
+				';				
+		}
+	}
+}
+function UserPasswordUpdate($idUser){
+	$user=UserGetInfo($idUser);
+	//Form
+	echo'
+	<form action="" method="post">
+		<div id="myModal_Password_edit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_Password_edit_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_Password_edit_Label"><center>Changement du mot de passe</center></h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">';?>
+						<?php
+						if($_SESSION['user_idRank']>=3){
+							echo'
+								<input name="Password_now" type="hidden" class="input-large" value="'.$user->Password.'" />
+								<tr>
+									<td>Nouveau mot de passe</td>
+									<td><input name="Password_new" required type="password" placeholder="" class="input-large" /></td>
+								</tr>
+								<tr>
+									<td>Repeter votre nouveau mot de passe</td>
+									<td><input name="Password_new2" required type="password" placeholder="" class="input-large" /></td>
+								</tr>
+							';
+						}
+						else{
+							echo'
+								<tr>
+									<td width="40%">Mot de passe actuelle</td>
+									<td width="60%"><input name="Password_now" required type="password" placeholder="" class="input-large" /></td>
+								</tr>
+								<tr>
+									<td>Nouveau mot de passe</td>
+									<td><input name="Password_new" required type="password" placeholder="" class="input-large" /></td>
+								</tr>
+								<tr>
+									<td>Repeter votre nouveau mot de passe</td>
+									<td><input name="Password_new2" required type="password" placeholder="" class="input-large" /></td>
+								</tr>	
+							';
+						}
+						?><?php echo'
+					</table>
+				</center>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Changer"/>
+			</div>
+		</div>
+	</form>
+	';
+	//Function
+	if( (isset($_POST['Password_now'])) && (isset($_POST['Password_new'])) && (isset($_POST['Password_new2'])) ){
+		if($_SESSION['user_idRank']>=3){$Password_now =($_POST['Password_now']);}else{$Password_now=md5($_POST['Password_now']);}
+		global $Timestamp, $URL;
+		$Password_new	=md5($_POST['Password_new']);
+		$Password_new2	=md5($_POST['Password_new2']);
+		if($Password_now==$user->Password){
+			if($Password_new2==$Password_new){
+				QueryExcute("mysqli_fetch_object", "UPDATE `users` SET `LastPasswordChangedDate`='$Timestamp', `Password`='$Password_new' WHERE `idUser`='$idUser';");
+				LogWrite("Changement du mot de passe de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+				Redirect('ili-users/user_edit?message=36&id='.$idUser);
+			}
+			else{Redirect('ili-users/user_edit?message=11&id='.$idUser);}
+		}
+		else{Redirect('ili-users/user_edit?message=10&id='.$idUser);}
+	}
+}
+function UserProfileInfoUpdate($idUser){
+	//Form
+	$user=UserGetInfo($idUser);
+	global $URL;
+	echo'
+	<form action="" method="post">
+		<div id="myModal_info_mod" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_info_mod_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_info_mod_Label"><center>Modification des informations</center></h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td width="40%">Nom</td>
+							<td width="60%"><input name="FamilyName" required type="text" value="'.$user->FamilyName.'" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Prénom</td>
+							<td><input name="FirstName" required type="text" value="'.$user->FirstName.'" class="input-large" /></td>
+						</tr>';?><?php if($_SESSION['user_idRank']>=3){echo'
+						<tr>
+							<td>Poste</td>
+							<td><input name="FunctionPost" required type="text" value="'.$user->FunctionPost.'" class="input-large" /></td>
+						</tr>
+						';}
+						else{echo'<input name="FunctionPost" type="hidden" value="'.$user->FunctionPost.'"/>';}?><?php echo'
+						<tr>
+							<td>Email</td>
+							<td><input name="Email" required type="email" value="'.$user->Email.'" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Mobile</td>
+							<td><input name="Phone" required type="text" value="'.$user->Phone.'" data-mask="99.999.999" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Adresse</td>
+							<td><input name="Adress" required type="text" value="'.$user->Adress.'" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>Date de naissance</td>
+							<td><input name="BirthDay" required type="text" value="'.$user->BirthDay.'" data-mask="99-99-9999" class="input-large" /></td>
+						</tr>
+					</table>
+				</center>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Mettre à jour ?"/>
+			</div>
+		</div>
+	</form>
+	';
+		//Function
+	if( (isset($_POST['FamilyName'])) && (isset($_POST['FirstName'])) && (isset($_POST['FunctionPost'])) && (isset($_POST['Email'])) && (isset($_POST['Phone'])) && (isset($_POST['BirthDay'])) && (isset($_POST['Adress'])) ){
+		$FamilyName		=addslashes($_POST['FamilyName']);
+		$FirstName		=addslashes($_POST['FirstName']);
+		$FunctionPost	=addslashes($_POST['FunctionPost']);
+		$Email			=addslashes($_POST['Email']);
+		$Phone			=addslashes($_POST['Phone']);
+		$Adress			=addslashes($_POST['Adress']);
+		$BirthDay 		=addslashes($_POST['BirthDay']);						
+		QueryExcute('', "UPDATE users SET FamilyName = '$FamilyName', FirstName='$FirstName', Email='$Email', FunctionPost='$FunctionPost', Phone='$Phone', BirthDay='$BirthDay', Adress='$Adress' WHERE idUser='$idUser'");
+		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification des informations');
+		LogWrite("Modification des informations de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+		Refresh();
+		
+	}
+}
+function UserProfilePhotoUpdate($idUser){
+	$user=UserGetInfo($idUser);
+	//Form
+	echo'
+	<form action="" method="post">
+		<div id="myModal_img_mod" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_img_mod_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_img_mod_Label"><center>Modification du photo du profile</center></h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td>URL Image</td>
+							<td><input name="ProfilePhoto" type="url" value="'.$user->ProfilePhoto.'" class="input-large" /></td>
+						</tr>
+					</table>
+				</center>
+				<br>
+				<h6><strong>Exp.</strong> http://www.ili-studios.com/img/test.png<br>
+					<strong>INFO :</strong> Laissé vide si vous voulez pas affichié votre photo!</h6>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Mettre à jour ?"/>
+			</div>
+		</div>
+	</form>
+	';
+	//Function
+	if( isset($_POST['ProfilePhoto']) ){
+		$ProfilePhoto				= addslashes($_POST['ProfilePhoto']);
+		QueryExcute("mysqli_fetch_object", "UPDATE `users` SET `ProfilePhoto`='$ProfilePhoto' WHERE `idUser`='$user->idUser';");
+		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification de photo de profile');
+		LogWrite("Changement de l\'image de profil de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		Redirect('ili-users/user_edit?message=36&id='.$idUser);
+	}
+}
+function UserSocialeUpdate($idUser){
+	$user=UserGetInfo($idUser);
+	//Form
+	echo'
+	<form action="" method="post">
+		<div id="myModal_social_edit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_social_edit_Label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModal_social_edit_Label">URL Socieaux</h3>
+			</div>
+			<div class="modal-body">
+				<center>
+					<table width="80%">
+						<tr>
+							<td>URL Facebook</td>
+							<td><input name="fbAccount" type="url" value="'.$user->fbAccount.'" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>URL LinkedinAccount</td>
+							<td><input name="linkedinAccount" type="url" value="'.$user->linkedinAccount.'" class="input-large" /></td>
+						</tr>
+						<tr>
+							<td>URL Gitub</td>
+							<td><input name="githubAccount" type="url" value="'.$user->githubAccount.'" class="input-large" /></td>
+						</tr>
+					</table>
+				</center>
+				<br>
+				<h6><strong>Exp.</strong> http://www.facebook.com/<br>
+					<strong>INFO :</strong> Laissé vide si vous voulez pas affichié vos lien socieaux!</h6>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<input type="submit" class="btn btn-primary" value="Mettre à jour ?"/>
+			</div>
+		</div>
+	</form>
+	';
+	//Function 
+	if( (isset($_POST['fbAccount'])) && (isset($_POST['linkedinAccount'])) && (isset($_POST['githubAccount'])) ){
+		global $URL;
+		$fbAccount				= addslashes($_POST['fbAccount']);
+		$linkedinAccount		= addslashes($_POST['linkedinAccount']);
+		$githubAccount			= addslashes($_POST['githubAccount']);
+		$QuerySocialInsert		= "UPDATE `users` SET `fbAccount`='$fbAccount', `githubAccount`='$githubAccount', `linkedinAccount`='$linkedinAccount' WHERE `idUser`='$idUser';";
+		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification des liens socieaux');
+		QueryExcute('', $QuerySocialInsert);
+		LogWrite("Modification des liens socieaux de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		Refresh();
+	}
+}
+function UserPrivilegesGetUpdate($idUser){
+	global $URL;
+	$user=UserGetInfo($idUser);
+	if( ($_SESSION['user_idRank']>=3)&&($_SESSION['user_id']!=$idUser) ){
+		echo'
+		<ul class="nav nav-tabs nav-stacked" style="margin-left:-15%;">
+			<div class="widget-body">
+				<div class="space10"></div>
+				<ul id="tree_2" class="tree">
+					<li>
+						<a data-toggle="branch" class="tree-toggle" data-role="branch" href="#">Autorisations</a>
+						<ul class="branch in">';
+	$query="SELECT `bloc` FROM `usersprivilege` WHERE `idUser`='$idUser'";
+	$result=QueryExcuteWhile($query);
+	while ($o=mysqli_fetch_object($result)){
+		if(($o->bloc != 'CONTRAT') && ($o->bloc != 'CAISSE')){
+			echo'
+							<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+			$query2="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
+			$result2=QueryExcuteWhile($query2);
+			while ($b=mysqli_fetch_object($result2)){
+				echo'
+								<ul class="branch">
+					';			
+					if($b->s){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'s0" value="1">
+											<input type="checkbox" name="s0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-eye-open"></p></a> Voir
+										</form>
+									</li>
+								';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'s1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-eye-open"></p></a> Voir
+										</form>
+									</li>
+							';
+					}
+					if($b->c){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'c0" value="1">
+											<input type="checkbox" name="c0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-plus"></p></a> Créer
+										</form>
+									</li>
+							';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'c1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-plus"></p></a> Créer
+										</form>
+									</li>
+							';
+					}
+					if($b->u){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'u0" value="1">
+											<input type="checkbox" name="u0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-edit"></p></a> Modifier
+										</form>
+									</li>
+							';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'u1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-edit"></p></a> Modifier
+										</form>
+									</li>
+							';
+					}
+					if($b->d){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'d0" value="1">
+											<input type="checkbox" name="d0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-trash"></p></a> Supprimer
+										</form>
+									</li>
+							';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'d1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-trash"></p></a> Supprimer
+										</form>
+									</li>
+							';
+					}
+					if(isset($_POST[$b->idPrivilege.'s0'])){
+						$query="UPDATE `usersprivilege` SET s='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'s1'])){
+						$query="UPDATE `usersprivilege` SET s='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c0'])){
+						$query="UPDATE `usersprivilege` SET c='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>CREER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c1'])){
+						$query="UPDATE `usersprivilege` SET c='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u0'])){
+						$query="UPDATE `usersprivilege` SET u='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>MODIFIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>MODIFIER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u1'])){
+						$query="UPDATE `usersprivilege` SET u='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>MODIFIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>MODIFIER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'d0'])){
+						$query="UPDATE `usersprivilege` SET d='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Suppression du privilége <strong>SUPPRIMER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>SUPPRIMER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'d1'])){
+						$query="UPDATE `usersprivilege` SET d='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>SUPPRIMER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>SUPPRIMER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					echo'		
+								</ul>
+					';
+				}
+		}
+		if($o->bloc == 'CONTRAT'){
+			echo'
+							<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+			$query2="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
+			$result2=QueryExcuteWhile($query2);
+			while ($b=mysqli_fetch_object($result2)){
+					echo'
+								<ul class="branch">
+						';			
+					if($b->s){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'s0" value="1">
+											<input type="checkbox" name="s0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-eye-open"></p></a> Voir
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'s1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-eye-open"></p></a> Voir
+										</form>
+									</li>
+						';
+					}
+					if($b->c){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'c0" value="1">
+											<input type="checkbox" name="c0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-file"></p></a> Créer
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'c1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-file"></p></a> Créer
+										</form>
+									</li>
+						';
+					}
+					if($b->u){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'u0" value="1">
+											<input type="checkbox" name="u0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-repeat"></p></a> Renouveler
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'u1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-repeat"></p></a> Renouveler
+										</form>
+									</li>
+						';
+					}
+					if($b->d){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'d0" value="1">
+											<input type="checkbox" name="d0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-trash"></p></a> Supprimer
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'d1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-trash"></p></a> Supprimer
+										</form>
+									</li>
+						';
+					}
+					if(isset($_POST[$b->idPrivilege.'s0'])){
+						$query="UPDATE `usersprivilege` SET s='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>VOIR</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'s1'])){
+						$query="UPDATE `usersprivilege` SET s='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>VOIR</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c0'])){
+						$query="UPDATE `usersprivilege` SET c='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>CREER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c1'])){
+						$query="UPDATE `usersprivilege` SET c='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>CREER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u0'])){
+						$query="UPDATE `usersprivilege` SET u='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>RENOUVELER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u1'])){
+						$query="UPDATE `usersprivilege` SET u='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>RENOUVELER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'d0'])){
+						$query="UPDATE `usersprivilege` SET d='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Suppression du privilége <strong>SUPPRIMER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>SUPPRIMER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'d1'])){
+						$query="UPDATE `usersprivilege` SET d='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>SUPPRIMER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>SUPPRIMER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					echo'		
+								</ul>
+					';
+				}
+		}
+		if($o->bloc == 'CAISSE'){
+			echo'
+							<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+			$query2="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
+			$result2=QueryExcuteWhile($query2);
+			while ($b=mysqli_fetch_object($result2)){
+					echo'
+								<ul class="branch">
+						';			
+					if($b->s){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'s0" value="1">
+											<input type="checkbox" name="s0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-book"></p></a> Journal
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'s1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-book"></p></a> Journal
+										</form>
+									</li>
+						';
+					}
+					if($b->c){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'c0" value="1">
+											<input type="checkbox" name="c0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-signout"></p></a> Décaissement
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'c1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-signout"></p></a> Décaissement
+										</form>
+									</li>
+						';
+					}
+					if($b->u){
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="hidden" name="'.$b->idPrivilege.'u0" value="1">
+											<input type="checkbox" name="u0" value="0" checked onChange="this.form.submit()">
+											<a><p class="icon-money"></p></a> Echéancier
+										</form>
+									</li>
+						';
+					}
+					else{
+						echo'
+									<li>
+										<form action="" method="post" style="margin-bottom:-2px;">
+											<input type="checkbox" name="'.$b->idPrivilege.'u1" value="1" onChange="this.form.submit()">
+											<a><p class="icon-money"></p></a> Echéancier
+										</form>
+									</li>
+						';
+					}
+					if(isset($_POST[$b->idPrivilege.'s0'])){
+						$query="UPDATE `usersprivilege` SET s='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>JOURNAL</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'s1'])){
+						$query="UPDATE `usersprivilege` SET s='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>JOURNAL</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>VOIR</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c0'])){
+						$query="UPDATE `usersprivilege` SET c='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'c1'])){
+						$query="UPDATE `usersprivilege` SET c='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>DECAISSEMENT</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>CREER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u0'])){
+						$query="UPDATE `usersprivilege` SET u='0' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Supprission du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Suppression de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					if(isset($_POST[$b->idPrivilege.'u1'])){
+						$query="UPDATE `usersprivilege` SET u='1' WHERE idPrivilege='$b->idPrivilege';";
+						QueryExcute('', $query);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idPrivilege_user.'">Ajout du privilége <strong>ECHEANCIER</strong> sur le bloc <strong>'.$o->bloc.'</strong> de '.$user->FamilyName.' '.$user->FirstName);
+						LogWrite("Ajout de privilége <strong>RENOUVELER</strong> sur le bloc <strong>".$o->bloc."</strong> pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
+						echo'<SCRIPT LANGUAGE="JavaScript">document.location.href="user_edit?id='.$idUser.'"</SCRIPT>';
+					}
+					echo'		
+								</ul>
+					';
+				}
+		}
+		echo'
+							</li>
+		';
+	}
+						echo'	
+						</ul>		
+					</li>
+				</ul>
+			</div>
+		</ul>
+		';
+	}
+}
 Authorization('2');
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);

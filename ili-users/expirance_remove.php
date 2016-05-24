@@ -1,5 +1,9 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserExpiranceDrop($idExperience){
+	$query="DELETE FROM `usersexperience` WHERE `idExperience`='$idExperience';";
+	if(QueryExcute('', $query)){return 1;}
+}
 Authorization('2'); 
 UserExpiranceDrop($_GET['id_expirance']);
 $company=$_GET['Company'];

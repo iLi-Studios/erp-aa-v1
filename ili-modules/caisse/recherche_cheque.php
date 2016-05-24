@@ -71,7 +71,7 @@ AuthorizedPrivileges('CAISSE', 'S');
 if(isset($_POST['PaymentCode'])){
 	$PaymentCode = addslashes($_POST['PaymentCode']);
 	$o = QueryExcute("mysqli_fetch_object", "SELECT * FROM `payment` WHERE `PaymentCode`='$PaymentCode'");
-	if($o){RedirectJS('ili-modules/caisse/cheque?id='.$PaymentCode);}
+	if($o){Redirect('ili-modules/caisse/cheque?id='.$PaymentCode);}
 	else{echo '<br/><br> CODE CHEQUE NON TROUVE ';}
 }
 ?>									

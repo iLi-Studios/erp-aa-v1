@@ -1,4 +1,38 @@
-<?php include"../ili-functions/functions.php"; Authorization('2');?>
+<?php 
+include"../ili-functions/functions.php";
+function UserInsert(){
+	if((isset($_POST['cin']))&&(isset($_POST['FamilyName']))&&(isset($_POST['FirstName']))&&(isset($_POST['Email']))&&(isset($_POST['Phone']))&&(isset($_POST['Password']))&&(isset($_POST['FunctionPost']))&&(isset($_POST['Adress']))&&(isset($_POST['BirthDay']))){
+		//Recup variable
+		$cin						=addslashes($_POST['cin']);
+		$FamilyName					=addslashes($_POST['FamilyName']);
+		$FirstName					=addslashes($_POST['FirstName']);
+		$Email						=addslashes($_POST['Email']);
+		$FunctionPost				=addslashes($_POST['FunctionPost']);
+		$Phone						=addslashes($_POST['Phone']);
+		$Adress						=addslashes($_POST['Adress']);
+		$BirthDay					=addslashes($_POST['BirthDay']);
+		$Password					=addslashes($_POST['Password']);
+		if(isset($_POST['fbAccount'])){$fbAccount=$_POST['fbAccount'];}else{$fbAccount='';}
+		if(isset($_POST['githubAccount'])){$githubAccount=$_POST['githubAccount'];}else{$githubAccount='';}
+		if(isset($_POST['linkedinAccount'])){$linkedinAccount=$_POST['linkedinAccount'];}else{$linkedinAccount='';}
+		if(isset($_POST['img_url'])){$img_url=$_POST['img_url'];}else{$img_url='';}
+		// Function
+		global $Timestamp, $URL;
+		$add_by= $_SESSION['user_nom_prenom'];
+		if(QueryExcute('mysqli_fetch_object', "SELECT * FROM users WHERE idUser='$cin';")){Redirect('ili-users/user_add?message=8');}
+		else{
+			if(QueryExcute('mysqli_fetch_object', "SELECT * FROM users WHERE Email='$Email';")){Redirect('ili-users/user_add?message=9');}
+			else{
+				QueryExcute("", "INSERT INTO `users` VALUES ('$cin', '2', '$FamilyName', '$FirstName', '$Email', '$FunctionPost', '$Phone', '$Adress', '$BirthDay', MD5('$Password'), '$Timestamp', '$fbAccount', '$githubAccount', '$linkedinAccount', '$ProfilePhoto', '$add_by', '$Timestamp')");
+				QueryExcute("", "INSERT INTO `usersprivilege` VALUES (NULL, '$cin', 'USERS', '1', '0', '0', '0'), (NULL, '$cin', 'CLIENTS', '1', '0', '0', '0'), (NULL, '$cin', 'CONTRAT', '1', '0', '0', '0'), (NULL, '$cin', 'CAISSE', '1', '0', '0', '0')");
+				NotifAllWrite($cin, '', '<a href="'.$URL.'ili-users/user_profil?id='.$cin.'">Nouveau utilisateur, '.$FamilyName.' '.$FirstName);
+				LogWrite("Création de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$cin."\">".$cin."</a>");
+				Redirect('ili-users/users');
+			}
+		}	
+	}
+}
+Authorization('2');?>
 <!DOCTYPE html>
 <?php echo $author; ?>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->

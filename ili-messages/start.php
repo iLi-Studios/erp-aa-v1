@@ -1,5 +1,50 @@
 <?php 
 include"../ili-functions/functions.php";
+function MessageStart($idUser){
+	//Form
+	echo'
+	<form action="" method="post" class="form-vertical">
+		<br>
+		<div class="control-group">
+			<div class="controls">
+				<input name="Subject" style="margin-top:-14px" type="text" class="span6" placeholder="Sujet" autofocus required/><br>
+				<select name="ToUser" class="span6">';?><?php MessageDestinationGetList();?><?php echo'</select>
+			</div>
+		</div>
+		<!-- END SUJET DISTINATAIRE-->
+		<div class="control-group">
+			<div class="controls">
+				<textarea class="span12 ckeditor" name="Containt" rows="4"></textarea><br>
+				<center>
+					<input type="reset" value=" Annuler" class="btn btn-info"/>
+					<input type="submit" value=" Envoyer" class="btn btn-success"/>
+				</center>
+			</div>
+		</div>
+		<!-- END EDITEUR -->
+	</form>
+	';
+	//Function
+	if( (isset($_POST['Subject'])) && (isset($_POST['ToUser'])) && (isset($_POST['Containt'])) ){
+		global $Timestamp;
+		$Subject		=addslashes($_POST['Subject']);
+		$ToUser			=addslashes($_POST['ToUser']);
+		$Containt		=addslashes($_POST['Containt']);
+		$QueryStartMessage="INSERT INTO `message` VALUES (NULL, '$idUser', '$ToUser', '$Subject', '$Containt', '$Timestamp', '0', NULL);";
+		QueryExcute('', $QueryStartMessage);
+		Redirect("index");
+	}
+}
+function MessageDestinationGetList(){
+	$idUser=$_SESSION['user_id'];
+	$query="SELECT `idUser`, `FamilyName`, `FirstName` FROM `users` WHERE `idUser`<>'$idUser' ";
+	$result=QueryExcuteWhile($query);
+	while ($o=mysqli_fetch_object($result)){
+		echo'
+			<option value="'.$o->idUser.'">'.$o->FamilyName.' '.$o->FirstName.'</option>
+		';
+	}
+}
 Authorization('2');
 $idUser=$_SESSION['user_id'];
 ?>

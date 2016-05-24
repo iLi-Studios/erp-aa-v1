@@ -1,5 +1,69 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserPrivilegesGet($idUser, $Rank){
+	if($Rank==2){
+		echo'
+		<ul class="nav nav-tabs nav-stacked" style="margin-left:-15%;">
+			<div class="widget-body">
+				<div class="space10"></div>
+					<ul id="tree_2" class="tree">
+						<li>
+							<a data-toggle="branch" class="tree-toggle" data-role="branch" href="#">Autorisations</a>
+							<ul class="branch in">
+		';
+		$query="SELECT `bloc` FROM `usersprivilege` WHERE `idUser`='$idUser'";
+		$result=QueryExcuteWhile($query);
+		while ($o=mysqli_fetch_object($result)){
+			$query2="SELECT `s`, `c`, `u`, `d` FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$o->bloc';";
+			if(($o->bloc != 'CONTRAT') && ($o->bloc != 'CAISSE')){
+				echo'
+						<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+						$result2=QueryExcuteWhile($query2);
+						while ($b=mysqli_fetch_object($result2)){
+							echo'
+								<ul class="branch">';
+									if($b->s){echo'<li><a><p class="icon-eye-open"></p></a> Voir</li>';}
+									if($b->c){echo'<li><a><p class="icon-plus"></p></a> Créer</li>';}
+									if($b->u){echo'<li><a><p class="icon-edit"></p></a> Modifier</li>';}
+									if($b->d){echo'<li><a><p class="icon-trash"></p></a> Supprimer</li>';}
+							echo'</ul>';
+						}		
+					echo'</li>';
+			}
+			if($o->bloc == 'CONTRAT'){
+				echo'
+						<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+						$result2=QueryExcuteWhile($query2);
+						while ($b=mysqli_fetch_object($result2)){
+							echo'
+								<ul class="branch">';
+									if($b->s){echo'<li><a><p class="icon-eye-open"></p></a> Voir</li>';}
+									if($b->c){echo'<li><a><p class="icon-file"></p></a> Créer</li>';}
+									if($b->u){echo'<li><a><p class="icon-repeat"></p></a> Renouveler</li>';}
+									if($b->d){echo'<li><a><p class="icon-trash"></p></a> Supprimer</li>';}
+							echo'</ul>';
+						}		
+					echo'</li>';
+			}
+			if($o->bloc == 'CAISSE'){
+				echo'
+						<li><a data-toggle="branch" class="tree-toggle closed" data-role="branch" href="#">'.$o->bloc.'</a>';
+						$result2=QueryExcuteWhile($query2);
+						while ($b=mysqli_fetch_object($result2)){
+							echo'
+								<ul class="branch">';
+									if($b->s){echo'<li><a><p class="icon-book"></p></a> Journal</li>';}
+									if($b->c){echo'<li><a><p class="icon-signout"></p></a> Décaissement</li>';}
+									if($b->u){echo'<li><a><p class="icon-money"></p></a> Echéancier</li>';}
+							echo'</ul>';
+						}		
+					echo'</li>';
+			}
+
+		}
+		echo'</ul></li></ul></div></ul>';	
+	}
+}
 Authorization('2');
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);

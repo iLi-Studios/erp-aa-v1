@@ -38,17 +38,18 @@ function ContractRenew(){
 				$ContractcycleAdd=QueryExcute("", "INSERT INTO `contractcycle` VALUES(NULL, '$idPayment', '$idContract', '$StartDate', '$EndDate', '$idUser');");
 				if(!$ContractcycleAdd){
 					NotifAllWrite("", "", $User." a renouveler le contrat #".$idContract);
-					LogWrite("Renouvellement du contract #".$idContract);
-					RedirectJS("ili-modules/contrat/liste");
-				}else{RedirectJS('ili-modules/contrat/renew/renew?id='.$idContract.'&message=31');}
+					$user=UserGetInfo($idUser);
+					NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/contrat/contrat?id='.$idContract.'">'.$user->FamilyName.' '.$user->FirstName.', a renouveler le contrat : #'.$idContract.'</a>');
+					Redirect("ili-modules/contrat/liste");
+				}else{Redirect('ili-modules/contrat/renew/renew?id='.$idContract.'&message=31');}
 			}
-		}else{RedirectJS('ili-modules/contrat/renew/renew?id='.$idContract.'&message=32');}
+		}else{Redirect('ili-modules/contrat/renew/renew?id='.$idContract.'&message=32');}
 	}
 }
 $idContract=$_GET['id'];
 $cnt=ContractGetInfo($idContract);
-if(!$cnt){RedirectJS('index?message=30');}
-if($cnt[5]=='Ferme'){RedirectJS('index?message=33');}
+if(!$cnt){Redirect('index?message=30');}
+if($cnt[5]=='Ferme'){Redirect('index?message=33');}
 Authorization('2');
 
 ?>

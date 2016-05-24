@@ -10,7 +10,7 @@ if(isset($_GET['operation'])){
 	if($operation!='DC'){
 		if($operation!='C'){
 			if($operation!='D'){
-				RedirectJS('ili-modules/caisse/echeancier?date1='.$date1.'&date2='.$date2.'&operation=DC');
+				Redirect('ili-modules/caisse/echeancier?date1='.$date1.'&date2='.$date2.'&operation=DC');
 			}
 		}
 	}
@@ -19,46 +19,46 @@ else{$operation='DC';}
 
 function CheckGetTotalOperation($date1, $date2, $operation){
 	if($operation=='DC'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2';");
 		echo $o[0];
 	}
 	elseif($operation=='C'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`>0;");
 		echo $o[0];
 	}
 	elseif($operation=='D'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`<0;");
 		echo $o[0];
 	}
 }
 function CheckGetTotalOperationIn($date1, $date2){
-	$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
+	$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`>0;");
 	echo $o[0];
 }
 function CheckGetTotalOperationOut($date1, $date2){
-	$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
+	$o=QueryExcute("mysqli_fetch_array", "SELECT COUNT(*) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`<0;");
 	echo $o[0];
 }
 function CheckGetTotalAmmount($date1, $date2, $operation){
 	if($operation=='DC'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2';");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2';");
 		printf("%0.3f", $o[0]);
 	}
 	elseif($operation=='C'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`>0;");
 		printf("%0.3f", $o[0]);
 	}
 	elseif($operation=='D'){
-		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
+		$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`<0;");
 		printf("%0.3f", $o[0]);
 	}
 }
 function CheckGetTotalAmmountIn($date1, $date2){
-	$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`>0;");
+	$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`>0;");
 	printf("%0.3f", $o[0]);
 }
 function CheckGetTotalAmmountOut($date1, $date2){
-	$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `EncashmentDate`>='$date1' AND `EncashmentDate`<='$date2' AND `Amount`<0;");
+	$o=QueryExcute("mysqli_fetch_array", "SELECT SUM(`Amount`) FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate`>='$date1' AND `TransferDate`<='$date2' AND `Amount`<0;");
 	printf("%0.3f", $o[0]);
 }
 function Check($date1, $date2, $operation){
@@ -68,66 +68,51 @@ function Check($date1, $date2, $operation){
 	$SQL_C		= "SELECT * FROM `payment` WHERE `PaymentKind`='CHEQUE' AND `TransferDate` BETWEEN '$date1' AND '$date2' AND `Amount`<0;";
 	if($operation=='DC'){$query=$SQL_DC;}elseif($operation=='D'){$query=$SQL_C;}elseif($operation=='C'){$query=$SQL_D;}
 	$result=QueryExcuteWhile($query);
-	echo'
-	<center>
-		<table width="100%" border="1">
-			<tr>
-				<th style="text-align:center;">#PAIEMENT</th>
-				<th style="text-align:center;">#CHEQUE</th>
-				<th style="text-align:center;">DATE</th>
-				<th style="text-align:center;">ECHEANCE</th>
-				<th style="text-align:center;">#OPERATEUR</th>
-				<th style="text-align:center;">OPERATION</th>
-				<th style="text-align:center;">MONTANT</th>
-			</tr>';
+	echo'<div class="row-fluid">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#Paiement</th>
+						<th>#Chéque</th>
+						<th class="hidden-480">Date</th>
+						<th class="hidden-480">Echéance</th>
+						<th class="hidden-480">Opérateur</th>
+						<th class="hidden-480">Type</th>
+						<th class="hidden-480">Montant</th>
+					</tr>
+				</thead>';
 	while ($o=mysqli_fetch_object($result)){
 				$PaymentInfo=PaymentInfo($o->idPayment);
 				echo'
-			<tr>
-				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/paiement?id='.$o->idPayment.'">'.$o->idPayment.'&nbsp;&nbsp;</a></td>
-				<td style="text-align:right;"><a href="'.$URL.'ili-modules/caisse/cheque?id='.$o->PaymentCode.'">'.$o->PaymentCode.'&nbsp;&nbsp;</a></td>
-				<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
-				<td style="text-align:center;">';?><?php echo FormatEnDateToFr($o->TransferDate);?><?php echo'</td>
-				<td style="text-align:center;"><a href="'.$URL.'ili-users/DetailsUser.php?idUser='.$o->RecevedBy.'">'.$o->RecevedBy.'</a></td>
-				<td style="text-align:center;">';?><?php if($o->Amount>0){echo 'CREDITS';}elseif($o->Amount<0){echo 'DEBITS';}?><?php echo'</td>
-				<td style="text-align:right;">';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
+				<tbody>
+					<tr>
+						<td>'.$o->idPayment.'</td>
+						<td>'.$o->PaymentCode.'</td>
+						<td class="hidden-480">';?><?php echo FormatEnDateToFr($o->EncashmentDate);?><?php echo'</td>
+						<td class="hidden-480">';?><?php echo FormatEnDateToFr($o->TransferDate);?><?php echo'</td>
+						<td class="hidden-480">'.$o->RecevedBy.'</td>
+						<td class="hidden-480">';?><?php if($o->Amount>0){echo 'CREDITS';}elseif($o->Amount<0){echo 'DEBITS';}?><?php echo'</td>
+						<td>';?><?php printf('%0.3f', $o->Amount);?><?php echo' TND</td>
+					</tr>
 				';
-			}		
-	echo'		
-			<tr>
-				<th colspan="4" rowspan="5"></th>
-				<th colspan="3" style="text-align:center;">TOTEAUX</th>
-				</tr>
-			<tr>
-
-				<th></th>
-				<th style="text-align:center;">NBR</th>
-				<th style="text-align:center;">TOTAL</th>
-			</tr>
-			<tr>
-
-				<th>CREDITS</th>
-				<td style="text-align:right;">';?><?php CheckGetTotalOperationIn($date1, $date2) ;?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckGetTotalAmmountIn($date1, $date2) ;?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-
-				<th>DEBITS</th>
-				<td style="text-align:right;">';?><?php CheckGetTotalOperationOut($date1, $date2) ;?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckGetTotalAmmountOut($date1, $date2) ;?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-
-				<th>SOLDE</th>
-				<td style="text-align:right;">';?><?php CheckGetTotalOperation($date1, $date2, $operation) ;?><?php echo'&nbsp;&nbsp;</td>
-				<td style="text-align:right;">';?><?php CheckGetTotalAmmount($date1, $date2, $operation) ;?><?php echo' TND&nbsp;&nbsp;</td>
-			</tr>
-		</table>
-		</center>
+			}
+			echo'
+				</tbody>
+			</table>
+		</div>
+		<div class="space20"></div>
+		<div class="row-fluid">
+			<div class="span4 invoice-block pull-right">
+				<ul class="unstyled amounts">
+					<li><strong>Total Crédit(';?><?php CheckGetTotalOperationIn($date1, $date2);?><?php echo') : </strong> ';?><?php CheckGetTotalAmmountIn($date1, $date2);?><?php echo' TND</li>
+					<li><strong>Total Débit(';?><?php CheckGetTotalOperationOut($date1, $date2);?><?php echo') : </strong> ';?><?php CheckGetTotalAmmountOut($date1, $date2);?><?php echo' TND</li>
+					<li><strong>Somme(';?><?php CheckGetTotalOperation($date1, $date2, $operation);?><?php echo') : </strong> ';?><?php CheckGetTotalAmmount($date1, $date2, $operation);?><?php echo' TND</li>
+				</ul>
+			</div>
+		</div>
 		';
 }
-
+$cmp=CompanyGetInfo();
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -156,6 +141,26 @@ function Check($date1, $date2, $operation){
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
    <link rel="stylesheet" type="text/css" href="../../ili-style/assets/bootstrap-datepicker/css/datepicker.css" />
 </head>
+<style>
+@media print{
+	#title{
+		font-size:36px;
+		text-align:center;
+	}
+	#entete{
+		display:none;
+	}
+	.widget-body{
+		font-size:10px;
+	}
+	.custom{
+		text-align:left;
+	}
+	#cm{
+		margin-top:5px;
+	}
+}
+</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -170,9 +175,9 @@ function Check($date1, $date2, $operation){
 <!-- BEGIN PAGE -->
 <div id="main-content"> 
 	<!-- BEGIN PAGE CONTAINER-->
-	<div class="container-fluid"> 
+	<div class="container-fluid "> 
 		<!-- BEGIN PAGE HEADER-->
-		<div class="row-fluid">
+		<div class="row-fluid hidden-print">
 			<div class="span12">
 				<h3 class="page-title"> Caisse <small> Echéancier </small> </h3>
 				<ul class="breadcrumb">
@@ -187,38 +192,52 @@ function Check($date1, $date2, $operation){
 			<div class="span12"> 
 				<!-- BEGIN EXAMPLE TABLE widget-->
 				<div class="widget">
-					<div class="widget-title">
+					<div class="widget-title hidden-print">
 						<h4><i class="icon-reorder"></i> Echéancier chèque</h4>
-						<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> </span>
+						<span class="tools"><a onclick="javascript:window.print();" class="icon-print"></a></span>
 					</div>
 					<div class="widget-body">
 						<div class="span12">
-
-							<form method="post" action="">
-								<table width="100%">
-									<tr>
-										<th>Du</th>
-										<th><input type="date" name="date1" value="<?php echo $date1;?>" required style="width:80%; margin-top:10px;"></th>
-										<th>A</th>
-										<th><input type="date" name="date2" value="<?php echo $date2;?>" required style="width:80%;margin-top:10px;"></th>
-										<th>OPERATION</th>
-										<th>
-											<select name="operation" style="width:100%; margin-top:10px;">
-												<option <?php if($operation=='DC'){echo'selected';}?> value="DC">DEBITS/CREDITS</option>
-												<option <?php if($operation=='C'){echo'selected';}?> value="C">CREDITS</option>
-												<option <?php if($operation=='D'){echo'selected';}?> value="D">DEBITS</option>
-											</select>
-										</th>
-										<th><button class="btn btn-success"><i class="icon-search icon-white"></i> Chercher</button></th>
-									</tr>
-								</table>
-							</form>
+                            <div class="row-fluid invoice-list">
+								<div class="span4"><img src="../../ili-upload/logo.png" width="150px" height="150px" alt="" class="hidden-print"></div>
+								<div class="span4"><h2 style="margin-top:50px;" id="title">Echéancier chèque</h2></div>
+								<div class="span4" style="margin-top:20px;" id="entete">
+									<ul class="unstyled">
+                                        <li>Agence		: <strong><?php echo $cmp->RS ;?></strong></li>
+                                        <li>Tel			: <?php echo $cmp->Phone1 ;?></li>
+                                        <li>Fax			: <?php echo $cmp->Fax ;?></li>
+                                        <li>Email		: <?php echo $cmp->Email ;?></li>
+										<li>Site		: <?php echo $cmp->WebSite ;?></li>
+										<li>Adresse		: <?php echo $cmp->Adress ;?></li>
+                                    </ul>
+								</div>
+                            </div>
+							<div class="space20"></div>
+							<div class="space20"></div>
+							<div class="row-fluid invoice-list">
+								<form action="" method="post">
+									<div class="row-fluid">
+										<div class="span4 invoice-block pull-right custom">
+											<ul class="unstyled amounts">
+												<li>
+													DATE DEBUT : <input type="date" id="cm"  name="date1" value="<?php echo $date1;?>" onChange="this.form.submit();" style="width:60%; border:none;"><br>
+													DATE FIN : <input type="date" id="cm" name="date2" value="<?php echo $date2;?>" onChange="this.form.submit();" style="width:60%; border:none;"><br>
+													TYPE : <select name="operation" id="cm" onChange="this.form.submit();" style="width:63%; border:none;">
+																	<option <?php if($operation=='DC'){echo'selected';}?> value="DC">DEBITS/CREDITS</option>
+																	<option <?php if($operation=='C'){echo'selected';}?> value="C">CREDITS</option>
+																	<option <?php if($operation=='D'){echo'selected';}?> value="D">DEBITS</option>
+																</select></li>
+											</ul>
+										</div>
+									</div>								
+								</form>
+                            </div>
 							<?php
 							if( (isset($_POST['date1'])) && (isset($_POST['date2'])) && (isset($_POST['operation']))){
 								$date1=$_POST['date1'];
 								$date2=$_POST['date2'];
 								$operation=$_POST['operation'];
-								RedirectJS('ili-modules/caisse/echeancier?date1='.$date1.'&date2='.$date2.'&operation='.$operation);
+								Redirect('ili-modules/caisse/echeancier?date1='.$date1.'&date2='.$date2.'&operation='.$operation);
 							}
 							Check($date1, $date2, $operation);
 							?>
@@ -237,7 +256,7 @@ function Check($date1, $date2, $operation){
 <!-- END CONTAINER --> 
 <!-- BEGIN FOOTER -->
 <div id="footer"> <?php echo $copy_right;?>
-	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up"></i></span> </div>
+	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up hidden-print"></i></span> </div>
 </div>
 <!-- END FOOTER --> 
 <!-- BEGIN JAVASCRIPTS --> 

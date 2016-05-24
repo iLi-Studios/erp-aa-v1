@@ -5,9 +5,9 @@ AuthorizedPrivileges('CAISSE', 'S');
 if(isset($_GET['id'])){
 	$id=$_GET['id'];
 	$o=QueryExcute("mysqli_fetch_object", "SELECT * FROM `payment` WHERE `idPayment`='$id';");
-	if(!$o){RedirectJS('index?message=35');}
+	if(!$o){Redirect('index?message=35');}
 }
-else{RedirectJS('index?message=35');}
+else{Redirect('index?message=35');}
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>

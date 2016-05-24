@@ -1,5 +1,25 @@
 <?php 
 include"../../ili-functions/functions.php";
+function ClientInsert(){
+	//Form Variables
+	if( (isset($_POST['idClient'])) && (isset($_POST['FamilyName'])) && (isset($_POST['FirstName'])) && (isset($_POST['Phone'])) && (isset($_POST['Adress'])) ){
+		global $URL;
+		$idClient	=addslashes($_POST['idClient']);
+		$FamilyName	=addslashes($_POST['FamilyName']);
+		$FirstName	=addslashes($_POST['FirstName']);
+		$Phone		=addslashes($_POST['Phone']);
+		$Adress		=addslashes($_POST['Adress']);
+		$idUser		=$_SESSION['user_id'];
+		$User		=$_SESSION['user_nom_prenom'];
+		if((QueryExcute("mysqli_fetch_row", "SELECT * FROM client WHERE idClient='$idClient'"))==0){
+			QueryExcute("", "INSERT INTO `client` VALUES ('$idClient', '$FamilyName', '$FirstName', '$Phone', '$Adress', '$idUser');");
+			NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/client/client?id='.$idClient.'">'.$User.' a creé un nouveau client , '.$FamilyName.' '.$FirstName);
+			LogWrite("Création de client : <a href=\"ili-modules/client/client?id=".$idClient."\">".$idClient."</a>");
+			Redirect('ili-modules/client/client?id='.$idClient);
+		}
+		else{Redirect('ili-modules/client/add?message=16');}
+	}
+}
 Authorization('2');
 AuthorizedPrivileges('CLIENTS', 'C');
 ?>

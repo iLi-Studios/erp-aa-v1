@@ -1,6 +1,5 @@
 <!-- BEGIN HEADER -->
-
-<div id="header" class="navbar navbar-inverse navbar-fixed-top"> 
+<div id="header" class="navbar navbar-inverse navbar-fixed-top hidden-print"> 
 	<!-- BEGIN TOP NAVIGATION BAR -->
 	<div class="navbar-inner">
 		<div class="container-fluid"> 

@@ -17,9 +17,9 @@ function ClientInsertToContrat(){
 			QueryExcute("", "INSERT INTO `client` VALUES ('$idClient', '$FamilyName', '$FirstName', '$Phone', '$Adress', '$idUser');");
 			NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/client/client?id='.$idClient.'">'.$User.' a creé un nouveau client , '.$FamilyName.' '.$FirstName);
 			LogWrite("Création de client : <a href=\"ili-modules/client/client?id=".$idClient."\">".$idClient."</a>");
-			RedirectJS('ili-modules/contrat/add/add?clt='.$idClient);
+			Redirect('ili-modules/contrat/add/add?clt='.$idClient);
 		}
-		else{RedirectJS('ili-modules/client/add?message=16');}
+		else{Redirect('ili-modules/client/add?message=16');}
 	}
 }
 ?>

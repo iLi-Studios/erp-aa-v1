@@ -1,5 +1,23 @@
 <?php 
 include"../../ili-functions/functions.php";
+function ClientDropModal($idClient){
+	$ObjectClient=ClientGetInfo($idClient);
+	echo'
+	<div id="myModal_del" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_del" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel_del"><center>Confirmation de suppression</center></h3>
+		</div>
+		<div class="modal-body">
+			<p>Vous êtes sur de vouloire supprimer le client <strong>'.$ObjectClient->FamilyName.' '.$ObjectClient->FirstName.'</strong>? <br> La supprission du client entraine la suprission de toutes ces activités, et cette action est <strong>irréversible!</strong></p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+			<button onClick="document.location.href=\'remove?id='.$ObjectClient->idClient.'\'" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+		</div>
+	</div>
+	';
+}
 Authorization('2');
 AuthorizedPrivileges('CLIENTS', 'S');
 $id_client=$_GET['id'];

@@ -1,5 +1,85 @@
 <?php 
-include"../ili-functions/functions.php"; 
+include"../ili-functions/functions.php";
+function UserGetList(){
+	$query="SELECT * FROM users, usersrank WHERE users.idRank=usersrank.idRank";
+	$result=QueryExcuteWhile($query);
+	while ($o=mysqli_fetch_object($result)){
+		echo'
+				<div class="widget">
+					<div class="widget-title">
+						<h4><i class="';?><?php UserGetIcon($o->idRank);?><?php echo'"></i> '.$o->FamilyName.' '.$o->FirstName.'</h4>
+						<span class="tools" style="margin-top:-2px;">';
+							GetUserPanel('USERS', $o->idUser, $o->idRank);
+							echo'
+							<!-- Modale de confirmation de suppression -->
+							<div id="myModal_del'.$o->idUser.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_del'.$o->idUser.'" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h3 id="myModalLabel_del'.$o->idUser.'">Confirmation de suppression</h3>
+								</div>
+								<div class="modal-body">
+									<p>Vous êtes sur de vouloire supprimer le compte du <strong>'.$o->FamilyName.' '.$o->FirstName.'</strong>? <br> Cette action est <strong>irréversible!</strong></p>
+								</div>
+								<div class="modal-footer">
+									<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+									<button onClick=\'document.location.href="user_remove?id='.$o->idUser.'";\' data-dismiss="modal" class="btn btn-primary">Confirm</button>
+								</div>
+							</div>
+							<!-- Modale de confirmation de suppression -->
+							<a href="javascript:;" class="icon-chevron-down"></a>
+						</span>
+					</div>
+					<div class="widget-body">
+						<div class="span3">
+							<div class="text-center profil-pic">'; 
+								if($o->ProfilePhoto!=''){echo'<img src="'.$o->ProfilePhoto.'" width="100%" height="226px;">';}
+								echo'
+							</div>
+							<ul class="nav nav-tabs nav-stacked">';
+									if($o->fbAccount){echo'<li><a href="'.$o->fbAccount.'" target="new"><i class="icon-facebook"></i> Facebook</a></li>';}
+									if($o->linkedinAccount){echo'<li><a href="'.$o->linkedinAccount.'" target="new"><i class="icon-LinkedinAccount"></i> LinkedinAccount</a></li>';}
+									if($o->githubAccount){echo'<li><a href="'.$o->githubAccount.'" target="new"><i class="icon-githubAccount"></i> githubAccount</a></li>';}						
+					echo'	
+							</ul>
+						</div>
+						<div class="span6">
+							<h4>'.$o->FunctionPost.'<br/></h4>
+							<table class="table table-borderless">
+								<tbody>
+									<tr>
+										<td class="span2">Grade :</td>
+										<td>'.$o->Level.'</td>
+									</tr>
+									<tr>
+										<td class="span2">Age :</td>
+										<td>'.age($o->BirthDay).' ans</td>
+									</tr>
+									<tr>
+										<td class="span2"> Email :</td>
+										<td>'.$o->Email.'</td>
+									</tr>
+									<tr>
+										<td class="span2"> Mobile :</td>
+										<td> '.$o->Phone.' </td>
+									</tr>
+								</tbody>
+							</table>
+							<h4>Compétances</h4>
+							<table class="table table-borderless">
+								<tbody>';UserQualificationGet($o->idUser); echo'</tbody>
+							</table>
+						</div>
+						<div class="span3">
+							<h4>Dérnier diplômes</h4>
+							<ul class="icons push">';UserDiplomaGet($o->idUser, '1'); echo'</ul>
+							<h4>Dériniére expérience</h4>
+							<ul class="icons push">';UserExpiranceGet($o->idUser, '1');echo'</ul>
+						</div>
+						<div class="space5"></div>
+					</div>
+				</div>
+			';}
+}
 Authorization('2');
 ?>
 <!DOCTYPE html>

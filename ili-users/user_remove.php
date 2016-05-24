@@ -1,5 +1,9 @@
-<?php include"../ili-functions/functions.php";?>
 <?php 
+include"../ili-functions/functions.php";
+function UserDrop($id){
+	QueryExcute('', "DELETE FROM usersprivilege WHERE idUser='$id'");
+	QueryExcute('', "DELETE FROM users WHERE idUser='$id'");
+}
 Authorization('2'); 
 $id=$_GET['id'];
 UserDrop($id);

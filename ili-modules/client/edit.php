@@ -1,5 +1,22 @@
 <?php 
 include"../../ili-functions/functions.php";
+function ClientUpdateInfo(){
+	//Form
+	if( (isset($_POST['idClient']))&&(isset($_POST['FamilyName']))&&(isset($_POST['FirstName']))&&(isset($_POST['Adress']))&&(isset($_POST['Phone'])) ){
+		global $URL;
+		$idClient 	= $_POST['idClient'];
+		$FamilyName = $_POST['FamilyName'];
+		$FirstName 	= $_POST['FirstName'];
+		$Phone		= $_POST['Phone'];
+		$Adress 	= $_POST['Adress'];
+		$idUser		= $_SESSION['user_id'];
+		$User		= $_SESSION['user_nom_prenom'];
+		QueryExcute("", "UPDATE `client` SET `FamilyName` = '$FamilyName', `FirstName` = '$FirstName', `Phone` = '$Phone', `Adress` = '$Adress' WHERE `idClient` = '$idClient'");
+		NotifAllWrite('$idUser', '', '<a href="'.$URL.'ili-modules/client/client?id='.$idClient.'">'.$User.' a modifié le client, '.$FamilyName.' '.$FirstName);
+		LogWrite("Modification de client : <a href=\"ili-modules/client/client?id=".$idClient."\">".$FamilyName." ".$FirstName."</a>");
+		Redirect('ili-modules/client/client?id='.$idClient);
+	}
+}
 Authorization('2');
 AuthorizedPrivileges('CLIENTS', 'U');
 $id_client=$_GET['id'];

@@ -2,7 +2,7 @@
 include"../../../ili-functions/functions.php";
 $id_clt = $_GET['clt'];
 $clt=ClientGetInfo($id_clt);
-if($clt=='0'){RedirectJS('index?message=18');}
+if($clt=='0'){Redirect('index?message=18');}
 Authorization('2');
 if((isset($_POST['idClient'])) && (isset($_POST['idContract'])) && (isset($_POST['TypeContract'])) && (isset($_POST['NatureContract'])) && (isset($_POST['StartDate'])) && (isset($_POST['EndDate'])) && (isset($_POST['Amount'])) && (isset($_POST['EncashmentDate'])) && (isset($_POST['PaymentKind']))){
 	$idClient					=addslashes($_POST['idClient']);
@@ -19,7 +19,6 @@ if((isset($_POST['idClient'])) && (isset($_POST['idContract'])) && (isset($_POST
 	if(isset($_POST['Bank']))			{$Bank=addslashes($_POST['Bank']);}else{$Bank='';}
 	if(isset($_POST['TransferDate']))	{$TransferDate=addslashes($_POST['TransferDate']);}else{$TransferDate='';}
 	$idUser=$_SESSION['user_id'];
-
 	$ajout=QueryExcute("", "INSERT INTO `insurancecontract` VALUES ('$idContract', '$idClient', '$TypeContract', '$NatureContract');");
 	if(!$ajout){
 		$ajout2=QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$EncashmentDate', '', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
@@ -29,13 +28,14 @@ if((isset($_POST['idClient'])) && (isset($_POST['idContract'])) && (isset($_POST
 				$idPayment=$ObjectPayement[0];
 				$ajout3=QueryExcute("", "INSERT INTO `contractcycle` VALUES(NULL, '$idPayment', '$idContract', '$StartDate', '$EndDate', '$idUser');");
 					if(!$ajout3){
-						NotifAllWrite("", "", "Ajout contract ID : ".$idContract);
+						$user=UserGetInfo($idUser);
+						NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/contrat/contrat?id='.$idContract.'">'.$user->FamilyName.' '.$user->FirstName.', a crée un nouveau contrat : #'.$idContract.'</a>');
 						LogWrite("Ajout contract ID : ".$idContract);
-						RedirectJS("ili-modules/contrat/liste");
-					}else{RedirectJS('ili-modules/contrat/add/add?clt='.$id_clt.'&message=26');}
-			}else{RedirectJS('ili-modules/contrat/add/add?clt='.$id_clt.'&message=27');}
-		}else{RedirectJS('ili-modules/contrat/add/add?clt='.$id_clt.'&message=28');}
-	}else{RedirectJS('ili-modules/contrat/add/add?clt='.$id_clt.'&message=29');}
+						Redirect("ili-modules/contrat/liste");
+					}else{Redirect('ili-modules/contrat/add/add?clt='.$id_clt.'&message=26');}
+			}else{Redirect('ili-modules/contrat/add/add?clt='.$id_clt.'&message=27');}
+		}else{Redirect('ili-modules/contrat/add/add?clt='.$id_clt.'&message=28');}
+	}else{Redirect('ili-modules/contrat/add/add?clt='.$id_clt.'&message=29');}
 }
 ?>
 <!DOCTYPE html>

@@ -1,5 +1,9 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserDiplomaDrop($idDiploma){
+	$query="DELETE FROM `usersdiploma` WHERE `idDiploma`='$idDiploma';";
+	if(QueryExcute('', $query)){return 1;}
+}
 Authorization('2'); 
 UserDiplomaDrop($_GET['id_diploma']);
 $idUser=$_GET['idUser'];

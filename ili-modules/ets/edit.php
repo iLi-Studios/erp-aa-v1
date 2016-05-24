@@ -23,7 +23,7 @@ function CompanyInfoUpdate(){
 		QueryExcute("", "UPDATE `company` SET `MF`='$MF', `RC`='$RC', `RS`='$RS', `Activity`='$Activity', `Adress`='$Adress', `Phone1`='$Phone1', `Phone2`='$Phone2', `Fax`='$Fax',	`Email`='$Email', `WebSite`='$WebSite', `BankAccount1`='$BankAccount1', `BankAccount2`='$BankAccount2' WHERE `id`=1");
 		NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/ets/info">'.$user->FamilyName.' '.$user->FirstName.', a modifier les informations de l`entreprise');
 		LogWrite("Modification des informations de l\'entreprise");
-		RedirectJS('ili-modules/ets/info');
+		Redirect('ili-modules/ets/info');
 	}
 }
 function UpladImage(){
@@ -71,7 +71,7 @@ function UpladImage(){
 				/*echo "Fichier ". basename( $_FILES["fileToUpload"]["name"]). " Chargé.";*/
 				NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/ets/info">'.$user->FamilyName.' '.$user->FirstName.', a modifier le logo de l`entreprise');
 				LogWrite("Modification de logo de l\'entreprise");
-				RedirectJS('ili-modules/ets/info');
+				Redirect('ili-modules/ets/info');
 			} else {
 				echo "Erreur : Chargement!.";
 			}

@@ -62,7 +62,7 @@ function ContractGetAllAmount($idContract){
 $idContract=$_GET['id'];
 $cnt=ContractGetInfoLastCycle($idContract);
 $cnt1=ContractGetInfoFisrtCycle($idContract);
-if(!$cnt){RedirectJS('index?message=30');}
+if(!$cnt){Redirect('index?message=30');}
 $createur=UserGetInfo($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>

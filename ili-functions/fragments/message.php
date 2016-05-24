@@ -1,11 +1,6 @@
-<?php
-$idUser=$_SESSION['user_id'];
-?>
 <script type="text/javascript"> 
 	var auto_refresh = setInterval(function(){$('#LoadSumMessagesHeader').load('<?php echo $URL;?>/ili-functions/AJAX/MessageGetSumHeader.php').fadeIn("slow");}, 500); 
-</script>
-<script type="text/javascript"> 
-	var auto_refresh = setInterval(function(){$('#MessageGetAllHeader').load('<?php echo $URL;?>/ili-functions/AJAX/MessageGetAllHeader.php').fadeIn("slow");}, 500); 
+	var auto_refresh = setInterval(function(){$('#MessageGetAllHeader').load('<?php echo $URL;?>/ili-functions/AJAX/MessageGetAllHeader.php').fadeIn("slow");}, 500);
 </script>
 <!-- BEGIN INBOX DROPDOWN -->
 <li class="dropdown" id="header_inbox_bar"> 

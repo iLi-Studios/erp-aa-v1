@@ -3,9 +3,9 @@ include"../../ili-functions/functions.php";
 Authorization('2');
 AuthorizedPrivileges('CAISSE', 'S');
 function GetUserListeForSelect($User){
-	if($_SESSION['user_Rank']='3'){
+	if($_SESSION['user_idRank']='3'){
 		echo'
-			<option value="0"> TOUS LES OPERATEURS </option>
+			<option value="0">Tous...</option>
 		';
 		$result=QueryExcuteWhile("SELECT * FROM `users`");
 		while ($o=mysqli_fetch_object($result)){
@@ -158,6 +158,26 @@ $cmp=CompanyGetInfo();
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
    <link rel="stylesheet" type="text/css" href="../../ili-style/assets/bootstrap-datepicker/css/datepicker.css" />
 </head>
+<style>
+@media print{
+	#title{
+		font-size:36px;
+		text-align:center;
+	}
+	#entete{
+		display:none;
+	}
+	.widget-body{
+		font-size:10px;
+	}
+	.custom{
+		text-align:left;
+	}
+	#cm{
+		margin-top:5px;
+	}
+}
+</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -172,9 +192,9 @@ $cmp=CompanyGetInfo();
 <!-- BEGIN PAGE -->
 <div id="main-content"> 
 	<!-- BEGIN PAGE CONTAINER-->
-	<div class="container-fluid"> 
+	<div class="container-fluid "> 
 		<!-- BEGIN PAGE HEADER-->
-		<div class="row-fluid">
+		<div class="row-fluid hidden-print">
 			<div class="span12">
 				<h3 class="page-title"> Caisse <small> Journal</small> </h3>
 				<ul class="breadcrumb">
@@ -189,13 +209,15 @@ $cmp=CompanyGetInfo();
 			<div class="span12"> 
 				<!-- BEGIN EXAMPLE TABLE widget-->
 				<div class="widget">
-					<div class="widget-title"><h4><i class="icon-reorder"></i> Journal Du Caisse</h4></div>
+					<div class="widget-title hidden-print"><h4><i class="icon-reorder"></i> Journal Du Caisse</h4>
+						<span class="tools"><a onclick="javascript:window.print();" class="icon-print"></a></span>
+					</div>
 					<div class="widget-body">
 						<div class="span12">
                             <div class="row-fluid invoice-list">
-								<div class="span4"><img src="../../ili-upload/logo.png" width="150px" height="150px" alt=""></div>
-								<div class="span4"><h2 style="margin-top:50px;">Journal Du Caisse</h2></div>
-								<div class="span4"  style="margin-top:20px; ">
+								<div class="span4"><img src="../../ili-upload/logo.png" width="150px" height="150px" alt="" class="hidden-print"></div>
+								<div class="span4"><h2 style="margin-top:50px;" id="title">Journal Du Caisse</h2></div>
+								<div class="span4" style="margin-top:20px;" id="entete">
 									<ul class="unstyled">
                                         <li>Agence		: <strong><?php echo $cmp->RS ;?></strong></li>
                                         <li>Tel			: <?php echo $cmp->Phone1 ;?></li>
@@ -215,18 +237,16 @@ $cmp=CompanyGetInfo();
 							<div class="space20"></div>
                             <div class="row-fluid invoice-list">
 								<form action="" method="post">
-									<div class="span4">
-										<h5>DATE DEBUT</h5>
-										<input type="date"  name="DATE1" value="<?php echo $DATE1;?>" onChange="this.form.submit();" style="width:80%; border:none;">
-									</div>
-									<div class="span4">
-										<h5>DATE FIN</h5>
-										<input type="date"  name="DATE2" value="<?php echo $DATE2;?>" onChange="this.form.submit();" style="width:80%; border:none;">
-									</div>
-									<div class="span4">
-										<h5>UTILISATEUR</h5>
-										<select name="idUser" onChange="this.form.submit();" style="width:100%; border:none;"><?php GetUserListeForSelect($User);?></select>
-									</div>
+									<div class="row-fluid">
+										<div class="span4 invoice-block pull-right custom">
+											<ul class="unstyled amounts">
+												<li>
+													DATE DEBUT : <input type="date" id="cm"  name="DATE1" value="<?php echo $DATE1;?>" onChange="this.form.submit();" style="width:60%; border:none;"><br>
+													DATE FIN : <input type="date" id="cm" name="DATE2" value="<?php echo $DATE2;?>" onChange="this.form.submit();" style="width:60%; border:none;"><br>
+													OPERATEUR : <select name="idUser" id="cm" onChange="this.form.submit();" style="width:63%; border:none;"><?php GetUserListeForSelect($User);?></select></li>
+											</ul>
+										</div>
+									</div>								
 								</form>
                             </div>
                             <div class="space20"></div>
@@ -235,7 +255,7 @@ $cmp=CompanyGetInfo();
 								$DATE1=$_POST['DATE1'];
 								$DATE2=$_POST['DATE2'];
 								$User=$_POST['idUser'];
-								RedirectJS('ili-modules/caisse/journal?DATE1='.$DATE1.'&DATE2='.$DATE2.'&idUser='.$User);
+								Redirect('ili-modules/caisse/journal?DATE1='.$DATE1.'&DATE2='.$DATE2.'&idUser='.$User);
 							}
 							Checkout($DATE1, $DATE2, $User);
 							?>
@@ -256,7 +276,7 @@ $cmp=CompanyGetInfo();
 <!-- END CONTAINER --> 
 <!-- BEGIN FOOTER -->
 <div id="footer"> <?php echo $copy_right;?>
-	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up"></i></span> </div>
+	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up hidden-print"></i></span> </div>
 </div>
 <!-- END FOOTER --> 
 <!-- BEGIN JAVASCRIPTS --> 

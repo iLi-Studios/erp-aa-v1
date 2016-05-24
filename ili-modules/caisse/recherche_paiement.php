@@ -71,7 +71,7 @@ AuthorizedPrivileges('CAISSE', 'S');
 if(isset($_POST['idPayment'])){
 	$idPayment = addslashes($_POST['idPayment']);
 	$o = QueryExcute("mysqli_fetch_object", "SELECT * FROM `payment` WHERE `idPayment`='$idPayment'");
-	if($o){RedirectJS('ili-modules/caisse/paiement?id='.$idPayment);}
+	if($o){Redirect('ili-modules/caisse/paiement?id='.$idPayment);}
 	else{echo '<br/><br> CODE PAIEMENT NON TROUVE ';}
 }
 ?>									

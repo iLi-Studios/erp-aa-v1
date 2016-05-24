@@ -1,5 +1,9 @@
 <?php 
 include"../ili-functions/functions.php";
+function UserDeban($idUser){
+	$QueryUserDeban="UPDATE users SET idRank='2' WHERE idUser='$idUser' ;";
+	QueryExcute('', $QueryUserDeban);
+}
 Authorization('2'); 
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);

@@ -2,6 +2,10 @@
 include"../../ili-functions/functions.php";
 Authorization('2');
 AuthorizedPrivileges('CAISSE', 'C');
+function RecupIdPaiement(){
+	$o=QueryExcute("mysqli_fetch_array", "SELECT Max(`idPayment`) FROM `payment`");
+	return $o[0];
+}
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -143,9 +147,11 @@ if( (isset($_POST['Description'])) && (isset($_POST['Amount'])) && (isset($_POST
 	if(isset($_POST['Bank']))			{$Bank			=addslashes($_POST['Bank']);} 			else{$Bank='';}
 	if(isset($_POST['TransferDate']))	{$TransferDate	=addslashes($_POST['TransferDate']);} 	else{$TransferDate='';}
 	QueryExcute("", "INSERT INTO `payment` VALUES (NULL, '$NowEN', '$Description', '$PaymentKind', '$PaymentCode', '$Bank', '$TransferDate', '$Amount', '$idUser');");
-	NotifAllWrite("", "", $idUser." a effectuer un décaissement : ".$Description);
+	$RecupIdPaiement=RecupIdPaiement();
+	$user=UserGetInfo($idUser);
+	NotifAllWrite('', '', '<a href="'.$URL.'ili-modules/caisse/paiement?id='.$RecupIdPaiement.'">'.$user->FamilyName.' '.$user->FirstName.', a effectuer un décaissement : '.$Description.'</a>');
 	LogWrite("Décaissement : ".$Description);
-	RedirectJS("ili-modules/caisse/journal");
+	Redirect("ili-modules/caisse/journal");
 }
 ?>
 				</div>
