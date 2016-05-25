@@ -50,6 +50,8 @@ function AlertGet($code){
 		case "35";AletWrite("alert-error", "ERREUR : PAIEMENT NON DISPONIBLE ! ");break;
 		case "36";AletWrite("alert-success", "OK : Pour applique ce changement, l'utilisateur doit déconnecté puis reconnecté!");break;
 		case "38";AletWrite("alert-error", "ERREUR : Vous pouvez pas supprimer un client qui à des activités dans le système ! ");break;
+		case "39";AletWrite("alert-error", "ERREUR : Vous pouvez pas supprimer un opérateur qui à des activités dans le système ! ");break;
+		
 		
 		case "37";AletWrite("alert-success", "OK : Opération effectuer avec succée! Vous devez vous déconnecter pour appliquer les modifications!");}
 	}
