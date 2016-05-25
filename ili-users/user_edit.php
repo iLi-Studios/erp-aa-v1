@@ -399,8 +399,8 @@ function UserPasswordUpdate($idUser){
 }
 function UserProfileInfoUpdate($idUser){
 	//Form
-	$user=UserGetInfo($idUser);
 	global $URL;
+	$user=UserGetInfo($idUser);
 	echo'
 	<form action="" method="post">
 		<div id="myModal_info_mod" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModal_info_mod_Label" aria-hidden="true">
@@ -461,7 +461,16 @@ function UserProfileInfoUpdate($idUser){
 		$Adress			=addslashes($_POST['Adress']);
 		$BirthDay 		=addslashes($_POST['BirthDay']);						
 		QueryExcute('', "UPDATE users SET FamilyName = '$FamilyName', FirstName='$FirstName', Email='$Email', FunctionPost='$FunctionPost', Phone='$Phone', BirthDay='$BirthDay', Adress='$Adress' WHERE idUser='$idUser'");
-		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification des informations');
+		$idUserSession = $_SESSION['user_id'];
+		if($idUserSession==$idUser){
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' à modifier ces informations');
+		}
+		else{
+			$UserUpdated=UserGetInfo($idUser);
+			$UserUpdater=UserGetInfo($idUserSession);
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' à modifier les informations de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+		}
+		
 		LogWrite("Modification des informations de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
 		Refresh();
 		
