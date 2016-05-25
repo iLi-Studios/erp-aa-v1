@@ -47,6 +47,7 @@ function AuthorizedPrivileges($bloc, $privilege){
 function GetUserPanel($page, $var1, $var2){
 	global $URL;
 	if($page=='USERS'){
+		$IfUserHasActivity=IfUserHasActivity($var1);
 		//ADMIN
 		if($_SESSION['user_idRank']>=3){
 			//C IN ALL
@@ -54,7 +55,7 @@ function GetUserPanel($page, $var1, $var2){
 			//U IN ALL
 			echo'<a href="user_edit?id='.$var1.'" class="icon-edit tooltips" data-original-title="Modifier"></a>';
 			//D IN ALL BUT HIM
-			if($_SESSION['user_id']!=$var1){echo'<a href="#myModal_del'.$var1.'" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}
+			if($IfUserHasActivity){if($_SESSION['user_id']!=$var1){echo'<a href="#myModal_del'.$var1.'" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}}
 			//B IN ALL BUT HIM 
 			if($_SESSION['user_id']!=$var1){
 				if($var2==1){echo'<a href="user_deban?id='.$var1.'" class="icon-repeat tooltips" data-original-title="Débannir"></a>';}
@@ -71,7 +72,7 @@ function GetUserPanel($page, $var1, $var2){
 			//U IN ALL BUT ADMIN
 			if( (($u) && ($_SESSION['user_idRank']>=$var2)) || ($_SESSION['user_id']==$var1) ){echo'<a href="user_edit?id='.$var1.'" class="icon-edit tooltips" data-original-title="Modifier"></a>';}
 			//D IN ALL BUT HIM && ADMIN
-			if( ($d) && ($_SESSION['user_id']!=$var1) && ($_SESSION['user_idRank']>=$var2) ){echo'<a href="#myModal_del'.$var1.'" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}
+			if($IfUserHasActivity){if( ($d) && ($_SESSION['user_id']!=$var1) && ($_SESSION['user_idRank']>=$var2) ){echo'<a href="#myModal_del'.$var1.'" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}}
 			//B IF HE CAN UPDATE HE CAN BAN ALL BUT HIM && ADMIN
 			if( ($u) && ($_SESSION['user_id']!=$var1) && ($_SESSION['user_idRank']>=$var2) ){
 				if($var2==1){echo'<a href="user_deban?id='.$var1.'" class="icon-repeat tooltips" data-original-title="Débannir"></a>';}
@@ -385,6 +386,15 @@ function UserPrivileges($bloc, $idUser){
 	$Query="SELECT * FROM `usersprivilege` WHERE `idUser`='$idUser' AND `bloc`='$bloc';";
 	$O = QueryExcute("mysqli_fetch_object", $Query);
 	return $O;
+}
+function IfUserHasActivity($idUser){
+	$o1=QueryExcute('mysqli_fetch_row', "SELECT * FROM `client` WHERE `CreatedBy`='$idUser';");
+	$o2=QueryExcute('mysqli_fetch_row', "SELECT * FROM `message` WHERE `FromUser` or `ToUser` ='$idUser';");
+	$o3=QueryExcute('mysqli_fetch_row', "SELECT * FROM `contractcycle` WHERE `CreatedBy`='$idUser';");
+	$o4=QueryExcute('mysqli_fetch_row', "SELECT * FROM `payment` WHERE `RecevedBy`='$idUser';");
+	$o5=QueryExcute('mysqli_fetch_row', "SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser';");
+	$o6=QueryExcute('mysqli_fetch_row', "SELECT * FROM `logsystem` WHERE `idUser`='$idUser';");	
+	if($o1&&$o2&&$o3&&$o4&&$o5&&$o6){return 1;}else{return 0;}
 }
 
 /*CLIENT*/
