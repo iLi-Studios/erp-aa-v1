@@ -94,6 +94,7 @@ function GetUserPanel($page, $var1, $var2){
 	}
 	if($page=='CLIENTS'){
 		$ObjectClient=ClientGetInfo($var1);
+		$IfClientHasActivity=IfClientHasActivity($var1);
 		// ADMIN
 		if($_SESSION['user_idRank']>=3){
 			//C
@@ -101,7 +102,7 @@ function GetUserPanel($page, $var1, $var2){
 			//U=B
 			echo'<a href="edit?id='.$ObjectClient->idClient.'" class="icon-edit tooltips" data-original-title="Modifier"></a>';
 			//D
-			echo'<a href="#myModal_del" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';
+			if(!$IfClientHasActivity){echo'<a href="#myModal_del" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}
 			//B=U
 		}
 		// USER
@@ -114,7 +115,7 @@ function GetUserPanel($page, $var1, $var2){
 			//U=B
 			if($u){echo'<a href="edit?id='.$ObjectClient->idClient.'" class="icon-edit tooltips" data-original-title="Modifier"></a>';}
 			//D
-			if($d){echo'<a href="#myModal_del" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}
+			if(!$IfClientHasActivity){if($d){echo'<a href="#myModal_del" class="icon-trash tooltips" data-toggle="modal" data-original-title="Supprimer"></a>';}}
 			//B=D
 		}
 	}
@@ -390,6 +391,10 @@ function UserPrivileges($bloc, $idUser){
 function ClientGetInfo($idClient){
 	$QueryClientGetInfo="SELECT * FROM client WHERE idClient='$idClient';";
 	if($o=(QueryExcute("mysqli_fetch_object", $QueryClientGetInfo))){return $o;}
+}
+function IfClientHasActivity($idClient){
+	$o=QueryExcute('mysqli_fetch_row', "SELECT * FROM `insurancecontract` WHERE `idClient`='$idClient';");
+	if($o){return 1;}else{return 0;}
 }
 
 /*CAISSE*/

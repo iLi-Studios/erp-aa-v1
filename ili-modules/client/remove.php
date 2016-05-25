@@ -12,7 +12,11 @@ function ClientDrop($idClient, $O){
 Authorization('2');
 AuthorizedPrivileges('CLIENTS', 'D'); 
 $idClient=$_GET['id'];
-$O=ClientGetInfo($idClient);
-if($O==''){Redirect('index?message=18');}
-else{ClientDrop($idClient, $O);}
+$IfClientHasActivity=IfClientHasActivity($idClient);
+if(!$IfClientHasActivity){
+	$O=ClientGetInfo($idClient);
+	if($O==''){Redirect('index?message=18');}
+	else{ClientDrop($idClient, $O);}
+}
+else{Redirect('index?message=38');}
 ?>
