@@ -9,7 +9,6 @@ function LogIn($Email, $Password){
 				$_SESSION['user_prenom']=$o->FirstName; 
 				$_SESSION['user_nom_prenom']=$_SESSION['user_nom'].' '.$_SESSION['user_prenom'];
 				$_SESSION['user_idRank']=$o->idRank;
-				$_SESSION['user_Rank']=$o->Rank;
 				$_SESSION['user_img']=$o->ProfilePhoto;
 				LogWrite("Connexion");
 				Redirect("index");
