@@ -1013,12 +1013,14 @@ function UserPrivilegesGetUpdate($idUser){
 	}
 }
 Authorization('2');
+AuthorizedPrivileges('USERS', 'U');
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);
 if($user==''){Redirect('index?message=14');}
-$idUser_session = $_SESSION['user_id'];
+
+/*$idUser_session = $_SESSION['user_id'];
 $user_idRank = $_SESSION['user_idRank'];
-if( ($idUser!=$idUser_session)&&($user_idRank<3)){Redirect('index?message=17');}
+if( ($idUser!=$idUser_session)&&($user_idRank<3) ){Redirect('index?message=17');}*/
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
