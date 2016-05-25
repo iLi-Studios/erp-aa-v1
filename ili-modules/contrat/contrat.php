@@ -63,7 +63,6 @@ $idContract=$_GET['id'];
 $cnt=ContractGetInfoLastCycle($idContract);
 $cnt1=ContractGetInfoFisrtCycle($idContract);
 if(!$cnt){Redirect('index?message=30');}
-$createur=UserGetInfo($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -171,6 +170,7 @@ $createur=UserGetInfo($_SESSION['user_id']);
                                 </div>
                             </div>
                             <div class="space5"></div>
+							<?php $createur=UserGetInfo($cnt->CreatedBy);?>
                             <?php echo'<div class="alert alert-success"><i class="icon-ok-sign"></i> Crée par : <a href="'.$URL.'ili-users/user_profil?id='.$cnt->CreatedBy.'">'.$createur->FamilyName.' '.$createur->FirstName.'</a></div>';?>
                         </div>
                     </div>
