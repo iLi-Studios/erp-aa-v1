@@ -470,7 +470,6 @@ function UserProfileInfoUpdate($idUser){
 			$UserUpdater=UserGetInfo($idUserSession);
 			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' à modifier les informations de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
 		}
-		
 		LogWrite("Modification des informations de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
 		Refresh();
 		
@@ -510,8 +509,16 @@ function UserProfilePhotoUpdate($idUser){
 	if( isset($_POST['ProfilePhoto']) ){
 		$ProfilePhoto				= addslashes($_POST['ProfilePhoto']);
 		QueryExcute("mysqli_fetch_object", "UPDATE `users` SET `ProfilePhoto`='$ProfilePhoto' WHERE `idUser`='$user->idUser';");
-		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification de photo de profile');
-		LogWrite("Changement de l\'image de profil de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
+		$idUserSession = $_SESSION['user_id'];
+		if($idUserSession==$idUser){
+			NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', a modifier sa photo de profile');
+		}
+		else{
+			$UserUpdated=UserGetInfo($idUser);
+			$UserUpdater=UserGetInfo($idUserSession);
+			NotifAllWrite('', '', '<a href="'.$URL.'ili-users/user_profil?id='.$UserUpdater->idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.', a modifier la photo de profile de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+		}
+		LogWrite("Changement de l\'image de profil de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$UserUpdated->idUser."\">".$UserUpdated->idUser."</a>");
 		Redirect('ili-users/user_edit?message=36&id='.$idUser);
 	}
 }
