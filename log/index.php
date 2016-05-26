@@ -31,6 +31,12 @@ function LogArchiveListing(){
 	}
 	else echo 'Le dossier n\' a pas pu être ouvert';
 }
+function LogExportButton($MinLagneLog){
+	$o=QueryExcute('mysqli_num_rows', 'SELECT * FROM `logsystem`;');
+	if($o>=$MinLagneLog){
+		echo'<span class="tools"> <a href="export" class="icon-upload-alt" data-original-title="Archivage du log"></a></span>';
+	}
+}
 ?>
 <!DOCTYPE html>
 <?php echo $author; ?>
@@ -95,7 +101,8 @@ function LogArchiveListing(){
 					<div class="widget">
 						<div class="widget-title">
 							<h4><i class="icon-reorder"></i> Journal système</h4>
-							<span class="tools"> <a href="export" class="icon-upload-alt" data-original-title="Archivage du log"></a></span> </div>
+							<?php LogExportButton($MinLigneLogToArchive); ?>
+						</div>
 						<div class="widget-body">
 							<table class="table table-striped table-bordered" id="sample_1">
 								<thead>
