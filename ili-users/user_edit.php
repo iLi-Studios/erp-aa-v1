@@ -124,7 +124,15 @@ function UserDiplomaUpdate($idUser){
 										`Institute`='$UpdateDiplomaInstitute' 
 								WHERE `idDiploma`='$UpdateDiplomaidDiploma';";
 		QueryExcute('', $QueryUpdateDiploma);
-		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification du diplôme : '.$UpdateDiplomaDescription);
+		$idUserSession = $_SESSION['user_id'];
+		if($idUserSession==$idUser){
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' à modifier son diplome : '.$UpdateDiplomaDescription);
+		}
+		else{
+			$UserUpdated=UserGetInfo($idUser);
+			$UserUpdater=UserGetInfo($idUserSession);
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' à modifier le diplôme : '.$UpdateDiplomaDescription.' de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+		}
 		LogWrite("Modification du diplôme : ".$UpdateDiplomaDescription.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
 		Refresh();
 	}
