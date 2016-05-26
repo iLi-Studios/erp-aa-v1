@@ -256,7 +256,15 @@ function UserExpiranceUpdate($idUser){
 			$UpdateidExperience	= addslashes($_POST['UpdateidExperience']);
 			$user				= UserGetInfo($idUser);
 			QueryExcute("", "UPDATE usersexperience SET Company='$UpdateCompany', CompanyURL='$UpdateCompanyURL', Period='$UpdatePeriod', Description='$UpdateDescription' WHERE idExperience='$UpdateidExperience';");
-			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', Modification de l`experiance dans l`etablissement : '.$UpdateCompany);
+			$idUserSession = $_SESSION['user_id'];
+			if($idUserSession==$idUser){
+				NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' a modifier son experiance dans dans l`etablissement : '.$UpdateCompany);
+			}
+			else{
+				$UserUpdated=UserGetInfo($idUser);
+				$UserUpdater=UserGetInfo($idUserSession);
+				NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' a modifier l`experance dans l`etablissement : '.$UpdateCompany.' de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+			}
 			LogWrite("Modification de l\'expérience dans l\'etablissement : ".$UpdateCompany.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
 			Refresh();
 			
