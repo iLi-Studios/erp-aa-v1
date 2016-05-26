@@ -567,8 +567,16 @@ function UserSocialeUpdate($idUser){
 		$linkedinAccount		= addslashes($_POST['linkedinAccount']);
 		$githubAccount			= addslashes($_POST['githubAccount']);
 		$QuerySocialInsert		= "UPDATE `users` SET `fbAccount`='$fbAccount', `githubAccount`='$githubAccount', `linkedinAccount`='$linkedinAccount' WHERE `idUser`='$idUser';";
-		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', modification des liens socieaux');
 		QueryExcute('', $QuerySocialInsert);
+		$idUserSession = $_SESSION['user_id'];
+		if($idUserSession==$idUser){
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' à modifier ces liens socieaux');
+		}
+		else{
+			$UserUpdated=UserGetInfo($idUser);
+			$UserUpdater=UserGetInfo($idUserSession);
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' à modifier liens socieaux de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+		}
 		LogWrite("Modification des liens socieaux de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
 		Refresh();
 	}
