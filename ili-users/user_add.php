@@ -26,7 +26,7 @@ function UserInsert(){
 				QueryExcute("", "INSERT INTO `users` VALUES ('$cin', '2', '$FamilyName', '$FirstName', '$Email', '$FunctionPost', '$Phone', '$Adress', '$BirthDay', MD5('$Password'), '$Timestamp', '$fbAccount', '$githubAccount', '$linkedinAccount', '$ProfilePhoto', '$add_by', '$Timestamp')");
 				QueryExcute("", "INSERT INTO `usersprivilege` VALUES (NULL, '$cin', 'USERS', '1', '0', '0', '0'), (NULL, '$cin', 'CLIENTS', '1', '0', '0', '0'), (NULL, '$cin', 'CONTRAT', '1', '0', '0', '0'), (NULL, '$cin', 'CAISSE', '1', '0', '0', '0')");
 				NotifAllWrite($cin, '', '<a href="'.$URL.'ili-users/user_profil?id='.$cin.'">Nouveau utilisateur, '.$FamilyName.' '.$FirstName);
-				LogWrite("Création de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$cin."\">".$cin."</a>");
+				LogWrite("Creation de l\'utilisateur : ".$cin);
 				Redirect('ili-users/users');
 			}
 		}	
