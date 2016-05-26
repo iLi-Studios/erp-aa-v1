@@ -17,7 +17,7 @@ function LogRead(){
 }
 function LogArchiveListing(){
 	$nb_fichier = 0;
-	echo '<ul>';
+	echo '<ul class="item-list scroller padding" data-height="447" data-always-visible="1">';
 	if($dossier = opendir('./')){
 		while(false !== ($fichier = readdir($dossier))){
 			if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != 'export.php'){
@@ -130,7 +130,7 @@ function LogExportButton($MinLagneLog){
 					<div class="widget">
 						<div class="widget-title">
 							<h4><i class="icon-book"></i>Archive</h4>
-							<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> <a href="javascript:;" class="icon-remove"></a> </span> </div>
+							<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a></span> </div>
 						<div class="widget-body"><?php LogArchiveListing();?></div>
 					</div>
 					<!-- END ORDERED LISTS PORTLET--> 					
@@ -154,13 +154,31 @@ function LogExportButton($MinLagneLog){
 <!-- BEGIN JAVASCRIPTS --> 
 <!-- Load javascripts at bottom, this will reduce page load time --> 
 <script src="../ili-style/js/jquery-1.8.3.min.js"></script> 
+<script src="../ili-style/assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script> 
+<script src="../ili-style/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script> 
+<script src="../ili-style/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script> 
 <script src="../ili-style/assets/bootstrap/js/bootstrap.min.js"></script> 
 <script src="../ili-style/js/jquery.blockui.js"></script> 
+<script src="../ili-style/js/jquery.cookie.js"></script> 
 <!-- ie8 fixes --> 
 <!--[if lt IE 9]>
-   <script src="js/excanvas.js"></script>
-   <script src="js/respond.js"></script>
-   <![endif]--> 
+        <script src="js/excanvas.js"></script>
+        <script src="js/respond.js"></script>
+        <![endif]--> 
+<script src="../ili-style/assets/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script> 
+<script src="../ili-style/assets/jquery-knob/js/jquery.knob.js"></script> 
+<script src="../ili-style/assets/flot/jquery.flot.js"></script> 
+<script src="../ili-style/assets/flot/jquery.flot.resize.js"></script> 
+<script src="../ili-style/assets/flot/jquery.flot.pie.js"></script> 
+<script src="../ili-style/assets/flot/jquery.flot.stack.js"></script> 
+<script src="../ili-style/assets/flot/jquery.flot.crosshair.js"></script> 
+<script src="../ili-style/js/jquery.peity.min.js"></script> 
 <script type="text/javascript" src="../ili-style/assets/uniform/jquery.uniform.min.js"></script> 
 <script type="text/javascript" src="../ili-style/assets/data-tables/jquery.dataTables.js"></script> 
 <script type="text/javascript" src="../ili-style/assets/data-tables/DT_bootstrap.js"></script> 
