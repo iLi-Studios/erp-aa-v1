@@ -92,7 +92,7 @@ function user_side_bar(){
 	<ul class="sidebar-menu">
 		<li class="has-sub active"> <a href="<?php echo $URL;?>" class=""> <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard </a> </li>
 		<?php user_side_bar();?>
-        <li><a class="" href="<?php echo $URL;?>aide"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
+        <li><a class="" href="<?php echo $URL;?>help"><span class="icon-box"><i class="icon-book"></i></span> Aide</a></li>
 		<li><a class="" href="<?php echo $URL;?>ili-functions/logout"><span class="icon-box"><i class="icon-signout"></i></span> Déconexion</a></li>
 	</ul>
 	<!-- END SIDEBAR MENU --> 

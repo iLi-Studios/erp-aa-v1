@@ -244,21 +244,6 @@ function LogWrite($Description){
 	$idUser=$_SESSION['user_id'];
 	QueryExcute("", "INSERT INTO `logsystem` (`idLog`, `idUser`, `Timestamp`, `Description`) VALUES (NULL, '$idUser', '$Timestamp', '$Description');");
 }
-function LogRead(){
-	$query="SELECT * FROM `logsystem` ORDER BY idLog DESC";
-	$result=QueryExcuteWhile($query);
-	while ($o=mysqli_fetch_object($result)){
-		echo'
-			<tr class="odd gradeX">
-				<th><input type="checkbox" class="group-checkable"/></th>
-				<th>'.$o->idLog.'</th>
-				<th><a href="ili-users/user_profil?id='.$o->idUser.'">'.$o->idUser.'</a></th>
-				<th class="hidden-phone">'.$o->Description.'</th>
-				<th class="center hidden-phone">'.$o->Timestamp.'</th>
-			</tr>
-			';
-	}
-}
 function ErrorGet($message){
 	if(isset($_GET['message'])){
 		AlertGet($_GET['message']);
