@@ -21,6 +21,6 @@ else{
 		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' a supprimer le diplôme : '.$diploma_name.' de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
 	}	
 	LogWrite("Suppression du diplôme : ".$diploma_name.", de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
-	Refresh();
+	Redirect('ili-users/user_edit?id='.$idUser);
 }
 ?>

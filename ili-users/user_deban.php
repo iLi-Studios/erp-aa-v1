@@ -15,6 +15,6 @@ else{
 	$UserUpdater=UserGetInfo($idUserSession);
 	NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' a banni '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
 	LogWrite("Utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a> a été <strong>débanni</strong>");
-	Refresh();
+	Redirect('ili-users/user_edit?id='.$idUser);
 }
 ?>

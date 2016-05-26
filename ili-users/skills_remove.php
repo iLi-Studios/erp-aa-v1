@@ -22,6 +22,6 @@ else{
 		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' a supprimer la compétance : '.$skills_name.' de '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
 	}
 	LogWrite("Suppression du compétence : ".$skills_name." de l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
-	Refresh();
+	Redirect('ili-users/user_edit?id='.$idUser);
 }
 ?>
