@@ -318,6 +318,15 @@ function UserQualificationInsert($idUser){
 		$QueryInsertQualification = "INSERT INTO usersqualification VALUES ('', '$idUser', '$InsertQualificationDescription', '$InsertQualificationLevel');";
 		QueryExcute('', $QueryInsertQualification);
 		NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.', ajout de compétence : '.$InsertQualificationDescription);
+		$idUserSession = $_SESSION['user_id'];
+			if($idUserSession==$idUser){
+				NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' s`est ajouté une compétance : '.$InsertQualificationDescription);
+			}
+			else{
+				$UserUpdated=UserGetInfo($idUser);
+				$UserUpdater=UserGetInfo($idUserSession);
+				NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' a ajouté une compétance : '.$InsertQualificationDescription.' pour '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+			}
 		LogWrite("Ajout du compétence : ".$InsertQualificationDescription.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$idUser."\">".$idUser."</a>");
 		Refresh();
 	}	
