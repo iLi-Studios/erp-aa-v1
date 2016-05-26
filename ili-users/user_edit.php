@@ -188,7 +188,15 @@ function UserExpiranceInsert($idUser){
 		$InsertDescription 		= addslashes($_POST['InsertDescription']);
 		$QueryInsertExperience	= "INSERT INTO `usersexperience` (`idExperience`, `idUser`, `Company`, `CompanyURL`, `Period`, `Description`) VALUES (NULL, '$user->idUser', '$InsertCompany', '$InsertCompanyURL', '$InsertPeriod', '$InsertDescription');";
 		QueryExcute('', $QueryInsertExperience);
-		NotifAllWrite($user->idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$user->idUser.'">'.$user->FamilyName.' '.$user->FirstName.', ajout de l\'expérence dans l\'etablissement : '.$InsertCompany);
+		$idUserSession = $_SESSION['user_id'];
+		if($idUserSession==$idUser){
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$user->FamilyName.' '.$user->FirstName.' a ajouté une expérance dans l`etablissement : '.$InsertCompany);
+		}
+		else{
+			$UserUpdated=UserGetInfo($idUser);
+			$UserUpdater=UserGetInfo($idUserSession);
+			NotifAllWrite($idUser, '', '<a href="'.$URL.'ili-users/user_profil?id='.$idUser.'">'.$UserUpdater->FamilyName.' '.$UserUpdater->FirstName.' à ajouté une expérance dans l`etablissement : '.$InsertCompany.' pour '.$UserUpdated->FamilyName.' '.$UserUpdated->FirstName);
+		}
 		LogWrite("Ajout de l\'expérience dans l\'etablissement : ".$InsertCompany.", pour l\'utilisateur : <a href=\"ili-users/user_profil?id=".$user->idUser."\">".$user->idUser."</a>");
 		Refresh();
 	}
