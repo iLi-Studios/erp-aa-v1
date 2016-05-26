@@ -158,7 +158,7 @@ function DebitChart(){
 											<th></th>
 											<th> Envoyé par </th>
 											<th> Sujet </th>
-											<th> Etat </th>
+											<th width="15%"> Etat </th>
 											<th> Date </th>
 										</tr>
 									</thead>
