@@ -4,7 +4,8 @@ function UserDeban($idUser){
 	$QueryUserDeban="UPDATE users SET idRank='2' WHERE idUser='$idUser' ;";
 	QueryExcute('', $QueryUserDeban);
 }
-Authorization('2'); 
+Authorization('2');
+AuthorizedPrivileges('USERS', 'U'); 
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);
 if($user==''){Redirect('index?message=14');}

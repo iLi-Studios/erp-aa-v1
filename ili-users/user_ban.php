@@ -4,7 +4,8 @@ function UserBan($idUser){
 	$QueryUserBan="UPDATE users SET idRank='1' WHERE idUser='$idUser' ;";
 	QueryExcute('', $QueryUserBan);
 }
-Authorization('2'); 
+Authorization('2');
+AuthorizedPrivileges('USERS', 'U');  
 $idUser=$_GET['id'];
 $user=UserGetInfo($idUser);
 if($user==''){Redirect('index?message=14');}
