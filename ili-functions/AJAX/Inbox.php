@@ -24,11 +24,11 @@ function Inbox(){
 			if($o1>='1'){$idDiscussion=$ox->idDiscussion;}else{$idDiscussion='';}
 			echo'
 			<tr>
-				<th style="width:4%;"></th>
-				<th style="width:20%"> <a href="'.$URL.'ili-users/user_profil?id='.$o->FromUser.'">'.$info_user->FamilyName.' '.$info_user->FirstName.'</a> </th>
-				<th style="width:46%"><strong> <a href="'.$URL.'ili-messages/read?id='.$idMessage.'&id2='.$idDiscussion.'">'.$o->Subject.'</a> </strong></th>
-				<th style="width:12%">'?><?php if($o1>='1'){MessageStatus($ox->idMessage, $idDiscussion);}		else{MessageStatus($o->idMessage, '');} MessageStatusChekIfLocked($o->idMessage); echo' </th>
-				<th style="width:18%"> ';?><?php if($o1>='1'){DateDifference($ox->TimeStamp);}else{DateDifference($o->TimeStamp);} echo' </th>
+				<td></td>
+				<td> <a href="'.$URL.'ili-users/user_profil?id='.$o->FromUser.'">'.$info_user->FamilyName.' '.$info_user->FirstName.'</a> </td>
+				<td class="hidden-phone"> <strong> <a href="'.$URL.'ili-messages/read?id='.$idMessage.'&id2='.$idDiscussion.'">'.$o->Subject.'</a> </strong> </td>
+				<td class="hidden-phone">' ?><?php if($o1>='1'){MessageStatus($ox->idMessage, $idDiscussion);}		else{MessageStatus($o->idMessage, '');} MessageStatusChekIfLocked($o->idMessage); echo' </td>
+				<td class="hidden-phone">' ;?><?php if($o1>='1'){DateDifference($ox->TimeStamp);}else{DateDifference($o->TimeStamp);} echo' </td>
 			</tr>
 			';
 	}		

@@ -4,7 +4,7 @@ function MessageGetAllHeader(){
 	global $URL;
 	//get message source
 	$idUser=$_SESSION['user_id'];
-	$q1="SELECT * FROM `message` WHERE `ToUser`='$idUser' AND `Seen`='0' ORDER BY `idMessage` DESC LIMIT 3 ";	
+	$q1="SELECT * FROM `message` WHERE `ToUser`='$idUser' AND `Seen`='0' ORDER BY `idMessage` DESC LIMIT 2 ";	
 	$r1=QueryExcuteWhile($q1);
 	if(mysqli_num_rows($r1)>'0'){		
 		while ($o1=mysqli_fetch_object($r1)){
@@ -39,7 +39,7 @@ function MessageGetAllHeader(){
 			AND
 			`discussion`.`ToUser`='$idUser'
 			AND
-			`discussion`.`Seen`='0';
+			`discussion`.`Seen`='0' LIMIT 2;
 			";
 	$r2=QueryExcuteWhile($q2);
 	if(mysqli_num_rows($r2)>'0'){		

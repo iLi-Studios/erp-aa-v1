@@ -39,6 +39,10 @@ $idUser=$_SESSION['user_id'];
 <link rel="stylesheet" href="../ili-style/assets/data-tables/DT_bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="../ili-style/assets/bootstrap-daterangepicker/daterangepicker.css" />
 </head>
+<script type="text/javascript"> 
+	var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $URL;?>ili-functions/AJAX/Inbox.php').fadeIn("slow");}, 1000); 
+	// refreshing after every 15000 milliseconds 
+</script>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -74,24 +78,19 @@ $idUser=$_SESSION['user_id'];
 								<h4><i class="icon-envelope"></i> Messagerie</h4>
 								<span class="tools">
 									<a href="start" class="icon-plus tooltips" data-original-title="Nouveau Message"> </a>
-									<a href="javascript:;" class="icon-chevron-down"></a> 
  								</span>
 							</div>
 							<div class="widget-body">
-								<table style="width:100%; text-align:left;" id="sample_1">
+								<table class="table table-condensed table-striped table-hover no-margin" id="sample_1">
 									<thead>
 										<tr>
-											<th></th>
-											<th> Envoyé par </th>
-											<th> Sujet </th>
-											<th> Etat </th>
-											<th> Date </th>
+											<th style="width:4%"></th>
+											<th style="width:17%">Envoyé par</th>
+											<th class="hidden-phone" style="width:40%">Sujet</th>
+											<th class="hidden-phone" style="width:22%">Etat</th>
+											<th class="hidden-phone" style="width:28%">Date</th>
 										</tr>
 									</thead>
-<script type="text/javascript"> 
-var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $URL;?>ili-functions/AJAX/Inbox.php').fadeIn("slow");}, 1000); 
-// refreshing after every 15000 milliseconds 
-</script>
 									<tbody id="loadmessages"></tbody>
 								</table>
 							</div>

@@ -58,6 +58,10 @@ function DebitChart(){
 <link href="ili-style/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
 <link href="ili-style/assets/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
+<script type="text/javascript"> 
+	var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $URL;?>ili-functions/AJAX/MessageGetAll.php').fadeIn("slow");}, 1000); 
+	// refreshing after every 15000 milliseconds 
+</script>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top">
@@ -145,35 +149,50 @@ function DebitChart(){
 				</div>
 				<!-- END OVERVIEW STATISTIC BARS-->
 				<div class="row-fluid">
-					<div class="span12"> 
-						<!-- BEGIN MAILBOX PORTLET-->
-						<div class="widget">
-							<div class="widget-title">
-								<h4><i class="icon-envelope"></i> Messagerie <small> | Les 5 derniers messages</small></h4>
-								<span class="tools"> <a href="ili-messages/start" class="icon-plus tooltips" data-original-title="Nouveau Message"> </a> <a href="javascript:;" class="icon-chevron-down"></a> </span> </div>
+                        <div class="span12">
+                            <!-- BEGIN MAILBOX PORTLET-->
+                            <div class="widget">
+                                <div class="widget-title">
+                                <h4><i class="icon-envelope"></i> Messagerie</h4>
+                                <div class="tools pull-right mtop7 mail-btn">
+                                    <div class="btn-group">
+										<a class="btn btn-small element" data-original-title="Recherche" href="ili-messages/inbox" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-search"></i>
+                                        </a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a class="btn btn-small element" data-original-title="Nouveau" href="ili-messages/start" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-plus"></i>
+                                        </a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a class="btn btn-small element" data-original-title="Précédent" href="#" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-chevron-left"></i>
+                                        </a>
+                                        <a class="btn btn-small element" data-original-title="Suivant" href="#" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-chevron-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="widget-body">
-								<table style="width:100%; text-align:left;">
-									<thead>
-										<tr>
-											<th></th>
-											<th> Envoyé par </th>
-											<th> Sujet </th>
-											<th width="15%"> Etat </th>
-											<th> Date </th>
-										</tr>
-									</thead>
-<script type="text/javascript"> 
-var auto_refresh = setInterval(function(){$('#loadmessages').load('<?php echo $URL;?>ili-functions/AJAX/MessageGetAll.php').fadeIn("slow");}, 1000); 
-// refreshing after every 15000 milliseconds 
-</script>
-									<tbody id="loadmessages">
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<!-- END MAILBOX PORTLET--> 
-					</div>
-				</div>
+                                <table class="table table-condensed table-striped table-hover no-margin">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:4%"></th>
+                                        <th style="width:17%">Envoyé par</th>
+                                        <th class="hidden-phone" style="width:40%">Sujet</th>
+                                        <th class="hidden-phone" style="width:22%">Etat</th>
+                                        <th class="hidden-phone" style="width:28%">Date</th>
+                                    </tr>
+                                    </thead>
+									<tbody id="loadmessages"></tbody>
+                                </table>
+                            </div>
+                            </div>
+                            <!-- END MAILBOX PORTLET-->
+                        </div>
+                    </div>
 				<div class="row-fluid">
 					<div class="span8"> 
 						<!-- BEGIN SITE VISITS PORTLET-->
