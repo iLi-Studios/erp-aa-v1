@@ -17,7 +17,7 @@ function LogRead(){
 }
 function LogArchiveListing(){
 	$nb_fichier = 0;
-	echo '<ul class="item-list scroller padding" data-height="447" data-always-visible="1">';
+	echo '<ul class="item-list scroller padding" data-height="300" data-always-visible="1">';
 	if($dossier = opendir('./')){
 		while(false !== ($fichier = readdir($dossier))){
 			if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != 'export.php'){

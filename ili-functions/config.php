@@ -12,7 +12,6 @@ $author=
 "
 <!--
 iLi-ERP
-Développer par : SAKLY AYOUB
 Société	: iLi-Studios SARL
 Site : http://www.ili-studios.tn/
 -->
