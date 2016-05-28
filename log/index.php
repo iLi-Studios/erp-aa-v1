@@ -24,7 +24,7 @@ function LogArchiveListing(){
 				$nb_fichier++; // On incrémente le compteur de 1
 				echo '
 					<li>
-					<a href="./' . $fichier . '" target="new" download="'.$fichier.'"><i class="icon-save"></i></a>
+					<a href="./' . $fichier . '" download="'.$fichier.'"><i class="icon-save"></i></a>
 					<a href="./' . $fichier . '" target="new" >' . $fichier . '</a>
 					</li>';
 			} // On ferme le if (qui permet de ne pas afficher index.php, etc.)

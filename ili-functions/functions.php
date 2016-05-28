@@ -151,11 +151,6 @@ function GetUserPanel($page, $var1, $var2){
 		}
 	}
 }
-function TestRank(){
-	$idUser=$_SESSION['user_id'];
-	$o=QueryExcute("mysqli_fetch_object", "SELECT `idRank` FROM `users` WHERE `idUser`='$idUser'");
-	if($o->idRank=='1'){LogOut();}
-}
 
 /*REDERECTION*/
 function Redirect($page){
@@ -379,7 +374,7 @@ function IfUserHasActivity($idUser){
 	$o4=QueryExcute('mysqli_fetch_row', "SELECT * FROM `payment` WHERE `RecevedBy`='$idUser';");
 	$o5=QueryExcute('mysqli_fetch_row', "SELECT * FROM `notificationsystem` WHERE `idUser`='$idUser';");
 	$o6=QueryExcute('mysqli_fetch_row', "SELECT * FROM `logsystem` WHERE `idUser`='$idUser';");	
-	if($o1&&$o2&&$o3&&$o4&&$o5&&$o6){return 1;}else{return 0;}
+	if($o1||$o2||$o3||$o4||$o5||$o6){return 1;}else{return 0;}
 }
 
 /*CLIENT*/

@@ -1,4 +1,6 @@
 <?php 
+ini_set("display_errors",0);error_reporting(0); //desactivation d'erreur php sur cette page
+if(!file_exists('ili-functions/config.php')){header('Location: ./INSTALL/1');}
 include"ili-functions/functions.php"; 
 function LogIn($Email, $Password){
 		if($o=QueryExcute("mysqli_fetch_object", "SELECT * FROM `users`, `usersrank` WHERE `users`.Email='$Email' AND `users`.Password='$Password' AND `users`.idRank=`usersrank`.idRank")){

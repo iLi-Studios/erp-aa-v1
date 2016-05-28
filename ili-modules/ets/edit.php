@@ -26,7 +26,7 @@ function CompanyInfoUpdate(){
 		Redirect('ili-modules/ets/info');
 	}
 }
-function UpladImage(){
+function UploadImage(){
 	global $URL;
 	$idUser = $_SESSION['user_id'];
 	$user=UserGetInfo($idUser);
@@ -215,7 +215,7 @@ CompanyInfoUpdate();
 									<input type="hidden" name="UploadImage">
 									<input type="file" name="fileToUpload" id="fileToUpload" onChange="this.form.submit();">
 								</form>
-								<?php UpladImage();?>
+								<?php UploadImage();?>
                             </div>
                             <div class="space5"></div>
                         </div>

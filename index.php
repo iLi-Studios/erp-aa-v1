@@ -1,4 +1,6 @@
-<?php 
+<?php
+ini_set("display_errors",0);error_reporting(0); //desactivation d'erreur php sur cette page
+if(!file_exists('ili-functions/config.php')){header('Location: ./INSTALL/1');}
 include"ili-functions/functions.php";
 Authorization('2');
 function Statistique($query, $result_type){
@@ -165,14 +167,14 @@ function DebitChart(){
                                             <i class="icon-plus"></i>
                                         </a>
                                     </div>
-                                    <div class="btn-group">
+                                    <!--<div class="btn-group">
                                         <a class="btn btn-small element" data-original-title="Précédent" href="#" data-toggle="tooltip" data-placement="top">
                                             <i class="icon-chevron-left"></i>
                                         </a>
                                         <a class="btn btn-small element" data-original-title="Suivant" href="#" data-toggle="tooltip" data-placement="top">
                                             <i class="icon-chevron-right"></i>
                                         </a>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
 							<div class="widget-body">
