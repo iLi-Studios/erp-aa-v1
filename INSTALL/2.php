@@ -1,6 +1,6 @@
 <?php 
-if(file_exists('../ili-functions/config.php')){header('Location: ../index');}
 include"../ili-functions/functions.php";
+ini_set("display_errors",0);error_reporting(0); //desactivation d'erreur php sur cette page
 ?>
 <!DOCTYPE html>
 
@@ -60,9 +60,12 @@ include"../ili-functions/functions.php";
 <?php echo'<img src="../ili-style/img/loading.gif">'; ?>
 <?php
 $sql=file_get_contents("db.sql");
-$sql_array = explode (";",$sql); 
-foreach ($sql_array as $val) {QueryExcuteWhile($val);}
-Redirect('INSTALL/3');
+if($sql){
+	if($sql_array = explode (";",$sql)){
+		foreach ($sql_array as $val) {QueryExcuteWhile($val);}
+		echo'<script language="Javascript">document.location.href="'.$URL.'INSTALL/3"</script>';
+	}else{echo'Une erreur est survenue l\'ors de l\'instalation de base des donneés';}
+}else{echo'Fichier SQL non disponible';}
 ?>
                         </form>
                         <!-- END FORM-->           

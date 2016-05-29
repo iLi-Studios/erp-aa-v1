@@ -1,6 +1,8 @@
 <?php 
 include"../ili-functions/functions.php";
+ini_set("display_errors",0);error_reporting(0); //desactivation d'erreur php sur cette page
 function AdminInsert(){
+	global $URL;
 	if((isset($_POST['cin']))&&(isset($_POST['FamilyName']))&&(isset($_POST['FirstName']))&&(isset($_POST['Email']))&&(isset($_POST['Phone']))&&(isset($_POST['Password']))&&(isset($_POST['Adress']))){
 		//Recup variable
 		$cin						=addslashes($_POST['cin']);
@@ -15,7 +17,7 @@ function AdminInsert(){
 		// Function
 		global $Timestamp, $URL, $sytem_title;
 		QueryExcute("", "INSERT INTO `users` VALUES ('$cin', '3', '$FamilyName', '$FirstName', '$Email', '$FunctionPost', '$Phone', '$Adress', '$BirthDay', MD5('$Password'), '$Timestamp', '', '', '', '', '$sytem_title', '$Timestamp')");
-		Redirect('INSTALL/4');
+		echo'<script language="Javascript">document.location.href="'.$URL.'INSTALL/4"</script>';
 	}
 }
 ?>

@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS `usersrank` (
 INSERT INTO `usersrank` (`idRank`, `Level`) VALUES
 (1, 'suspendue'),
 (2, 'utilisateur'),
-(3, 'admin'),
-(4, 'developpeur');
+(3, 'admin');
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `idRank` int(10) NOT NULL,

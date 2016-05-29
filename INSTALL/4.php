@@ -1,5 +1,6 @@
 <?php 
 include"../ili-functions/functions.php";
+ini_set("display_errors",0);error_reporting(0); //desactivation d'erreur php sur cette page
 function UploadImage(){
 	if(isset($_POST["UploadImage"])) {
 		$target_dir = "../ili-upload/";
@@ -47,6 +48,7 @@ function UploadImage(){
 	}
 }
 function CompanyInsert(){
+	global $URL;
 	if((isset($_POST['MF']))&&(isset($_POST['RC']))&&(isset($_POST['RS']))&&(isset($_POST['Activity']))&&(isset($_POST['Adress']))&&(isset($_POST['Phone1']))){
 		//Recup variable
 		$MF				=addslashes($_POST['MF']);
@@ -63,7 +65,7 @@ function CompanyInsert(){
 		if(isset($_POST['BankAccount2'])){$BankAccount2=$_POST['BankAccount2'];}else{$BankAccount2='';}
 		UploadImage();
 		QueryExcute("", "INSERT INTO `company` VALUES ('1', '$MF', '$RC', '$RS', '$Activity', '$Adress', '$Phone1', '$Phone2', '$Fax', '$Email', '$WebSite', '$BankAccount1', '$BankAccount2' );");
-		Redirect('login');
+		echo'<script language="Javascript">document.location.href="'.$URL.'login"</script>';
 	}
 }
 ?>
