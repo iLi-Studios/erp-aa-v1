@@ -1,5 +1,4 @@
 <?php 
-if(file_exists('../ili-functions/config.php')){header('Location: ../index');}
 include"../ili-functions/functions.php";
 function UploadImage(){
 	if(isset($_POST["UploadImage"])) {

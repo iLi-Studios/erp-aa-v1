@@ -1,5 +1,4 @@
 <?php 
-if(file_exists('../ili-functions/config.php')){header('Location: ../index');}
 include"../ili-functions/functions.php";
 function AdminInsert(){
 	if((isset($_POST['cin']))&&(isset($_POST['FamilyName']))&&(isset($_POST['FirstName']))&&(isset($_POST['Email']))&&(isset($_POST['Phone']))&&(isset($_POST['Password']))&&(isset($_POST['Adress']))){
