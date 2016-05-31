@@ -21,8 +21,8 @@ else{Redirect('index?message=34');}
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<meta content="iLi-ERP" name="description" />
-<meta content="SAKLY AYOUB" name="author" />
+<?php echo $META_description;?>
+<?php echo $META_author;?>
 <link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="../../ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
