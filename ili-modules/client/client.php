@@ -50,7 +50,9 @@ function ListContract($id_client){
 			<td>'.$o[3].'</td>
 			<td>'.$o[5].'</td>
 			<td>'.$o[6].'</td>
-			<td>'?><?php ExpireIn($o[6]); ?><?php echo'</td>
+			<td>'?>
+<?php ExpireIn($o[6]); ?>
+<?php echo'</td>
 		  </tr>
 		';
 	}
@@ -68,8 +70,7 @@ function ListContract($id_client){
 <meta charset="utf-8" />
 <title><?php echo $sytem_title;?></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-<?php echo $META_description;?>
-<?php echo $META_author;?>
+<?php echo $META_description;?><?php echo $META_author;?>
 <link rel="shortcut icon" href="ili-upload/favicon.png">
 <link href="../../ili-style/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../ili-style/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -83,11 +84,14 @@ function ListContract($id_client){
 <link rel="stylesheet" type="text/css" href="../../ili-style/assets/uniform/css/uniform.default.css" />
 </head>
 <style>
-	#tr{cursor:pointer;}
-	#tr:hover{
-		text-decoration:underline;
-		font-weight: bold;
-		color: #3399ff;}
+#tr {
+	cursor: pointer;
+}
+#tr:hover {
+	text-decoration: underline;
+	font-weight: bold;
+	color: #3399ff;
+}
 </style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -118,66 +122,57 @@ function ListContract($id_client){
 			<!-- END PAGE HEADER--> 
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row-fluid">
-				<div class="span12">
-                    <!-- BEGIN EXAMPLE TABLE widget-->
-                    <div class="widget">
-                        <div class="widget-title">
-                            <h4><i class="icon-reorder"></i> Fiche Client</h4>
-                            <span class="tools">
-								<?php GetUserPanel('CLIENTS', $id_client, '');?>
-								<a href="javascript:;" class="icon-chevron-down"></a>
-							</span>
-                        </div>
-						
+				<div class="span12"> 
+					<!-- BEGIN EXAMPLE TABLE widget-->
+					<div class="widget">
+						<div class="widget-title">
+							<h4><i class="icon-reorder"></i> Fiche Client</h4>
+							<span class="tools">
+							<?php GetUserPanel('CLIENTS', $id_client, '');?>
+							<a href="javascript:;" class="icon-chevron-down"></a> </span> </div>
 						<div class="widget-body">
-                            <div class="span12">
-                                <h3><?php echo $clt->FamilyName.'<br>'.$clt->FirstName; ?></h3>
-                                <table class="table table-borderless">
-                                    <tbody>
-                                    <tr>
-                                        <td class="span4">
-										CIN / N°PASPORT / MF / RC
-										</td>
-                                        <td><?php echo $clt->idClient; ?></td>
-                                    </tr>
-									<tr>
-                                        <td class="span4">Tel:</td>
-                                        <td><?php echo $clt->Phone; ?></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <h4>Addresse</h4>
-                                <div class="well">
-                                    <address>
-                                        <strong><?php echo $clt->FamilyName.' '.$clt->FirstName; ?></strong><br>
-                                        <?php echo $clt->Adress; ?><br><br>
-                                        <?php echo $clt->Phone; ?><br>
-                                    </address>
-                                </div>
-                            </div>
-                            <div class="space5"></div>
-                            <?php echo'<div class="alert alert-success"><i class="icon-ok-sign"></i> Crée par : <a href="'.$URL.'ili-users/user_profil?id='.$clt->CreatedBy.'">'.$createur->FamilyName.' '.$createur->FirstName.'</a></div>';?>
-                        </div>
-                    </div>
-                    <!-- END EXAMPLE TABLE widget-->
-                </div>
+							<div class="span12">
+								<h3><?php echo $clt->FamilyName.'<br>'.$clt->FirstName; ?></h3>
+								<table class="table table-borderless">
+									<tbody>
+										<tr>
+											<td class="span4"> CIN / N° PASPORT / MF / RC </td>
+											<td><?php echo $clt->idClient; ?></td>
+										</tr>
+										<tr>
+											<td class="span4">Tel:</td>
+											<td><?php echo $clt->Phone; ?></td>
+										</tr>
+									</tbody>
+								</table>
+								<h4>Addresse</h4>
+								<div class="well">
+									<address>
+									<strong><?php echo $clt->FamilyName.' '.$clt->FirstName; ?></strong><br>
+									<?php echo $clt->Adress; ?><br>
+									<br>
+									<?php echo $clt->Phone; ?><br>
+									</address>
+								</div>
+							</div>
+							<div class="space5"></div>
+							<?php echo'<div class="alert alert-success"><i class="icon-ok-sign"></i> Crée par : <a href="'.$URL.'ili-users/user_profil?id='.$clt->CreatedBy.'">'.$createur->FamilyName.' '.$createur->FirstName.'</a></div>';?> </div>
+					</div>
+					<!-- END EXAMPLE TABLE widget--> 
+				</div>
 			</div>
 			<!-- END PAGE CONTENT--> 
-            <!-- BEGIN PAGE CONTENT-->
+			<!-- BEGIN PAGE CONTENT-->
 			<div class="row-fluid">
-				<div class="span12">
-                    <!-- BEGIN EXAMPLE TABLE widget-->
-                    <div class="widget">
-                        <div class="widget-title">
-                            <h4><i class="icon-reorder"></i> Contrat Client</h4>
-                            <span class="tools">
-								<a href="javascript:;" class="icon-chevron-down"></a>
-							</span>
-                        </div>
-						
+				<div class="span12"> 
+					<!-- BEGIN EXAMPLE TABLE widget-->
+					<div class="widget">
+						<div class="widget-title">
+							<h4><i class="icon-reorder"></i> Contrat Client</h4>
+							<span class="tools"> <a href="javascript:;" class="icon-chevron-down"></a> </span> </div>
 						<div class="widget-body">
-                            <div class="span12">
-                            <?php
+							<div class="span12">
+								<?php
 							if($_SESSION['user_idRank']==2){
 								$up_cnt=UserPrivileges("CONTRAT", $_SESSION['user_id']);
 								if($up_cnt->s){
@@ -194,7 +189,9 @@ function ListContract($id_client){
 												 <th width="25%"><i class="icon-exclamation-sign"></i> Etat </th>
 											  </tr>
 										   </thead>
-										   <tbody>';?><?php ListContract($id_client); ?><?php echo'</tbody>
+										   <tbody>';?>
+								<?php ListContract($id_client); ?>
+								<?php echo'</tbody>
 										</table>
 										</ul>
 									';
@@ -214,19 +211,19 @@ function ListContract($id_client){
 												 <th width="25%"><i class="icon-exclamation-sign"></i> Etat </th>
 											  </tr>
 										   </thead>
-										   <tbody>';?><?php ListContract($id_client); ?><?php echo'</tbody>
+										   <tbody>';?>
+								<?php ListContract($id_client); ?>
+								<?php echo'</tbody>
 										</table>
 										</ul>
 									';
 							}
-                            ?>
-                            </div>
-                            <div class="space5"></div>
-                        </div>
-						
-                    </div>
-                    <!-- END EXAMPLE TABLE widget-->
-                </div>
+                            ?> </div>
+							<div class="space5"></div>
+						</div>
+					</div>
+					<!-- END EXAMPLE TABLE widget--> 
+				</div>
 			</div>
 			<!-- END PAGE CONTENT--> 
 		</div>
@@ -239,7 +236,6 @@ function ListContract($id_client){
 <!-- BEGIN FOOTER -->
 
 <?php ClientDropModal($id_client);?>
-
 <div id="footer"> <?php echo $copy_right;?>
 	<div class="span pull-right"> <span class="go-top"><i class="icon-arrow-up"></i></span> </div>
 </div>
@@ -248,7 +244,6 @@ function ListContract($id_client){
 <!-- Load javascripts at bottom, this will reduce page load time --> 
 <script src="../../ili-style/js/jquery-1.8.3.min.js"></script> 
 <script src="../../ili-style/assets/bootstrap/js/bootstrap.min.js"></script> 
-
 <script type="text/javascript" src="../../ili-style/assets/chosen-bootstrap/chosen/chosen.jquery.min.js"></script> 
 <script type="text/javascript" src="../../ili-style/assets/uniform/jquery.uniform.min.js"></script> 
 <script src="../../ili-style/js/scripts.js"></script> 

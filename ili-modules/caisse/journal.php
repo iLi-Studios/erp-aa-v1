@@ -267,7 +267,7 @@ $cmp=CompanyGetInfo();
 				
 			</div>
 			<!-- END PAGE CONTENT-->
-			 
+			 </div>
 		</div>
 		<!-- END PAGE CONTAINER--> 
 	</div>
